@@ -1,7 +1,24 @@
+:root {
+    --color-accent: 'FF914D';
+}
+
 * {
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+li {
+    list-style: none;
 }
 
 body {
@@ -10,6 +27,12 @@ body {
         'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+    max-width: 1440px;
+    text-align: center;
+    margin: auto;
 }
 
 code {
