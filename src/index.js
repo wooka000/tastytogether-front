@@ -19,27 +19,32 @@ import CreatePost from './pages/CreatePost';
 import PostUpdate from './pages/PostUpdate';
 import PostDetail from './pages/PostDetail';
 import CreateReview from './pages/CreateReview';
-
+import StoreRegister from './pages/StoreRegister';
+import SearchResult from './pages/SearchResult';
+import StoreDetailEdit from './pages/StoreDetailEdit';
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         errorElement: <NotFound />,
         children: [
-            { index: true, path: '/', element: <Main /> },
-            { path: '/review/:storeId', element: <CreateReview /> },
-            { path: '/stores/detail/:storeId', element: <StoreDetail /> },
-            { path: '/users/login', element: <UserLogin /> },
-            { path: '/users/signup', element: <UserSignUp /> },
-            { path: '/mypage/:userId/edit', element: <UserEdit /> },
-            { path: '/mypage/:userId/board', element: <MyBoard /> },
-            { path: '/mypage/:userId/storelike', element: <StoreLike /> },
-            { path: '/mypage/:userId/review', element: <MyReview /> },
-            { path: '/mypage/:userId/like', element: <BoardLike /> },
-            { path: '/post', element: <Board /> },
-            { path: '/post/update', element: <PostUpdate /> },
-            { path: '/post/create', element: <CreatePost /> },
-            { path: '/post/:id', element: <PostDetail /> },
+            { index: true, path: '/', element: <Main /> }, // 진규
+            { path: '/review/:storeId', element: <CreateReview /> }, // 진규
+            { path: '/stores/detail/:storeId', element: <StoreDetail /> }, // 수연
+            { path: '/stores/detail/edit', element: <StoreDetailEdit /> }, // 수연
+            { path: '/users/login', element: <UserLogin /> }, // 윤렬
+            { path: '/users/signup', element: <UserSignUp /> }, // 윤렬
+            { path: '/mypage/:userId/edit', element: <UserEdit /> }, // 환욱
+            { path: '/mypage/:userId/board', element: <MyBoard /> }, // 환욱
+            { path: '/mypage/:userId/storelike', element: <StoreLike /> }, // 환욱
+            { path: '/mypage/:userId/review', element: <MyReview /> }, // 환욱
+            { path: '/mypage/:userId/like', element: <BoardLike /> }, // 환욱
+            { path: '/post', element: <Board /> }, // 화경
+            { path: '/post/create', element: <CreatePost /> }, // 화경
+            { path: '/post/update', element: <PostUpdate /> }, // 화경
+            { path: '/post/:id', element: <PostDetail /> }, // 화경
+            { path: '/stores/register', element: <StoreRegister /> }, // 혜지
+            { path: '/stores/search', element: <SearchResult /> }, // 혜지
         ],
     },
 ]);
