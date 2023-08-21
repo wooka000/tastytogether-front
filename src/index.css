@@ -1,5 +1,6 @@
 :root {
-    --color-accent: 'FF914D';
+    --color-accent: #ff914d;
+    --color-bg: #f0f0f0;
 }
 
 * {
@@ -27,6 +28,7 @@ body {
         'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-bg);
 }
 
 code {

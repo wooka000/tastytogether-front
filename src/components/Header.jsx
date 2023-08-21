@@ -32,6 +32,8 @@ export default function Header() {
 }
 
 const Container = styled.header`
+    position: fixed;
+    top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -39,6 +41,7 @@ const Container = styled.header`
     height: 100px;
     padding: 0px 25px;
     border-bottom: 1px solid lightgray;
+    background-color: white;
 `;
 
 const Img = styled.img`
@@ -88,24 +91,24 @@ const MenuBtn = styled.button`
     margin-right: 30px;
 
     &:hover {
-        color: #ff914d;
+        color: var(--color-accent);
     }
 `;
 
 const Login = styled.button`
     cursor: pointer;
-    border: 2px solid #ff914d;
+    border: 2px solid var(--color-accent);
     background-color: transparent;
     font-size: 20px;
     font-weight: bold;
-    color: #ff914d;
+    color: var(--color-accent);
     padding: 8px 20px;
     border-radius: 30px;
     min-width: 100px;
     transition: all 250ms ease-out;
 
     &:hover {
-        background-color: #ff914d;
+        background-color: var(--color-accent);
         color: white;
     }
 `;
