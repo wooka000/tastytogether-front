@@ -29,12 +29,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-    max-width: 1440px;
-    text-align: center;
-    margin: auto;
-}
-
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

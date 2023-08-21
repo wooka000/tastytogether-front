@@ -34,11 +34,11 @@ const router = createBrowserRouter([
             { path: '/stores/detail/edit', element: <StoreDetailEdit /> }, // 수연
             { path: '/users/login', element: <UserLogin /> }, // 윤렬
             { path: '/users/signup', element: <UserSignUp /> }, // 윤렬
-            { path: '/mypage/:userId/edit', element: <UserEdit /> }, // 환욱
-            { path: '/mypage/:userId/board', element: <MyBoard /> }, // 환욱
-            { path: '/mypage/:userId/storelike', element: <StoreLike /> }, // 환욱
-            { path: '/mypage/:userId/review', element: <MyReview /> }, // 환욱
-            { path: '/mypage/:userId/like', element: <BoardLike /> }, // 환욱
+            { path: '/mypage/:userId/edit', element: <UserEdit /> }, // 진규
+            { path: '/mypage/:userId/board', element: <MyBoard /> }, // 진규
+            { path: '/mypage/:userId/storelike', element: <StoreLike /> }, // 진규
+            { path: '/mypage/:userId/review', element: <MyReview /> }, // 진규
+            { path: '/mypage/:userId/like', element: <BoardLike /> }, // 진규
             { path: '/post', element: <Board /> }, // 화경
             { path: '/post/create', element: <CreatePost /> }, // 화경
             { path: '/post/update', element: <PostUpdate /> }, // 화경
