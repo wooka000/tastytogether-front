@@ -1,8 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import Banner from '../components/Banner';
 
 export default function Main() {
-    return <Container></Container>;
+    return (
+        <Container>
+            <Banner />
+        </Container>
+    );
 }
 
 const Container = styled.div`
