@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export default function MainHeader() {
     const [scrollY, setScrollY] = useState(0);
-    const [isTransparent, setIsTransparent] = useState(true);
+    const [active, setActive] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -15,24 +15,24 @@ export default function MainHeader() {
 
     useEffect(() => {
         if (scrollY > 80) {
-            setIsTransparent(false);
+            setActive(true);
         } else {
-            setIsTransparent(true);
+            setActive(false);
         }
     }, [scrollY]);
 
     return (
-        <Container isTransparent={isTransparent}>
+        <Container active={active}>
             <Link to="/">
                 <Img src="/imgs/logo1.png" alt="logo" />
             </Link>
             <Btns>
                 <Menu>
                     <Link to="/post">
-                        <MenuBtn isTransparent={isTransparent}>혼밥 메이트</MenuBtn>
+                        <MenuBtn active={active}>혼밥 메이트</MenuBtn>
                     </Link>
                     <Link to="/stores/register">
-                        <MenuBtn isTransparent={isTransparent}>음식점 등록</MenuBtn>
+                        <MenuBtn active={active}>음식점 등록</MenuBtn>
                     </Link>
                 </Menu>
                 <Link to="/users/login">
@@ -53,8 +53,8 @@ const Container = styled.header`
     width: 100%;
     height: 100px;
     padding: 0px 25px;
-    border-bottom: 1px solid ${(props) => (props.isTransparent ? 'transparent' : 'lightgrey')};
-    background-color: ${(props) => (props.isTransparent ? 'transparent' : 'white')};
+    border-bottom: 1px solid ${(props) => (props.active ? 'lightgrey' : 'transparent')};
+    background-color: ${(props) => (props.active ? 'white' : 'transparent')};
 `;
 
 const Img = styled.img`
@@ -71,7 +71,7 @@ const Btns = styled.div`
 `;
 
 const MenuBtn = styled.button`
-    color: ${(props) => (props.isTransparent ? 'white' : 'black')};
+    color: ${(props) => (props.active ? 'black' : 'white')};
     font-weight: bold;
     background-color: transparent;
     border: none;
