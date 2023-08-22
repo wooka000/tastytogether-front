@@ -21,14 +21,14 @@ export default function Banner() {
 }
 
 const Container = styled.section`
+    position: absolute;
+    top: 0;
     width: 100%;
     height: 500px;
     background-image: url('/imgs/banner.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    position: absolute;
-    top: 0;
     display: flex;
     flex-direction: column;
     align-items: center;

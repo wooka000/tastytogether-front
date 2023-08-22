@@ -42,6 +42,7 @@ const Container = styled.header`
     padding: 0px 25px;
     border-bottom: 1px solid lightgray;
     background-color: white;
+    z-index: 1;
 `;
 
 const Img = styled.img`
