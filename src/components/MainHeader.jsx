@@ -1,20 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export default function MainHeader() {
+    const [scrollY, setScrollY] = useState(0);
+    const [isTransparent, setIsTransparent] = useState(true);
+
+    useEffect(() => {
+        const handleScroll = () => setScrollY(window.scrollY);
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    });
+
+    useEffect(() => {
+        if (scrollY > 80) {
+            setIsTransparent(false);
+        } else {
+            setIsTransparent(true);
+        }
+    }, [scrollY]);
+
     return (
-        <Container>
+        <Container isTransparent={isTransparent}>
             <Link to="/">
                 <Img src="/imgs/logo1.png" alt="logo" />
             </Link>
             <Btns>
                 <Menu>
                     <Link to="/post">
-                        <MenuBtn>혼밥 메이트</MenuBtn>
+                        <MenuBtn isTransparent={isTransparent}>혼밥 메이트</MenuBtn>
                     </Link>
                     <Link to="/stores/register">
-                        <MenuBtn>음식점 등록</MenuBtn>
+                        <MenuBtn isTransparent={isTransparent}>음식점 등록</MenuBtn>
                     </Link>
                 </Menu>
                 <Link to="/users/login">
@@ -35,8 +53,8 @@ const Container = styled.header`
     width: 100%;
     height: 100px;
     padding: 0px 25px;
-    border-bottom: 1px solid transparent;
-    background-color: rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid ${(props) => (props.isTransparent ? 'transparent' : 'lightgrey')};
+    background-color: ${(props) => (props.isTransparent ? 'transparent' : 'white')};
 `;
 
 const Img = styled.img`
@@ -53,7 +71,7 @@ const Btns = styled.div`
 `;
 
 const MenuBtn = styled.button`
-    color: white;
+    color: ${(props) => (props.isTransparent ? 'white' : 'black')};
     font-weight: bold;
     background-color: transparent;
     border: none;
