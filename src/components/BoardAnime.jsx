@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { keyframes, styled } from 'styled-components';
 
@@ -6,9 +7,9 @@ export default function BoardAnime() {
 
     useEffect(() => {
         async function featchData() {
-            const res = await fetch('/data/board.json');
-            const data = await res.json();
-            setBoards(Object.values(data));
+            const res = await axios.get('/data/board.json');
+            const data = await res.data;
+            setBoards(data.slice(0, 10));
         }
         featchData();
     }, []);
@@ -17,19 +18,18 @@ export default function BoardAnime() {
         <Container>
             <List>
                 {boards &&
-                    boards.map((board, index) => {
-                        if (index <= 10) {
-                            return (
-                                <Item key={board.id}>
-                                    <Img src={board.photo} alt="photo" />
-                                    <Text>
-                                        <Title>{board.title}</Title>
-                                        <Description>{board.description}</Description>
-                                    </Text>
-                                </Item>
-                            );
-                        }
-                        return;
+                    boards.map((board) => {
+                        return (
+                            <Item key={board.id}>
+                                <Img src={board.photo} alt="photo" />
+                                <Text>
+                                    <Title>
+                                        {board.id} {board.title}
+                                    </Title>
+                                    <Description>{board.description}</Description>
+                                </Text>
+                            </Item>
+                        );
                     })}
             </List>
         </Container>
@@ -37,19 +37,39 @@ export default function BoardAnime() {
 }
 
 const Container = styled.div`
-    text-align: center;
-    max-width: 1480px;
-    margin: auto;
     background-color: white;
-    padding: 40px;
-    border-radius: 20px;
-`;
-
-const List = styled.ul`
-    display: flex;
-    justify-content: center;
-    flex-grow: wrap;
+    width: 1480px;
+    height: 280px;
+    text-align: center;
+    margin: auto;
     overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    &::before,
+    &::after {
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        content: '';
+        width: 50px;
+        height: 280px;
+        position: absolute;
+        z-index: 1;
+    }
+    &::after {
+        right: 0;
+        top: 0;
+        transform: rotateZ(180deg);
+    }
+
+    &::before {
+        left: 0;
+        top: 0;
+    }
 `;
 
 const moveRight = keyframes`
@@ -58,8 +78,15 @@ const moveRight = keyframes`
 }
 
 100% {
-    transform: translateX(-100%);
+    transform: translateX(calc(-200px * 5));
 }
+`;
+
+const List = styled.ul`
+    animation: ${moveRight} 20s linear infinite;
+    display: flex;
+    width: calc(200px * 10);
+    padding: 0 50px;
 `;
 
 const Item = styled.li`
@@ -74,7 +101,6 @@ const Item = styled.li`
     margin: 0 20px;
     position: relative;
     cursor: pointer;
-    animation: ${moveRight} 6s linear infinite;
 `;
 
 const Img = styled.img`
