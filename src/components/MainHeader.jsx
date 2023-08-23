@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export default function MainHeader() {
     const [scrollY, setScrollY] = useState(0);
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState('false');
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -15,9 +15,9 @@ export default function MainHeader() {
 
     useEffect(() => {
         if (scrollY > 80) {
-            setActive(true);
+            setActive('true');
         } else {
-            setActive(false);
+            setActive('false');
         }
     }, [scrollY]);
 
@@ -53,8 +53,8 @@ const Container = styled.header`
     width: 100%;
     height: 100px;
     padding: 0px 25px;
-    border-bottom: 1px solid ${(props) => (props.active ? 'lightgrey' : 'transparent')};
-    background-color: ${(props) => (props.active ? 'white' : 'transparent')};
+    border-bottom: 1px solid ${(props) => (props.active == 'true' ? 'lightgrey' : 'transparent')};
+    background-color: ${(props) => (props.active == 'true' ? 'white' : 'transparent')};
 `;
 
 const Img = styled.img`
@@ -71,7 +71,7 @@ const Btns = styled.div`
 `;
 
 const MenuBtn = styled.button`
-    color: ${(props) => (props.active ? 'black' : 'white')};
+    color: ${(props) => (props.active == 'true' ? 'black' : 'white')};
     font-weight: bold;
     background-color: transparent;
     border: none;
