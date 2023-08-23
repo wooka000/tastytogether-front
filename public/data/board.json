@@ -1,0 +1,74 @@
+[
+    {
+        "id": "1",
+        "title": "수원 샐러리아에서 샐러드 드실분?? ",
+        "description": "오늘 오후 1시에 수원역에서 같이 드실분 구해요~~",
+        "photo": "/imgs/food1.jpg"
+    },
+    {
+        "id": "2",
+        "title": "광명 태국 음식 좋아하시는분!",
+        "description": "여기 태국 음식 다 맛있는데 같이가요!",
+        "photo": "/imgs/food2.jpg"
+    },
+    {
+        "id": "3",
+        "title": "양주 호식당에서 새우 카레 드실분!",
+        "description": "다른거 드셔도됩니다 시간 맞는분 구해용",
+        "photo": "/imgs/food3.jpg"
+    },
+    {
+        "id": "4",
+        "title": "불금에 피자드실분 구해요!",
+        "description": "야탑역 킹스타피자에서 라지사이즈 같이 먹어요~",
+        "photo": "/imgs/food4.jpg"
+    },
+    {
+        "id": "5",
+        "title": "강남역 쉑쉑버거 드실분 급하게 구합니다",
+        "description": "쉑쉑버거 웨이팅은 제가 하겠습니다..",
+        "photo": "/imgs/food5.jpg"
+    },
+    {
+        "id": "6",
+        "title": "성수동 아보카도에서 샐러드 드실분 구해용",
+        "description": "다이어트중이라 맛없게 드시는분 구합니다.",
+        "photo": "/imgs/food6.jpg"
+    },
+    {
+        "id": "7",
+        "title": "수원 샐러리아에서 샐러드 드실분?? ",
+        "description": "오늘 오후 1시에 수원역에서 같이 드실분 구해요~~",
+        "photo": "/imgs/food1.jpg"
+    },
+    {
+        "id": "8",
+        "title": "광명 태국 음식 좋아하시는분!",
+        "description": "여기 태국 음식 다 맛있는데 같이가요!",
+        "photo": "/imgs/food2.jpg"
+    },
+    {
+        "id": "9",
+        "title": "양주 호식당에서 새우 카레 드실분!",
+        "description": "다른거 드셔도됩니다 시간 맞는분 구해용",
+        "photo": "/imgs/food3.jpg"
+    },
+    {
+        "id": "10",
+        "title": "불금에 피자드실분 구해요!",
+        "description": "야탑역 킹스타피자에서 라지사이즈 같이 먹어요~",
+        "photo": "/imgs/food4.jpg"
+    },
+    {
+        "id": "11",
+        "title": "강남역 쉑쉑버거 드실분 급하게 구합니다",
+        "description": "쉑쉑버거 웨이팅은 제가 하겠습니다..",
+        "photo": "/imgs/food5.jpg"
+    },
+    {
+        "id": "12",
+        "title": "성수동 아보카도에서 샐러드 드실분 구해용",
+        "description": "다이어트중이라 맛없게 드시는분 구합니다.",
+        "photo": "/imgs/food6.jpg"
+    }
+]
