@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
 const AddressInput = ({ address, setAddress }) => {
     const handleAddressChange = (event) => {
         setAddress(event.target.value);

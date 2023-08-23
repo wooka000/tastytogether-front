@@ -22,6 +22,7 @@ function TypeModalButton() {
                 placeholder="업종을 선택하세요."
                 value={selectedCategory} // Use selectedCategory here
                 onChange={(e) => setSelectedCategory(e.target.value)} // Update selectedCategory when input changes
+                readOnly
                 required
             />
 

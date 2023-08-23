@@ -1,14 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import minilogo from './minilogo.png';
-import korea from './korea.png';
-import western from './western.png';
-import japan from './japan.png';
-import china from './china.png';
-import asia from './asia.png';
-import cafe from './cafe.png';
-// import PropTypes from 'prop-types';
 
 
 // 모달창 크기
@@ -132,35 +124,35 @@ function TypeModalPage({ setModalOpen, setCategory }) { // Fixed the prop name
     return(
         <TypeModal>
             <div className="type_title">
-                <img src={ minilogo } alt="" />
+                <img src="/imgs/minilogo.png" alt="" />
                 <p>업종을 선택하세요</p>
             </div>
             <TypeButtons>
                 <div className="button_line">
                     <div className="type_button" onClick={() => handleCategorySelect('한식')}>
-                        <img src={korea} alt="한식" />
+                        <img src="/imgs/korea.png" alt="한식" />
                         <p>한식</p>
                     </div>
                     <div className="type_button" onClick={() => handleCategorySelect('양식')}>
-                        <img src={western} alt="양식" />
+                        <img src="/imgs/western.png" alt="양식" />
                         <p>양식</p>
                     </div>
                     <div className="type_button" onClick={() => handleCategorySelect('중식')}>
-                        <img src={china} alt="중식" />
+                        <img src="/imgs/china.png" alt="중식" />
                         <p>중식</p>
                     </div>
                 </div>
                 <div className="button_line">
                     <div className="type_button" onClick={() => handleCategorySelect('일식')}>
-                        <img src={japan} alt="일식" />
+                        <img src="/imgs/japan.png" alt="일식" />
                         <p>일식</p>
                     </div>
                     <div className="type_button" onClick={() => handleCategorySelect('아시안')}>
-                        <img src={asia} alt="아시안" />
+                        <img src="/imgs/asia.png" alt="아시안" />
                         <p>아시안</p>
                     </div>
                     <div className="type_button" onClick={() => handleCategorySelect('카페.디저트')}>
-                        <img src={cafe} alt="카페.디저트" />
+                        <img src="/imgs/cafe.png" alt="카페.디저트" />
                         <p>카페.디저트</p>
                     </div>
                 </div>

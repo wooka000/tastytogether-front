@@ -6,7 +6,7 @@ const MapContainer = () => {
     useEffect(() => {
         const script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 사용하세요&libraries=services`;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=''`;
         script.async = true;
         document.head.appendChild(script);
     
