@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 export default function Banner() {
+    const [text, setText] = useState('');
+    const navigate = useNavigate();
+    const handleChange = (e) => {
+        setText(e.target.value);
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        navigate('/stores/search', { state: { keyword: text } });
+    };
     return (
         <Container>
             <TextContainer>
@@ -10,8 +20,8 @@ export default function Banner() {
                     솔직한 리뷰, 믿을 수 있는 평점! <br /> TASTY TOGETHER
                 </Title>
             </TextContainer>
-            <Form>
-                <Search type="search" />
+            <Form onSubmit={handleSubmit}>
+                <Search type="search" value={text} onChange={handleChange} />
                 <SubmitBtn>
                     <FiSearch />
                 </SubmitBtn>
