@@ -18,7 +18,7 @@ function DaumPost(){
   });
   const [isAddressRegistered, setIsAddressRegistered] = useState(false);
 
-    //클릭 시 수행될 팝업 생성 함수
+    // 클릭 시 수행될 팝업 생성 함수
   const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
   const open = useDaumPostcodePopup(postcodeScriptUrl);
     
@@ -32,7 +32,7 @@ function DaumPost(){
       let bname = data.bname;
       let name = data.buildingName;
 
-        //조건 판단 완료 후 지역 주소 및 상세주소 state 수정
+        // 조건 판단 완료 후 지역 주소 및 상세주소 state 수정
         setAddressObj({
           street: street,
           jibunAddress: jibunAddress,
@@ -42,15 +42,15 @@ function DaumPost(){
           bname: bname,
           name: name,
         });
-        //주소 검색이 완료된 후 결과를 매개변수로 전달
+        // 주소 검색이 완료된 후 결과를 매개변수로 전달
       }
     
   const handleClick = () => {
         open({onComplete: handleComplete});
   }
-  const handleInfoChange = () => {
+  const handleInfoChange = (event) => {
     // DB에서 가져온 데이터와 비교
-    const apiUrl = 'http://localhost:3000/stores';
+    const apiUrl = 'http://localhost:8080/stores';
     axios.get(apiUrl)
       .then(response => {
         const isRegistered = response.data.some(store => {
@@ -58,47 +58,50 @@ function DaumPost(){
             store.street === addressObj.street || store.street === addressObj.jibunAddress
           ) && store.name === addressObj.name;
         });
-
         setIsAddressRegistered(isRegistered);
+        isRegistered ? event.target.value='등록불가' : event.target.value='등록가능'
       })
       .catch(error => {
         console.error(error);
       });
   };
 
-
   return (
       <MyContext.Provider value={addressObj}>
         <CheckInfo isAddressRegistered={isAddressRegistered} />
-
         <TableLine>
-                <div className="table_title">
-                    <span>주소 등록 확인</span>
-                </div>
-                <div className="table_content">
-                  <input id="address" 
-                  className="input" 
-                  type="text" 
-                  value={addressObj.bname ? addressObj.jibunAddress : addressObj.fullAddress}
-                  readOnly />
-                  <button type="button" onClick={handleClick}>
-                    주소찾기
-                  </button>
-                </div>
-            </TableLine>
-            <TableLine>
-                <div className="table_title">
-                    <span>업체명</span>
-                </div>
-                <div className="table_content">
-                    <input id="buildingName"
-                    className="input" 
-                    type="text" 
-                    placeholder="등록하려는 업체가 중복되는지 확인하세요." 
-                    value={addressObj.name}
-                    readOnly />
-                    <button type="button" onClick={handleInfoChange}>중복확인</button>
-                </div>
+            <div className="table_title">
+                <span>맛집명</span>
+            </div>
+            <div className="table_content">
+                <input id="buildingName"
+                className="input" 
+                type="text" 
+                placeholder="등록하려는 맛집이 중복되는지 맛집이름을 확인하세요." 
+                value={addressObj.name}
+                readOnly 
+                />
+                {/* 버튼 클릭 시 부모컴포넌트로 데이터전달 */}
+                <button type="button" onClick={handleClick}>
+                가게찾기
+              </button>
+            </div>
+        </TableLine>
+        <TableLine>
+            <div className="table_title">
+                <span>맛집 주소</span>
+            </div>
+            <div className="table_content">
+              <input id="address" 
+              className="input" 
+              type="text" 
+              value={addressObj.bname ? addressObj.jibunAddress : addressObj.fullAddress}
+              onChange={handleInfoChange} //버튼onclick없애고 onchange로 바꿈
+              readOnly />
+
+              {/* <button type="button" onClick={handleInfoChange}>중복확인</button>  */}
+
+            </div>
         </TableLine>
       </MyContext.Provider>
       
@@ -126,11 +129,10 @@ function DaumPost(){
     .table_content{
         width: 1082px;
         height: 35px;
-        padding: 20px;
+        padding: 12px 0 0 20px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        align-items: center;
         line-height: 18px;
         font-size: 20px;
         .store_check{
@@ -147,6 +149,7 @@ function DaumPost(){
             border: none;
             font-size: 18px;
             color: #FF9C5F;
+            padding: 10px;
         } 
         button{
             width: 107px;
@@ -156,14 +159,12 @@ function DaumPost(){
             background-color: lightgray;
             font-size: 18px;
             color: white;
-            margin-left: 20px;
-            right: 20px;
             &:hover{
                 background-color: #FF9C5F;
             }
             &:active {
                 filter: brightness(70%);
-              }
+            }
           }
     }
 `

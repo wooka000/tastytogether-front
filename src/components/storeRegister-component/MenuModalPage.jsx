@@ -45,7 +45,7 @@ function MenuModalPage({ setModalOpen }){
     return(
         <MenuModal useRef={ modalRef }>
             <div className="menu_title">
-                <img src="/imgs/minilogo.png" alt="" />
+                <img src="/imgs/logo2.png" alt="" />
                 <p>메뉴를 등록하세요</p>
             </div>
             <div className="form_div">
