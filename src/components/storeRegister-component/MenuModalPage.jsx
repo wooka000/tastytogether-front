@@ -234,7 +234,7 @@ const ButtonDiv = styled.div`
         border:none;
         text-align: center;
         font-size: 36px;
-        &:active {
+        &:active { 
             filter: brightness(70%);
         }
     }

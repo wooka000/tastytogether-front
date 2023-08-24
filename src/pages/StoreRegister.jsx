@@ -9,7 +9,7 @@ import React, { useState } from 'react'
 
 export default function StoreRegister ({showModal}) {
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event) => { 
         event.preventDefault();
     };
 

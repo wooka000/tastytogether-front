@@ -42,22 +42,6 @@ function MenuModalButton(){
                  />
             </Menu>
         ))}
-            {/* <input 
-                id="menu1" 
-                className="input" 
-                type="text" 
-                placeholder="메뉴등록 1" 
-                onChange={(e) => handleMenuChange(0, 'menu1')}
-                required
-             />
-            <input 
-                id="menu2" 
-                type="text" 
-            />
-            <input 
-                id="menu3" 
-                type="text" 
-            /> */}
             <button id="menu_modal_button" onClick={showModal}>메뉴작성</button>
             {modalOpen && <MenuModalPage setModalOpen={setModalOpen} setMenus={setMenus} />}
         </>

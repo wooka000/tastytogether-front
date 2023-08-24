@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 // import Map from 'react-kakao-maps-sdk';
 
 // npm install react-kakao-maps-sdk
-const MapContainer = () => {
+const MapContainer = () => { 
     useEffect(() => {
         const script = document.createElement('script');
         script.type = 'text/javascript';
