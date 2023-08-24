@@ -1,12 +1,17 @@
-import React from 'react';
-import './App.css';
+import Header from './components/Header';
+import { Outlet } from 'react-router-dom';
+import Footer from './components/Footer';
+import { useLocation } from 'react-router-dom';
+import MainHeader from './components/MainHeader';
 
-import StoreRegister from './pages/StoreRegister';
-
-function App () {
+function App() {
+    const location = useLocation();
+    const isMain = location.pathname === '/';
     return (
         <>
-            <StoreRegister />
+            {isMain ? <MainHeader /> : <Header />}
+            <Outlet />
+            <Footer />
         </>
     );
 }
