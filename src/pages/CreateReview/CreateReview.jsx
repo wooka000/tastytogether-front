@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { FiDelete } from 'react-icons/fi';
 
 export default function CreateReview() {
     const [review, setReview] = useState({});
@@ -33,6 +34,11 @@ export default function CreateReview() {
             return;
         }
         console.log(review, fileList);
+    };
+
+    const handleRemove = (e) => {
+        e.target.parentElement.parentElement.remove();
+        setCount((prev) => prev - 1);
     };
 
     return (
@@ -96,11 +102,12 @@ export default function CreateReview() {
                         {fileList &&
                             fileList.map((filed, index) => {
                                 return (
-                                    <PreviewImg
-                                        key={index}
-                                        src={URL.createObjectURL(filed)}
-                                        alt="prev"
-                                    />
+                                    <Preview key={index}>
+                                        <PreviewImg src={URL.createObjectURL(filed)} alt="prev" />
+                                        <RemoveBtn type="button" onClick={handleRemove}>
+                                            <FiDelete />
+                                        </RemoveBtn>
+                                    </Preview>
                                 );
                             })}
                         <ShowFile count={count} htmlFor="file">
@@ -220,11 +227,43 @@ const Files = styled.div`
     margin: 20px 0px;
 `;
 
-const PreviewImg = styled.img`
+const Preview = styled.div`
     width: 100px;
     height: 100px;
     border-radius: 10px;
+    overflow: hidden;
     margin-right: 10px;
+    background-color: black;
+    position: relative;
+    &:hover {
+        button {
+            display: block;
+        }
+        img {
+            opacity: 0.5;
+        }
+    }
+`;
+
+const PreviewImg = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+`;
+
+const RemoveBtn = styled.button`
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 22px;
+    display: none;
+    color: white;
 `;
 
 const ShowFile = styled.label`
