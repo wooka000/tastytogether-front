@@ -1,39 +1,61 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import styled from 'styled-components';
+import UserInfo from './UserInfo';
 
 export default function Header() {
+    const [text, setText] = useState('');
+    const [user, setUser] = useState(false);
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        setUser(!user);
+        navigate('/users/login');
+    };
+    const handleChange = (e) => {
+        setText(e.target.value);
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        navigate('/stores/search', { state: { keyword: text } });
+    };
     return (
         <Container>
-            <Link to="/">
+            <Logo to="/">
                 <Img src="/imgs/logo1.png" alt="logo" />
-            </Link>
-            <Form>
-                <Label htmlFor="search">
+            </Logo>
+            <Form onSubmit={handleSubmit}>
+                <SubmitBtn>
                     <FiSearch />
-                </Label>
-                <Input type="search" name="search" id="search" placeholder="지역,식당 또는 음식" />
-                <ResetBtn type="reset">CLEAR</ResetBtn>
+                </SubmitBtn>
+                <SearchInput
+                    type="search"
+                    name="search"
+                    id="search"
+                    placeholder="지역,식당 또는 음식"
+                    value={text}
+                    onChange={handleChange}
+                />
             </Form>
             <Menu>
-                <Link to="/post">
-                    <MenuBtn>혼밥 메이트</MenuBtn>
-                </Link>
-                <Link to="/stores/register">
-                    <MenuBtn>음식점 등록</MenuBtn>
-                </Link>
+                <MenuBtn onClick={() => navigate('/post')}>혼밥 메이트</MenuBtn>
+                <MenuBtn onClick={() => navigate('/stores/register')}>음식점 등록</MenuBtn>
             </Menu>
-            <Link to="/users/login">
-                <Login>로그인</Login>
-            </Link>
+            <User>
+                {user && <UserInfo photo={'/imgs/profile.png'} name={'김망고'} />}
+                {user && <LoginBtn onClick={handleClick}>로그아웃</LoginBtn>}
+                {!user && <LoginBtn onClick={handleClick}>로그인</LoginBtn>}
+            </User>
         </Container>
     );
 }
 
 const Container = styled.header`
+    z-index: 1;
     position: fixed;
     top: 0;
+    left: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -42,11 +64,15 @@ const Container = styled.header`
     padding: 0px 25px;
     border-bottom: 1px solid lightgray;
     background-color: white;
-    z-index: 1;
+`;
+
+const Logo = styled(Link)`
+    flex-shrink: 0;
+    margin-right: 20px;
 `;
 
 const Img = styled.img`
-    margin-right: 25px;
+    width: 100%;
 `;
 
 const Form = styled.form`
@@ -55,59 +81,72 @@ const Form = styled.form`
     flex-grow: 0;
     flex-shrink: 1;
     flex-basis: 600px;
+    position: absolute;
+    top: 27px;
+    left: 262px;
+    background-color: transparent;
 `;
 
-const Label = styled.label`
+const SubmitBtn = styled.button`
+    border: none;
+    outline: none;
     font-size: 24px;
-    color: gray;
+    background-color: transparent;
+    color: grey;
 `;
 
-const Input = styled.input`
+const SearchInput = styled.input`
     font-size: 20px;
-    font-weight: bold;
     padding: 10px;
     width: 100%;
     border: none;
     outline: none;
-`;
-
-const ResetBtn = styled.button`
-    border: none;
     background-color: transparent;
-    font-size: 20px;
-    color: gray;
-    visibility: hidden;
+    &::placeholder {
+        font-weight: bold;
+    }
 `;
 
 const Menu = styled.nav`
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 300px;
 `;
 
 const MenuBtn = styled.button`
-    cursor: pointer;
     font-weight: bold;
     background-color: transparent;
     border: none;
-    font-size: 20px;
-    margin-right: 30px;
+    font-size: 22px;
+    flex-shrink: 0;
 
     &:hover {
         color: var(--color-accent);
     }
+    &:nth-of-type(1) {
+        margin-right: 40px;
+    }
 `;
 
-const Login = styled.button`
-    cursor: pointer;
+const User = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const LoginBtn = styled.button`
     border: 2px solid var(--color-accent);
+    border-radius: 30px;
     background-color: transparent;
+    color: var(--color-accent);
     font-size: 20px;
     font-weight: bold;
-    color: var(--color-accent);
     padding: 8px 20px;
-    border-radius: 30px;
     min-width: 100px;
     transition: all 250ms ease-out;
-
+    margin-left: 30px;
+    flex-shrink: 0;
     &:hover {
         background-color: var(--color-accent);
         color: white;
