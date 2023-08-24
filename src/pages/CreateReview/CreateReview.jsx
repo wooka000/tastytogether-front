@@ -4,12 +4,17 @@ import { AiOutlinePlus } from 'react-icons/ai';
 
 export default function CreateReview() {
     const [review, setReview] = useState({});
-    const [file, setFile] = useState();
+    const [fileList, setFileList] = useState([]);
+    const [count, setCount] = useState(0);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === 'file') {
-            setFile(files && files[0]);
+            if (count > 7) {
+                return;
+            }
+            setCount((prev) => prev + 1);
+            files[0] && setFileList((list) => [...list, files[0]]);
             return;
         }
         setReview((review) => ({ ...review, [name]: value }));
@@ -17,7 +22,8 @@ export default function CreateReview() {
 
     const handleReset = () => {
         setReview({});
-        setFile();
+        setFileList([]);
+        setCount(0);
     };
 
     const handleSubmit = (e) => {
@@ -26,7 +32,7 @@ export default function CreateReview() {
             alert('평점 아이콘을 눌러주세요!');
             return;
         }
-        console.log(review, file && file.name);
+        console.log(review, fileList);
     };
 
     return (
@@ -37,12 +43,12 @@ export default function CreateReview() {
                 </Title>
                 <Form onSubmit={handleSubmit}>
                     <GradeList>
-                        <GradeItem ischecked={review.grade === '맛있다' ? 'yes' : 'no'}>
+                        <GradeItem ischecked={review.grade === '5' ? 'yes' : 'no'}>
                             <RadioBtn
                                 type="radio"
                                 id="good"
                                 name="grade"
-                                value="맛있다"
+                                value="5"
                                 onChange={handleChange}
                             />
                             <Label htmlFor="good">
@@ -50,12 +56,12 @@ export default function CreateReview() {
                                 <LabelText>good</LabelText>
                             </Label>
                         </GradeItem>
-                        <GradeItem ischecked={review.grade === '괜찮다' ? 'yes' : 'no'}>
+                        <GradeItem ischecked={review.grade === '3' ? 'yes' : 'no'}>
                             <RadioBtn
                                 type="radio"
                                 id="soso"
                                 name="grade"
-                                value="괜찮다"
+                                value="3"
                                 onChange={handleChange}
                             />
                             <Label htmlFor="soso">
@@ -63,12 +69,12 @@ export default function CreateReview() {
                                 <LabelText>soso</LabelText>
                             </Label>
                         </GradeItem>
-                        <GradeItem ischecked={review.grade === '별로다' ? 'yes' : 'no'}>
+                        <GradeItem ischecked={review.grade === '1' ? 'yes' : 'no'}>
                             <RadioBtn
                                 type="radio"
                                 id="bad"
                                 name="grade"
-                                value="별로다"
+                                value="1"
                                 onChange={handleChange}
                             />
                             <Label htmlFor="bad">
@@ -87,11 +93,21 @@ export default function CreateReview() {
                         onChange={handleChange}
                     ></Content>
                     <Files>
-                        {file && <PreviewImg src={URL.createObjectURL(file)} alt="prev" />}
-                        <ShowFile htmlFor="file">
-                            <ShowText>
+                        {fileList &&
+                            fileList.map((filed, index) => {
+                                return (
+                                    <PreviewImg
+                                        key={index}
+                                        src={URL.createObjectURL(filed)}
+                                        alt="prev"
+                                    />
+                                );
+                            })}
+                        <ShowFile count={count} htmlFor="file">
+                            <ShowText count={count}>
                                 <AiOutlinePlus />
                             </ShowText>
+                            <Count>{count}/8</Count>
                         </ShowFile>
                         <File
                             type="file"
@@ -99,6 +115,8 @@ export default function CreateReview() {
                             id="file"
                             onChange={handleChange}
                             accept="image/*"
+                            multiple
+                            disabled={count > 7 ? true : false}
                         />
                     </Files>
                     <Btns>
@@ -120,8 +138,7 @@ const Container = styled.div`
 
 const ReviewCard = styled.div`
     background-color: white;
-    width: 90%;
-    max-width: 1440px;
+    width: 1150px;
     height: 650px;
     margin: 0 auto;
     margin-top: 150px;
@@ -142,6 +159,7 @@ const Name = styled.span`
 
 const Form = styled.form`
     display: flex;
+    width: 100%;
     height: 500px;
     flex-direction: column;
     border: 2px solid lightgray;
@@ -206,24 +224,31 @@ const PreviewImg = styled.img`
     width: 100px;
     height: 100px;
     border-radius: 10px;
-    margin-right: 30px;
+    margin-right: 10px;
 `;
 
 const ShowFile = styled.label`
+    position: relative;
     width: 100px;
     height: 100px;
     text-align: center;
     line-height: 100px;
     background-color: transparent;
     border-radius: 10px;
-    border: 1px dotted gray;
+    border: 1px dotted ${(props) => (props.count > 7 ? 'red' : 'gray')};
     cursor: pointer;
-    margin-right: 30px;
 `;
 
 const ShowText = styled.div`
     font-size: 40px;
-    color: lightgray;
+    color: ${(props) => (props.count > 7 ? 'red' : 'lightgray')};
+`;
+
+const Count = styled.span`
+    color: ${(props) => (props.count > 7 ? 'red' : 'gray')};
+    position: absolute;
+    top: 38px;
+    right: -30px;
 `;
 
 const File = styled.input`
