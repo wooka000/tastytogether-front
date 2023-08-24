@@ -98,10 +98,10 @@ export default function StoreRegister ({showModal}) {
                             <span>영업시간</span>
                         </div>
                         <div className="table_content">
-                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" />시 
-                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" />분  - 
-                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" />시 
-                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" />분
+                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" maxLength={2} />시 
+                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" maxLength={2} />분  - 
+                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" maxLength={2} />시 
+                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" maxLength={2} />분
                         </div>
                     </TableLine>
                     <TableLine>
@@ -163,9 +163,7 @@ StoreRegister.propTypes = {
   const Container = styled.div`
     min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
     margin-top: 100px; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
-    margin-bottom: 50px;
-
-
+    height: 1900px;
   `;
   const Article = styled.form`
     position: relative;
@@ -285,7 +283,6 @@ const TableLine = styled.div`
             }
         }
         .parking{
-            padding-top:20px;
             margin-right: 40px;
             line-height: 18px;
         }

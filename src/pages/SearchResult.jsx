@@ -235,7 +235,6 @@ export default function SearchResult() {
 const Container = styled.div`
     min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
     margin-top: 100px; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
-    margin-bottom: 50px;
  `;
 
 const Search = styled.div`
@@ -253,13 +252,15 @@ const Search = styled.div`
     padding: 17px;
     margin: auto;
     border-radius: 10px;
-    
+    height: auto;
+    overflow: auto;
 `
 const Nav = styled.div`
     width: 324px;
     height: 84%;
     top: 120px;
     max-height: 1300px;
+    height: auto;
     background-color: #fff;
     padding: 20px 20px 20px 20px;
     margin-left: 10px;
@@ -269,7 +270,7 @@ const Nav = styled.div`
     justify-content: space-around;
     align-items: flex-start;
     position: fixed;
-    bottom: 20px;
+    bottom: 120px;
     border-radius: 10px;
 `
 
@@ -287,6 +288,7 @@ const ResultDiv = styled.div`
         display: flex;
         flex-direction: row;
     }
+
 `
 const Keyword = styled.h3`
     font-size: 25px;
@@ -316,7 +318,7 @@ const Social = styled.div`
             width: 25px;
             height: 25px;
             margin-right: 10px;
-            background-color: yellow;
+            border: 5px solid var(--color-accent);
             transition: all 250ms ease-out;
             border-radius: 100%;
         }
@@ -353,7 +355,7 @@ const TypeFilter = styled.div`
             width: 25px;
             height: 25px;
             margin-right: 10px;
-            background-color: yellow;
+            border: 5px solid var(--color-accent);
             transition: all 250ms ease-out;
             border-radius: 100%;
         }
@@ -391,7 +393,7 @@ const RegionFilter = styled.div`
             width: 25px;
             height: 25px;
             margin-right: 10px;
-            background-color: yellow;
+            border: 5px solid var(--color-accent);
             transition: all 250ms ease-out;
             border-radius: 100%;
         }
@@ -400,6 +402,7 @@ const RegionFilter = styled.div`
         width: 260px;
         display: flex;
         flex-direction: column;
+        position: relative;
         #city{
             width: 100%;
             height: 50px;
@@ -568,11 +571,14 @@ const StoreReview = styled.div`
     #review_content{
         width: 963px;
         font-size: 20px;
+        font-weight: 600;
+        color: gray;
     }
     #review_id{
         width: 963px;
         text-align: right;
         font-size: 20px;
         color: #FF914D;
+        font-weight: 600;
     }
 `

@@ -58,9 +58,11 @@ const StoreImage = () => {
         <div className="table_content">
           <ImgDiv>
             <ImageUpload>
-              <label htmlFor="image_input">
-                이미지 업로드
-              </label>
+              <div>
+                <label htmlFor="image_input">
+                  이미지 업로드
+                </label>
+              </div>
               <ImageInput
                 id="image_input"
                 type="file"
@@ -129,9 +131,26 @@ const TableLine = styled.div`
 const ImgDiv = styled.div``
 const ImageUpload = styled.div`
   font-size: 20px;
+  text-align: center;
+  div{
+    width: 160px;
+    height: 52px;
+    padding: 11px;
+    border-radius: 5px;
+    background-color: lightgray;
+    color: white;
+    &:hover{
+      background-color: #FF9C5F;
+    }
+    &:active {
+        filter: brightness(70%);
+    }
+  }
 `
 const ImageInput = styled.input`
     margin: 10px;
+    // opacity: 0;
+    display: none;
 `
 const ImagesPreview = styled.div`
   display: flex;
