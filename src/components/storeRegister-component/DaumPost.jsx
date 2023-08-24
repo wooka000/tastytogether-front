@@ -98,9 +98,6 @@ function DaumPost(){
               value={addressObj.bname ? addressObj.jibunAddress : addressObj.fullAddress}
               onChange={handleInfoChange} //버튼onclick없애고 onchange로 바꿈
               readOnly />
-
-              {/* <button type="button" onClick={handleInfoChange}>중복확인</button>  */}
-
             </div>
         </TableLine>
       </MyContext.Provider>
@@ -118,6 +115,7 @@ function DaumPost(){
     justify-content: flex-start;
     border-top: 1px solid #F0F0F0;
     border-bottom: 1px solid #F0F0F0;
+    font-weight: 600;
 
     .table_title{
         width: 260px;
@@ -147,7 +145,7 @@ function DaumPost(){
             margin-right: 10px;
             height: 52px;
             border: none;
-            font-size: 18px;
+            font-size: 22px;
             color: #FF9C5F;
             padding: 10px;
         } 
@@ -159,6 +157,7 @@ function DaumPost(){
             background-color: lightgray;
             font-size: 18px;
             color: white;
+            font-weight: 600;
             &:hover{
                 background-color: #FF9C5F;
             }

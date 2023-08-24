@@ -41,6 +41,7 @@ export default function StoreRegister ({showModal}) {
                             <input className="input"
                             type="text"
                             pattern="[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}" 
+                            maxLength="14"
                             placeholder="가게의 전화번호를 입력하세요.(0000 - 0000 - 0000)" />
                         </div>
                     </TableLine>
@@ -202,6 +203,8 @@ const TableLine = styled.div`
         height: 35px;
         font-size: 25px;
         text-align: center;
+        font-weight: 600;
+
     }
     .table_content{
         width: 1082px;
@@ -212,6 +215,7 @@ const TableLine = styled.div`
         justify-content: flex-start;
         align-items: center;
         font-size: 20px;
+        font-weight: 600;
 
         label{
             display: flex;
@@ -242,7 +246,7 @@ const TableLine = styled.div`
             align-items: center;
         }
         input{
-            font-size: 20px;
+            font-size: 22px;
             color: #FF9C5F;
             padding: 10px;
         }
@@ -254,6 +258,7 @@ const TableLine = styled.div`
             background-color: lightgray;
             font-size: 18px;
             color: white;
+            font-weight: 600;
             margin-left: 20px;
             right: 20px;
             &:hover{

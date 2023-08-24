@@ -57,7 +57,7 @@ const Menu = styled.div`
         width: 55px;
         height: 42px;
         border:none;
-        font-size: 18px;
+        font-size: 22px;
         text-align: center;
     }
 

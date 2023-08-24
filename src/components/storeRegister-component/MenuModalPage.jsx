@@ -76,10 +76,10 @@ function MenuModalPage({ setModalOpen }){
                         </div>
                     </div>
                 </MenuForm>
-                <ButtonDiv>
-                    <button type="submit" className="register_button" onClick={handleMenuRegister}>메뉴등록</button>
-                    <button type="button" className="close_button" onClick={closeModal}>취소</button>
-                </ButtonDiv>
+            </div>
+            <div id="button_div">
+                    <button type="submit" className="register_button" onClick={handleMenuRegister}>등록</button>
+                    <button type="button" className="close_button" onClick={closeModal}>x</button>
             </div>
         </MenuModal>
 
@@ -93,22 +93,23 @@ MenuModalPage.propTypes = {
 export default MenuModalPage;
 
 const MenuModal = styled.div`
-    width: 1400px;
+width: 1400px;
     height: 700px;
     z-index: 999;
     position: absolute;
+    // 브라우저 기준으로 작동
     top: 50%;
     left: 50%;
+    // 본인 크기 기준으로 작동
     transform: translate(-50%, -50%);
     background-color: #F8F9FA;
     border: 8px solid #FF9C5F;
     border-radius: 8px;
-
     .menu_title{
         img{
             width: 100px;
             height: 93px;
-            position: relative;
+            position: absolute;
             left: 25px;
             top: 25px;
         }
@@ -117,9 +118,9 @@ const MenuModal = styled.div`
             height: 93px;
             position: absolute;
             color: #636363;
-            left: 230px;
+            left: 22%;
             text-align: center;
-            font-size: 30px;
+            font-size: 50px;
             font-weight: bold;
             top: 40px;
         }
@@ -129,16 +130,59 @@ const MenuModal = styled.div`
         justify-content: center;
         position: relative;
         bottom: -70px;
-        left: 100px;
+        left: 70px;
         margin-right: 100px;
     }
+    #button_div{
+        width: 10%;
+        box-sizing: border-box;
+        position: position;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
 
+        .register_button{
+            width: 100px;
+            height: 50px;
+            position: absolute;
+            right: 100px;
+            top: 40px;
+            background-color: #B0B0B0;
+            color: #FFF;
+            border:none;
+            text-align: center;
+            font-size: 36px;
+            &:active {
+                filter: brightness(70%);
+            }
+        }
+        .close_button{
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            right: 40px;
+            top: 40px;
+            background-color: #B0B0B0;
+            color: #FFF;
+            border:none;
+            text-align: center;
+            font-size: 36px;
+            &:active {
+                filter: brightness(70%);
+            }
+        }
+    }
+    
 `
 const MenuForm = styled.form`
-    width: 1000px;
-    height: 245px;
-    margin-right: 100x;
-    font-size: 24px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: 130px;
     #item_menu{
         width: 600px;
         height: 40px;
@@ -147,23 +191,24 @@ const MenuForm = styled.form`
         text-align: center;
         margin: 5px;
         font-weight: 700;
-        font-size: 35px;
+        font-size: 30px;
+        color: #636363;
     }
     #item_price{
-        width: 200px;
+        width: 300px;
         height: 40px;
         border: none;
         padding: 10px;
         text-align: center;
         margin: 5px;
         font-weight: 700;
-        font-size: 35px;
+        font-size: 30px;
+        color: #636363;
     }
     .menu_line{
         display: flex;
         margin-bottom: 10px;
         align-items: center;
-
         .menu{
             width: 600px;
             height: 70px;
@@ -172,6 +217,7 @@ const MenuForm = styled.form`
             text-align: center;
             margin: 5px;
             font-size: 30px;
+            border-radius: 10px;
         }
         div{
             display:flex;
@@ -181,61 +227,24 @@ const MenuForm = styled.form`
             height: 70px;
 
             .price{
-                width: 200px;
+                width: 300px;
                 height: 70px;
                 border: none;
                 padding: 10px;
                 text-align: center;
                 margin: 5px;
                 font-size: 30px;
+                border-radius: 10px;
             }
             p{
                 padding: 10px;
                 text-align: right;
                 margin: 5px;
                 font-size: 30px;
-
+                color: #636363;
             }
-    
         }
     }
 `
 
-const ButtonDiv = styled.div`
-    width: 400px;
-    height: 245px;
-    right: 80px;
-    top: 150px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
 
-    .register_button{
-        width: 194px;
-        height: 90px;
-        background-color: #B0B0B0;
-        color: #FFF;
-        border:none;
-        text-align: center;
-        font-size: 36px;
-        margin-bottom: 20px;
-        &:active {
-            filter: brightness(70%);
-        }
-    }
-    .close_button{
-        width: 194px;
-        height: 90px;
-        right: 10%;
-        top: 45%;
-        background-color: #B0B0B0;
-        color: #FFF;
-        border:none;
-        text-align: center;
-        font-size: 36px;
-        &:active { 
-            filter: brightness(70%);
-        }
-    }
-`

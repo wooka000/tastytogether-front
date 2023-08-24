@@ -52,7 +52,7 @@ function TypeModalPage({ setModalOpen, setCategory }) { // Fixed the prop name
                 </div>
             </TypeButtons>
             <div className="close_button_div">
-                <button type="button" className="close_button" onClick={handleModalClose}>취소</button>
+                <button type="button" className="close_button" onClick={handleModalClose}>x</button>
             </div>
         </TypeModal>
     )
@@ -67,16 +67,13 @@ export default TypeModalPage;
 const TypeModal = styled.div`
     width: 1400px;
     height: 700px;
-    // 최상단에 위치함
     z-index: 999;
-
     position: absolute;
     // 브라우저 기준으로 작동
     top: 50%;
     left: 50%;
     // 본인 크기 기준으로 작동
     transform: translate(-50%, -50%);
-
     background-color: #F8F9FA;
     border: 8px solid #FF9C5F;
     border-radius: 8px;
@@ -94,23 +91,23 @@ const TypeModal = styled.div`
             height: 93px;
             position: absolute;
             color: #636363;
-            left: 230px;
+            left: 22%;
             text-align: center;
-            font-size: 30px;
+            font-size: 50px;
             font-weight: bold;
             top: 40px;
         }
     }
 
     .close_button_div{
-        width: 20%;
+        width: 10%;
         box-sizing: border-box;
         .close_button{
-            width: 194px;
-            height: 90px;
+            width: 50px;
+            height: 50px;
             position: absolute;
-            right: 10%;
-            top: 45%;
+            right: 3%;
+            top: 5%;
             background-color: #B0B0B0;
             color: #FFF;
             border:none;
@@ -121,16 +118,15 @@ const TypeModal = styled.div`
             }
         }
     }
-
 `
 const TypeButtons = styled.div`
-    width: 80%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 190px;
+    top: 170px;
 
     .button_line{
         display: flex;
@@ -139,7 +135,7 @@ const TypeButtons = styled.div`
         .type_button{
             width: 150px;
             height: 150px;
-            margin: 40px;
+            margin: 40px 70px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -149,16 +145,17 @@ const TypeButtons = styled.div`
                     filter: brightness(70%);
             }  
             img{
-                width: 120px;
-                height: 120px;
+                width: 140px;
+                height: 140px;
+                margin-bottom: 20px;
                 &:hover{
                     transform: scale(1.1);
                 }
             }
             p{
-                width: 120px;
+                width: 140px;
                 text-align: center;
-                font-size: 22px;
+                font-size: 25px;
                 color: #636363;
                 font-weight: 1000;
             }
