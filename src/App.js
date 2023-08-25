@@ -2,7 +2,7 @@ import Header from './components/Header/Header';
 import { Outlet } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
 import { useLocation } from 'react-router-dom';
-import MainHeader from './components/MainHeader';
+import MainHeader from './components/MainHeader/MainHeader';
 import { AuthContextProvider } from './context/AuthContextProvider';
 
 function App() {
