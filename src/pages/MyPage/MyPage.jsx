@@ -5,16 +5,12 @@ import MyReview from '../../components/MyPage/MyReview';
 import MyBookmark from '../../components/MyPage/MyBookmark';
 
 export default function MyPage() {
-    const tabList = [
-        { category: '게시글', count: '8' },
-        { category: '리뷰', count: '11' },
-        { category: '북마크', count: '24' },
-    ];
-    const [tab, setTab] = useState();
+    const [tab, setTab] = useState('게시글');
+    const tabList = [{ category: '게시글' }, { category: '리뷰' }, { category: '북마크' }];
     const tabComponent = {
-        게시글: <MyBoard></MyBoard>,
-        리뷰: <MyReview></MyReview>,
-        북마크: <MyBookmark></MyBookmark>,
+        게시글: <MyBoard />,
+        리뷰: <MyReview />,
+        북마크: <MyBookmark />,
     };
     return (
         <Container>
@@ -29,11 +25,10 @@ export default function MyPage() {
                     </Text>
                 </Info>
                 <Menu>
-                    {tabList.map((tab, index) => {
+                    {tabList.map((item, index) => {
                         return (
-                            <MenuBtn key={index} onClick={() => setTab(tab.category)}>
-                                <Category>{tab.category}</Category>
-                                <Count>{tab.count}</Count>
+                            <MenuBtn key={index} onClick={() => setTab(item.category)}>
+                                <Category>{item.category}</Category>
                             </MenuBtn>
                         );
                     })}
@@ -128,6 +123,7 @@ const MenuBtn = styled.li`
     margin: 10px 25px 0 25px;
     border: none;
     cursor: pointer;
+    color: grey;
 
     &:hover {
         p {
@@ -139,8 +135,4 @@ const MenuBtn = styled.li`
 
 const Category = styled.p`
     margin-bottom: 10px;
-`;
-
-const Count = styled.span`
-    font-size: 18px;
 `;
