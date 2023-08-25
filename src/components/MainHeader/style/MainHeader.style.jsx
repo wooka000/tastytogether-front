@@ -45,12 +45,11 @@ export const MenuBtn = styled.button`
     border: none;
     font-size: 22px;
     flex-shrink: 0;
-
+    &:nth-of-type(2) {
+        margin: 0 30px;
+    }
     &:hover {
         color: var(--color-accent);
-    }
-    &:nth-of-type(1) {
-        margin-right: 40px;
     }
 `;
 
