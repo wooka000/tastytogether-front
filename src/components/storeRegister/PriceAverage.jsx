@@ -30,7 +30,6 @@ const PriceAverage = () => {
                 </label>
             </div>
         </S.TableLine>
-
     )
 }
 

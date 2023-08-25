@@ -8,7 +8,7 @@ import MyContext from './MyContext';
 import axios from 'axios'
 
 
-function DaumPost(){
+function DaumPost({ setStoreInfo }){
 
   const [ addressObj, setAddressObj ] = useState({
     street: "",
@@ -33,17 +33,17 @@ function DaumPost(){
       let zipcode = data.zonecode;
       let name = data.buildingName;
 
-        //조건 판단 완료 후 지역 주소 및 상세주소 state 수정
-        setAddressObj({
-          street: street,
-          fullAddress: fullAddress,
-          city: city,
-          state: state,
-          zipcode: zipcode,
-          name: name,
-        });
-        //주소 검색이 완료된 후 결과를 매개변수로 전달
-      }
+      //조건 판단 완료 후 지역 주소 및 상세주소 state 수정
+      setAddressObj({
+        street: street,
+        fullAddress: fullAddress,
+        city: city,
+        state: state,
+        zipcode: zipcode,
+        name: name,
+      });
+      //주소 검색이 완료된 후 결과를 매개변수로 전달
+  }
     
   const handleClick = () => {
         open({onComplete: handleComplete});
@@ -59,28 +59,28 @@ function DaumPost(){
            && store.name === addressObj.name
       )});
         setIsAddressRegistered(isRegistered);
-        // setStoreInfo(prevInfo => ({
-        //   ...prevInfo,
-        //   address: {
-        //     street: addressObj.street,
-        //     city: addressObj.city,
-        //     state: addressObj.state,
-        //     fullAddress: addressObj.fullAddress,
-        //     zipcode: addressObj.zipcode,
-        //   },
-        //   name: addressObj.name,
-        // }));
+        setStoreInfo(prevInfo => ({
+          ...prevInfo,
+          address: {
+            street: addressObj.street,
+            city: addressObj.city,
+            state: addressObj.state,
+            fullAddress: addressObj.fullAddress,
+            zipcode: addressObj.zipcode,
+          },
+          name: addressObj.name,
+        }));
       })
       .catch(error => {
         console.error(error);
       });
-    };
+  };
 
 
 
   return (
     <MyContext.Provider value={addressObj}>
-      <CheckInfo isAddressRegistered={isAddressRegistered} />
+      <CheckInfo isAddressRegistered={isAddressRegistered}/>
       
       <S.TableLine>
         <div className="table_title">
