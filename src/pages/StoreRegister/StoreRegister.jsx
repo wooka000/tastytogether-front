@@ -1,25 +1,24 @@
 import styled from 'styled-components';
-import TypeModalButton from '../components/storeRegister-component/TypeModalButton'
-import MenuModalButton from '../components/storeRegister-component/MenuModalButton'
-import DaumPost from '../components/storeRegister-component/DaumPost'
-import StoreImage from '../components/storeRegister-component/StoreImage';
+import TypeModalButton from '../../components/storeRegister-component/TypeModalButton';
+import MenuModalButton from '../../components/storeRegister-component/MenuModalButton';
+import DaumPost from '../../components/storeRegister-component/DaumPost';
+import StoreImage from '../../components/storeRegister-component/StoreImage';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 // import axios from 'axios';
 
-export default function StoreRegister ({showModal}) {
-
-    const handleSubmit = (event) => { 
+export default function StoreRegister({ showModal }) {
+    const handleSubmit = (event) => {
         event.preventDefault();
     };
 
     const [coordinates, setCoordinates] = useState({ lat: 33.5563, lng: 126.79581 }); // 기본 좌표
 
     const handleAddressChange = (newCoordinates) => {
-      setCoordinates(newCoordinates);
+        setCoordinates(newCoordinates);
     };
 
-    return(
+    return (
         <Container>
             <Article>
                 <RegisterForm onSubmit={handleSubmit}>
@@ -29,7 +28,11 @@ export default function StoreRegister ({showModal}) {
                             <span>업종</span>
                         </div>
                         <div className="table_content">
-                            <TypeModalButton type="button" className="store_check" onClick={showModal} />
+                            <TypeModalButton
+                                type="button"
+                                className="store_check"
+                                onClick={showModal}
+                            />
                         </div>
                     </TableLine>
                     <TableLine id="mapDiv">
@@ -38,16 +41,16 @@ export default function StoreRegister ({showModal}) {
                         </div>
                         <div className="table_content">
                             {/* const regPhone = /^\d{2,4}-\d{3,4}-\d{4}$/; */}
-                            <input className="input"
-                            type="text"
-                            pattern="[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}" 
-                            maxLength="14"
-                            placeholder="가게의 전화번호를 입력하세요.(0000 - 0000 - 0000)" />
+                            <input
+                                className="input"
+                                type="text"
+                                pattern="[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}"
+                                maxLength="14"
+                                placeholder="가게의 전화번호를 입력하세요.(0000 - 0000 - 0000)"
+                            />
                         </div>
                     </TableLine>
-                    <Map>
-                        {/* <MapContainer initialCoordinates={coordinates} /> */}
-                    </Map>
+                    <Map>{/* <MapContainer initialCoordinates={coordinates} /> */}</Map>
                     <TableLine>
                         <div className="table_title">
                             <span>가격대</span>
@@ -55,23 +58,61 @@ export default function StoreRegister ({showModal}) {
                         <div className="table_content">
                             <label className="price" htmlFor="price1">
                                 <span className="radio_input">1만원대</span>
-                                <input className="radio_button" type="radio" id="price1" name="price" value="1만원대" />
+                                <input
+                                    className="radio_button"
+                                    type="radio"
+                                    id="price1"
+                                    name="price"
+                                    value="1만원대"
+                                />
                             </label>
                             <label className="price" htmlFor="price2">
-                                <span className="radio_input" htmlFor="price2">2만원대</span>
-                                <input className="radio_button" type="radio" id="price2" name="price" value="2만원대" />
+                                <span className="radio_input" htmlFor="price2">
+                                    2만원대
+                                </span>
+                                <input
+                                    className="radio_button"
+                                    type="radio"
+                                    id="price2"
+                                    name="price"
+                                    value="2만원대"
+                                />
                             </label>
                             <label className="price" htmlFor="price3">
-                                <span className="radio_input" htmlFor="price3">3만원대</span>
-                                <input className="radio_button" type="radio" id="price3" name="price" value="3만원대" />
+                                <span className="radio_input" htmlFor="price3">
+                                    3만원대
+                                </span>
+                                <input
+                                    className="radio_button"
+                                    type="radio"
+                                    id="price3"
+                                    name="price"
+                                    value="3만원대"
+                                />
                             </label>
                             <label className="price" htmlFor="price4">
-                                <span className="radio_input" htmlFor="price4">4만원대</span>
-                                <input className="radio_button" type="radio" id="price4" name="price" value="4만원대" />
+                                <span className="radio_input" htmlFor="price4">
+                                    4만원대
+                                </span>
+                                <input
+                                    className="radio_button"
+                                    type="radio"
+                                    id="price4"
+                                    name="price"
+                                    value="4만원대"
+                                />
                             </label>
                             <label className="price" htmlFor="price0">
-                                <span className="radio_input" htmlFor="price0" >기타</span>
-                                <input className="radio_button" type="radio" id="price0" name="price" value="기타" />
+                                <span className="radio_input" htmlFor="price0">
+                                    기타
+                                </span>
+                                <input
+                                    className="radio_button"
+                                    type="radio"
+                                    id="price0"
+                                    name="price"
+                                    value="기타"
+                                />
                             </label>
                         </div>
                     </TableLine>
@@ -82,15 +123,30 @@ export default function StoreRegister ({showModal}) {
                         <div className="table_content">
                             <label className="parking" htmlFor="parkingOption1">
                                 <span>무료주차 가능</span>
-                                <input className="radio_button" type="radio" id="parkingOption1" name="parkingOption" />
+                                <input
+                                    className="radio_button"
+                                    type="radio"
+                                    id="parkingOption1"
+                                    name="parkingOption"
+                                />
                             </label>
                             <label className="parking" htmlFor="parkingOption2">
                                 <span>유료주차장 이용</span>
-                                <input className="radio_button" type="radio" id="parkingOption2" name="parkingOption" />
+                                <input
+                                    className="radio_button"
+                                    type="radio"
+                                    id="parkingOption2"
+                                    name="parkingOption"
+                                />
                             </label>
                             <label className="parking" htmlFor="parkingOption3">
                                 <span>주차장 없음</span>
-                                <input className="radio_button" type="radio" id="parkingOption3" name="parkingOption" />
+                                <input
+                                    className="radio_button"
+                                    type="radio"
+                                    id="parkingOption3"
+                                    name="parkingOption"
+                                />
                             </label>
                         </div>
                     </TableLine>
@@ -99,10 +155,38 @@ export default function StoreRegister ({showModal}) {
                             <span>영업시간</span>
                         </div>
                         <div className="table_content">
-                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" maxLength={2} />시 
-                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" maxLength={2} />분  - 
-                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" maxLength={2} />시 
-                            <input className="time" type="text" placeholder="00" pattern="[0-9]{2}" maxLength={2} />분
+                            <input
+                                className="time"
+                                type="text"
+                                placeholder="00"
+                                pattern="[0-9]{2}"
+                                maxLength={2}
+                            />
+                            시
+                            <input
+                                className="time"
+                                type="text"
+                                placeholder="00"
+                                pattern="[0-9]{2}"
+                                maxLength={2}
+                            />
+                            분 -
+                            <input
+                                className="time"
+                                type="text"
+                                placeholder="00"
+                                pattern="[0-9]{2}"
+                                maxLength={2}
+                            />
+                            시
+                            <input
+                                className="time"
+                                type="text"
+                                placeholder="00"
+                                pattern="[0-9]{2}"
+                                maxLength={2}
+                            />
+                            분
                         </div>
                     </TableLine>
                     <TableLine>
@@ -145,7 +229,13 @@ export default function StoreRegister ({showModal}) {
                             <span>대표메뉴</span>
                         </div>
                         <div className="table_content" id="menu_list">
-                            <MenuModalButton type="button" className="menu_register" onClick={showModal}>메뉴작성</MenuModalButton>
+                            <MenuModalButton
+                                type="button"
+                                className="menu_register"
+                                onClick={showModal}
+                            >
+                                메뉴작성
+                            </MenuModalButton>
                         </div>
                     </TableLine>
                     <StoreImage />
@@ -155,22 +245,22 @@ export default function StoreRegister ({showModal}) {
                 </RegisterForm>
             </Article>
         </Container>
-    )
+    );
 }
 StoreRegister.propTypes = {
     showModal: PropTypes.func.isRequired,
-  };
+};
 
-  const Container = styled.div`
+const Container = styled.div`
     min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
     margin-top: 100px; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
     height: 1900px;
-  `;
-  const Article = styled.form`
+`;
+const Article = styled.form`
     position: relative;
     top: 101px;
     width: 1440px;
-    background-color: #FFFF;
+    background-color: #ffff;
     padding: 17px;
     display: flex;
     flex-direction: column;
@@ -178,14 +268,14 @@ StoreRegister.propTypes = {
     justify-content: center;
     margin: auto;
     border-radius: 10px;
-`
+`;
 const RegisterForm = styled.div`
     box-sizing: border-box;
     width: 1404px;
     padding: 30px;
     border: none;
     margin-bottom: 20px;
-`
+`;
 
 const TableLine = styled.div`
     width: 1360px;
@@ -333,13 +423,13 @@ const TableLine = styled.div`
               }
         }
     }
-`
+`;
 const Map = styled.div`
     width: 1360px;
     height: 400px;
-    border-top: 2px solid #F0F0F0;
-    border-bottom: 2px solid #F0F0F0;
-`
+    border-top: 2px solid #f0f0f0;
+    border-bottom: 2px solid #f0f0f0;
+`;
 const RegisterButton = styled.div`
     width: 1440px;
     display: flex;
@@ -347,10 +437,10 @@ const RegisterButton = styled.div`
     align-self: center;
     height: 150px;
     margin-top: 100px;
-    button{
+    button {
         width: 400px;
         height: 90px;
-        background-color: #FF9C5F;
+        background-color: #ff9c5f;
         border-radius: 8px;
         border: none;
         color: #fff;
@@ -359,4 +449,4 @@ const RegisterButton = styled.div`
     &:active {
         filter: brightness(70%);
     }
-`
+`;

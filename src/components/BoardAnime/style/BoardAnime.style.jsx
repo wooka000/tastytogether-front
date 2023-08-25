@@ -1,42 +1,6 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import { keyframes, styled } from 'styled-components';
 
-export default function BoardAnime() {
-    const [boards, setBoards] = useState();
-
-    useEffect(() => {
-        async function featchData() {
-            const res = await axios.get('/data/board.json');
-            const data = await res.data;
-            setBoards(data.slice(0, 10));
-        }
-        featchData();
-    }, []);
-
-    return (
-        <Container>
-            <List>
-                {boards &&
-                    boards.map((board) => {
-                        return (
-                            <Item key={board.id}>
-                                <Img src={board.photo} alt="photo" />
-                                <Text>
-                                    <Title>
-                                        {board.id} {board.title}
-                                    </Title>
-                                    <Description>{board.description}</Description>
-                                </Text>
-                            </Item>
-                        );
-                    })}
-            </List>
-        </Container>
-    );
-}
-
-const Container = styled.div`
+export const Container = styled.div`
     background-color: white;
     width: 1480px;
     height: 280px;
@@ -72,7 +36,7 @@ const Container = styled.div`
     }
 `;
 
-const moveRight = keyframes`
+export const moveRight = keyframes`
 0% {
     transform: translateX(0);
 }
@@ -82,14 +46,14 @@ const moveRight = keyframes`
 }
 `;
 
-const List = styled.ul`
+export const List = styled.ul`
     animation: ${moveRight} 20s linear infinite;
     display: flex;
     width: calc(200px * 10);
     padding: 0 50px;
 `;
 
-const Item = styled.li`
+export const Item = styled.li`
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -103,7 +67,7 @@ const Item = styled.li`
     cursor: pointer;
 `;
 
-const Img = styled.img`
+export const Img = styled.img`
     position: absolute;
     top: 0;
     left: 0;
@@ -111,7 +75,7 @@ const Img = styled.img`
     height: 200px;
 `;
 
-const Text = styled.div`
+export const Text = styled.div`
     color: white;
     display: flex;
     flex-direction: column;
@@ -125,7 +89,7 @@ const Text = styled.div`
     }
 `;
 
-const Title = styled.p`
+export const Title = styled.p`
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 16px;
@@ -141,6 +105,6 @@ const Title = styled.p`
     }
 `;
 
-const Description = styled.p`
+export const Description = styled.p`
     font-size: 12px;
 `;

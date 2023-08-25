@@ -4,24 +4,24 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import NotFound from './pages/NotFound';
-import Main from './pages/Main';
-import StoreDetail from './pages/StoreDetail';
-import UserLogin from './pages/UserLogin';
-import UserSignUp from './pages/UserSignUp';
-import UserEdit from './pages/UserEdit';
-import MyBoard from './pages/MyBoard';
-import StoreLike from './pages/StoreLike';
-import MyReview from './pages/MyReview';
-import BoardLike from './pages/BoardLike';
-import Board from './pages/Board';
-import CreatePost from './pages/CreatePost';
-import PostUpdate from './pages/PostUpdate';
-import PostDetail from './pages/PostDetail';
-import CreateReview from './pages/CreateReview';
-import StoreRegister from './pages/StoreRegister';
-import SearchResult from './pages/SearchResult';
-import StoreDetailEdit from './pages/StoreDetailEdit';
+import NotFound from './pages/NotFound/NotFound';
+import Main from './pages/Main/Main';
+import StoreDetail from './pages/StoreDetail/StoreDetail';
+import UserLogin from './pages/UserLogin/UserLogin';
+import UserSignUp from './pages/UserSignUp/UserSignUp';
+import UserEdit from './pages/UserEdit/UserEdit';
+import MyBoard from './pages/MyBoard/MyBoard';
+import StoreLike from './pages/StoreLike/StoreLike';
+import MyReview from './pages/MyReview/MyReview';
+import BoardLike from './pages/BoardLike/BoardLike';
+import Board from './pages/Board/Board';
+import CreatePost from './pages/CreatePost/CreatePost';
+import PostUpdate from './pages/PostUpdate/PostUpdate';
+import PostDetail from './pages/PostDetail/PostDetail';
+import CreateReview from './pages/CreateReview/CreateReview';
+import StoreRegister from './pages/StoreRegister/StoreRegister';
+import SearchResult from './pages/SearchResult/SearchResult';
+import StoreDetailEdit from './pages/StoreDetailEdit/StoreDetailEdit';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -48,7 +48,6 @@ const router = createBrowserRouter([
         ],
     },
 ]);
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
