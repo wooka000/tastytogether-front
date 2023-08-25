@@ -7,9 +7,8 @@ const useAxios = () => {
     const { refreshAccessToken } = useRefreshToken();
     const { auth } = useAuth();
 
-    const baseURL = 'http://localhost:8080';
     const authRequiredAxios = axios.create({
-        baseURL,
+        baseURL: 'http://localhost:8080',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${auth.accessToken} `,
@@ -35,7 +34,7 @@ const useAxios = () => {
             },
             async (error) => {
                 console.log(error);
-                //originRequest axios config
+                // originRequest axios config
                 const originRequest = error.config;
                 console.log(originRequest);
                 if (!originRequest.sent) {

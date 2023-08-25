@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import useAuth from '../../hooks/useAuth';
 import useAxios from '../../hooks/useAxios';
 // import { useNavigate } from 'react-router-dom';
@@ -14,6 +15,7 @@ export default function UserLogin() {
     const [result, setResult] = useState();
     const getUser = async () => {
         try {
+            console.log(auth);
             const response = await authRequiredAxios({ method: 'get', url: 'auth/user' });
             console.log(response.data);
             setResult(response.data[0].name);
@@ -26,7 +28,7 @@ export default function UserLogin() {
         e.preventDefault();
         const response = await axios({
             method: 'post',
-            url: 'http://localhost:8080/auth/login',
+            url: '/auth/login',
             data: {
                 email,
                 password,
@@ -35,7 +37,9 @@ export default function UserLogin() {
             withCredentials: true,
         });
         console.log(response.data);
-        setAuth({ ...response.data });
+        setAuth(() => {
+            return { ...response.data };
+        });
         // navigate('/');
     };
     return (
@@ -73,6 +77,7 @@ export default function UserLogin() {
                     {result}
                 </div>
             </div>
+            <Link to="/users/signup">회원가입 페이지로 이동</Link>
         </Container>
     );
 }

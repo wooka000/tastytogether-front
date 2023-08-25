@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import axios from '../api/axios';
+import axios from '../../utils/axios';
 
 export default function UserSignUp() {
     const [email, setEmail] = useState();
@@ -37,14 +37,16 @@ export default function UserSignUp() {
     //     );
     // };
 
-    // const signUpHandler = async (e) => {
-    //     e.preventDefault();
-    //     await axios.post({
-    //         url: 'http://localhost:8080/auth/signup',
-    //         data: {},
-    //     });
-    //     console.log(email, password, nickname, name);
-    // };
+    const signUp = async (e) => {
+        e.preventDefault();
+        await axios({
+            method: 'post',
+            url: '/auth/signup',
+            headers: { 'Content-Type': 'application/json' },
+            data: { email, password, nickname, name },
+        });
+        console.log(email, password, nickname, name);
+    };
 
     // useEffect(() => {
     //     const emailRegex =
@@ -64,11 +66,7 @@ export default function UserSignUp() {
             <div>
                 <h2>tasty Together</h2>
                 <h1>Sign Up</h1>
-                <form
-                    onSubmit={() => {
-                        console.log('hello');
-                    }}
-                >
+                <form onSubmit={signUp}>
                     <ul>
                         <li>
                             <section>
@@ -138,3 +136,12 @@ export default function UserSignUp() {
         </Container>
     );
 }
+
+const Container = styled.div`
+    min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
+    margin-top: 100px; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
