@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.header`
-    z-index: 1;
+    z-index: 3;
     position: fixed;
     top: 0;
     left: 0;
