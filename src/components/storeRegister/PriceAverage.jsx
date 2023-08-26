@@ -8,25 +8,25 @@ const PriceAverage = () => {
                 <span>가격대</span>
             </div>
             <div className="table_content">
-                <label className="price" htmlFor="price1">
+                <label className="price" htmlFor="price_range1">
                     <span className="radio_input">1만원대</span>
-                    <input className="radio_button" type="radio" id="price1" name="price" value="1만원대" />
+                    <input className="radio_button" type="radio" id="price_range1" name="price_range" value="1만원대" />
                 </label>
                 <label className="price" htmlFor="price2">
-                    <span className="radio_input" htmlFor="price2">2만원대</span>
-                    <input className="radio_button" type="radio" id="price2" name="price" value="2만원대" />
+                    <span className="radio_input" htmlFor="price_range2">2만원대</span>
+                    <input className="radio_button" type="radio" id="price_range2" name="price_range" value="2만원대" />
                 </label>
                 <label className="price" htmlFor="price3">
                     <span className="radio_input" htmlFor="price3">3만원대</span>
-                    <input className="radio_button" type="radio" id="price3" name="price" value="3만원대" />
+                    <input className="radio_button" type="radio" id="price_range3" name="price_range" value="3만원대" />
                 </label>
                 <label className="price" htmlFor="price4">
                     <span className="radio_input" htmlFor="price4">4만원대</span>
-                    <input className="radio_button" type="radio" id="price4" name="price" value="4만원대" />
+                    <input className="radio_button" type="radio" id="price_range4" name="price_range" value="4만원대" />
                 </label>
                 <label className="price" htmlFor="price0">
                     <span className="radio_input" htmlFor="price0" >기타</span>
-                    <input className="radio_button" type="radio" id="price0" name="price" value="기타" />
+                    <input className="radio_button" type="radio" id="price_range0" name="price_range" value="기타" />
                 </label>
             </div>
         </S.TableLine>

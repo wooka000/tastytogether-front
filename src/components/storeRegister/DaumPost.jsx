@@ -6,6 +6,7 @@ import useDaumPostcodePopup from './useDaumPostcodePopup'; // useDaumPostcodePop
 import CheckInfo from './CheckInfo';
 import MyContext from './MyContext';
 import axios from 'axios'
+// import MapContainer from '../../components/storeRegister/MapContainer';
 
 
 function DaumPost({ setStoreInfo }){
@@ -81,7 +82,6 @@ function DaumPost({ setStoreInfo }){
   return (
     <MyContext.Provider value={addressObj}>
       <CheckInfo isAddressRegistered={isAddressRegistered}/>
-      
       <S.TableLine>
         <div className="table_title">
           <span>맛집명</span>
@@ -114,12 +114,14 @@ function DaumPost({ setStoreInfo }){
             readOnly />
           </div>
       </S.TableLine>
+      {/* <S.Map id="mapDiv">
+        <MapContainer coordinates={coordinates} setCoordinates={setCoordinates} />
+      </S.Map> */}
     </MyContext.Provider>
   )
 }
     
 DaumPost.propTypes = {
-  // showModal: PropTypes.func.isRequired,
   setStoreInfo: PropTypes.func.isRequired,
 };
   export default DaumPost;

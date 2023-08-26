@@ -43,7 +43,6 @@ export const TableLine = styled.div`
         font-size: 25px;
         text-align: center;
         font-weight: 600;
-
     }
     .table_content{
         width: 1082px;

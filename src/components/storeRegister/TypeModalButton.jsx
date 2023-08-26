@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import TypeModalPage from './TypeModalPage';
 import * as S from './style/MenuModalButton.style'
+import TypeModalPage from './TypeModalPage';
+import PropTypes from 'prop-types';
 
-
-function TypeModalButton() {
+function TypeModalButton({ setStoreInfo }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const showModal = () => {
@@ -12,6 +12,10 @@ function TypeModalButton() {
     const handleCategoryChange = (category) => {
         setSelectedCategory(category); // Update selectedCategory instead of setCategory
         setModalOpen(false);
+        setStoreInfo(prevInfo => ({
+            ...prevInfo,
+            type: selectedCategory
+        }));
     };
 
     return (
@@ -25,16 +29,21 @@ function TypeModalButton() {
                         className="input"
                         type="text"
                         placeholder="업종을 선택하세요."
-                        value={selectedCategory} // Use selectedCategory here
-                        onChange={(e) => setSelectedCategory(e.target.value)} // Update selectedCategory when input changes
+                        value={selectedCategory}
+                        onChange={(e) => setSelectedCategory(e.target.value)}
                         readOnly
                         required
                 />
                 <button id="Type_modal_button" onClick={showModal}>업종선택</button>
-                {modalOpen && <TypeModalPage setModalOpen={setModalOpen} setCategory={handleCategoryChange} />}
+                {modalOpen && <TypeModalPage setModalOpen={setModalOpen} setCategory={handleCategoryChange}  setStoreInfo={setStoreInfo} />}
             </div>
         </S.TableLine>
     );
 }
+
+TypeModalButton.propTypes = {
+    setStoreInfo: PropTypes.func.isRequired,
+};
+
 
 export default TypeModalButton;

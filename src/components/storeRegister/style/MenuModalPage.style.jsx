@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const MenuModal = styled.div`
+export const MenuModal = styled.form`
 width: 1400px;
     height: 700px;
     z-index: 999;

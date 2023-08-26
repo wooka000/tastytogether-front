@@ -10,7 +10,7 @@ function CheckInfo({ isAddressRegistered }) {
 
   useEffect(() => {
     if (!addressObj.street && !addressObj.fullAddress) {
-      setTextContent('새롭게 등록하려는 맛집이 테이스티투게더에 등록되어 있는지 확인해주세요.');
+      setTextContent('새롭게 등록하려는 맛집이 등록되어 있는지 확인해주세요.');
     } else if (isAddressRegistered) {
       setTextContent('이미 등록되어있는 맛집입니다.');
     } else {
@@ -20,10 +20,14 @@ function CheckInfo({ isAddressRegistered }) {
 
   return (
     <S.CheckDiv>
-        <div>
-          <img src="imgs/notice.png" alt="" />
+        <div className="title_line">
+          <div className="register_title">
+            <p>맛집 등록 페이지</p>
+          </div>
+          <div className="title_text">
+            <p>{textContent}</p>
+          </div>
         </div>
-        <p>{textContent}</p>
     </S.CheckDiv>
   );
 }

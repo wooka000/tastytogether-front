@@ -1,11 +1,9 @@
-// import { useState } from 'react';
 import * as S from './style/TypeModalPage.style'
 
 import PropTypes from 'prop-types';
 
 
-function TypeModalPage({ setModalOpen, setCategory }) { // Fixed the prop name
-    // eslint-disable-next-line no-unused-vars
+function TypeModalPage({ setModalOpen, setCategory }) { 
     
     const handleCategorySelect = (category) => {
         setCategory(category); 
@@ -19,7 +17,7 @@ function TypeModalPage({ setModalOpen, setCategory }) { // Fixed the prop name
     return(
         <S.TypeModal>
             <div className="type_title">
-                <img src="/imgs/logo2.png" alt="" />
+                {/* <img src="/imgs/logo2.png" alt="" /> */}
                 <p>업종을 선택하세요</p>
             </div>
             <S.TypeButtons>
@@ -47,8 +45,8 @@ function TypeModalPage({ setModalOpen, setCategory }) { // Fixed the prop name
                         <p>아시안</p>
                     </div>
                     <div className="type_button" onClick={() => handleCategorySelect('카페.디저트')}>
-                        <img src="/imgs/cafe.png" alt="카페.디저트" />
-                        <p>카페.디저트</p>
+                        <img src="/imgs/cafe.png" alt="카페&디저트" />
+                        <p>카페&디저트</p>
                     </div>
                 </div>
             </S.TypeButtons>
@@ -60,7 +58,7 @@ function TypeModalPage({ setModalOpen, setCategory }) { // Fixed the prop name
 }
 
 TypeModalPage.propTypes = {
-    setModalOpen: PropTypes.func.isRequired, // prop 타입을 정의하고 필수로 표시합니다
+    setModalOpen: PropTypes.func.isRequired,
     setCategory: PropTypes.func.isRequired,
 };
 

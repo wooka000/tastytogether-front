@@ -1,69 +1,7 @@
 import styled from 'styled-components';
 
-export const TableLine = styled.div`
-    width: 1360px;
-    height: 80px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    border-top: 1px solid #F0F0F0;
-    border-bottom: 1px solid #F0F0F0;
-    font-weight: 600;
-
-    .table_title{
-        width: 260px;
-        height: 35px;
-        font-size: 25px;
-        padding: 20px;
-        text-align: center;
-    }
-    .table_content{
-        width: 1082px;
-        height: 35px;
-        padding: 12px 0 0 20px;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        line-height: 18px;
-        font-size: 20px;
-        .store_check{
-            width: 107px;
-            height: 52px;
-            border-radius: 5px;
-            background: #FF9C5F;
-            font-size: 20px;
-        }
-        .input{
-            flex: 1;
-            margin-right: 10px;
-            height: 52px;
-            border: none;
-            font-size: 22px;
-            color: #FF9C5F;
-            padding: 10px;
-        } 
-        button{
-            width: 107px;
-            height: 52px;
-            border-radius: 5px;
-            border: none;
-            background-color: lightgray;
-            font-size: 18px;
-            color: white;
-            font-weight: 600;
-            &:hover{
-                background-color: #FF9C5F;
-            }
-            &:active {
-                filter: brightness(70%);
-            }
-        }
-    }
- `
-
-export const TypeModal = styled.div`
-    width: 1400px;
+export const TypeModal = styled.form`
+    width: 850px;
     height: 700px;
     z-index: 999;
     position: absolute;
@@ -73,44 +11,39 @@ export const TypeModal = styled.div`
     // 본인 크기 기준으로 작동
     transform: translate(-50%, -50%);
     background-color: #F8F9FA;
-    border: 8px solid #FF9C5F;
-    border-radius: 8px;
-
+    border: 7px solid #FF9C5F;
+    border-radius: 0px;
+ 
     .type_title{
-        img{
-            width: 100px;
-            height: 93px;
-            position: absolute;
-            left: 25px;
-            top: 25px;
-        }
         p{
-            width: 740px;
+            width: 700px;
             height: 93px;
             position: absolute;
             color: #636363;
-            left: 22%;
             text-align: center;
-            font-size: 50px;
+            font-size: 33px;
             font-weight: bold;
-            top: 40px;
+            top: 75px;
+            left: 9%
         }
     }
 
     .close_button_div{
-        width: 10%;
+        width: 5%;
         box-sizing: border-box;
         .close_button{
-            width: 50px;
-            height: 50px;
+            width: 37px;
+            height: 37px;
             position: absolute;
-            right: 3%;
-            top: 5%;
+            right: 0;
+            bottom: 0;
             background-color: #B0B0B0;
+            opacity: 80%;
             color: #FFF;
             border:none;
             text-align: center;
-            font-size: 36px;
+            font-size: 25px;
+            border-radius: 0;
             &:active {
                 filter: brightness(70%);
             }
@@ -131,8 +64,8 @@ export const TypeButtons = styled.div`
         flex-direction: row;
         
         .type_button{
-            width: 150px;
-            height: 150px;
+            width: 100px;
+            height: 140px;
             margin: 40px 70px;
             display: flex;
             flex-direction: column;
@@ -143,17 +76,17 @@ export const TypeButtons = styled.div`
                     filter: brightness(70%);
             }  
             img{
-                width: 140px;
-                height: 140px;
-                margin-bottom: 20px;
+                width: 110px;
+                height: 110px;
+                margin-bottom: 23px;
                 &:hover{
                     transform: scale(1.1);
                 }
             }
             p{
-                width: 140px;
+                width: 120px;
                 text-align: center;
-                font-size: 25px;
+                font-size: 20px;
                 color: #636363;
                 font-weight: 1000;
             }

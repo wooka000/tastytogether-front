@@ -1,25 +1,29 @@
 import React, { useEffect } from 'react';
-// import Map from 'react-kakao-maps-sdk';
+//import Map from 'react-kakao-maps-sdk';
 
 // npm install react-kakao-maps-sdk
 const MapContainer = () => { 
+
+
     useEffect(() => {
         const script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=''`;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=e60c72145803dce71a8cfdf73846c212&autoload=false`;
         script.async = true;
         document.head.appendChild(script);
     
         script.onload = () => {
-          const mapContainer = document.getElementById('map');
-          const mapOption = {
-            center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-            // level: 3,
-          };
-    
-          // 지도를 생성합니다
-          const map = new window.kakao.maps.Map(mapContainer, mapOption);
-    
+          var map='';
+          window.kakao.maps.load(() => {
+            const mapContainer = document.getElementById('map');
+            const mapOption = {
+              center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+              level: 3,
+            };
+            map = new window.kakao.maps.Map(mapContainer, mapOption); 
+            // 지도를 생성합니다
+            // new window.kakao.maps.Map(mapContainer, mapOption);
+          });
           // 주소-좌표 변환 객체를 생성합니다
           const geocoder = new window.kakao.maps.services.Geocoder();
     
@@ -51,19 +55,15 @@ const MapContainer = () => {
             }
           });
         };
-    
+        script.addEventListener("load", script.onload);
+
         return () => {
           document.head.removeChild(script);
         };
       }, []);
-            // const [info, setInfo] = useState();
-
-    // const handleSetInfo = () => {
-    //     const map = mapRef.current;
-    //     handleSetInfo 코드...
-    // };
-    
     return (
+
+
         <div id="map_container">
             <div id="map"
                 style={{ width: "100%", height: "360px" }}
