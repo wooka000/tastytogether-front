@@ -26,21 +26,25 @@ export default function UserLogin() {
 
     const login = async (e) => {
         e.preventDefault();
-        const response = await axios({
-            method: 'post',
-            url: '/auth/login',
-            data: {
-                email,
-                password,
-            },
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-        });
-        console.log(response.data);
-        setAuth(() => {
-            return { ...response.data };
-        });
-        // navigate('/');
+        try {
+            const response = await axios({
+                method: 'post',
+                url: '/auth/login',
+                data: {
+                    email,
+                    password,
+                },
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+            });
+            console.log(response.data);
+            setAuth(() => {
+                return { ...response.data };
+            });
+            // navigate('/');
+        } catch (err) {
+            alert(err.response.data.message);
+        }
     };
     return (
         <Container>
