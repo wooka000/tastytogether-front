@@ -41,6 +41,9 @@ export default function MainHeader() {
                     <S.MenuBtn onClick={() => navigate('/stores/register')} active={active}>
                         음식점 등록
                     </S.MenuBtn>
+                    <S.MenuBtn onClick={() => navigate('/mypage/123')} active={active}>
+                        마이페이지
+                    </S.MenuBtn>
                 </S.Menu>
                 <S.User>
                     {user && <UserInfo photo={'/imgs/profile.png'} name={'김망고'} />}

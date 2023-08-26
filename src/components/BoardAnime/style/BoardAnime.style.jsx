@@ -107,4 +107,5 @@ export const Title = styled.p`
 
 export const Description = styled.p`
     font-size: 12px;
+    margin: 0 auto;
 `;
