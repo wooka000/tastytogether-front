@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import * as S from './style/StoreRegister.style'
-import PropTypes from 'prop-types';
 import DaumPost from '../../components/storeRegister/DaumPost'; 
 import TypeModalButton from '../../components/storeRegister/TypeModalButton';
 import PhoneNumber from '../../components/storeRegister/PhoneNumber';
@@ -9,37 +8,33 @@ import Parking from '../../components/storeRegister/Parking';
 import Time from '../../components/storeRegister/Time';
 import MenuModalButton from '../../components/storeRegister/MenuModalButton';
 import StoreImage from '../../components/storeRegister/StoreImage';
-import MapContainer from '../../components/storeRegister/MapContainer';
+// import MapContainer from '../../components/storeRegister/MapContainer';
 import axios from 'axios';
 
 
 export default function StoreRegister () {
 
-    const [ coordinates, setCoordinates ] = useState([
-       { x: 0, y: 0}
-    ]);
-
     const [storeInfo, setStoreInfo] = useState({
         banners: [],
-        name: null,
+        name: "",
         address: {
-            street: null,
-            city: null,
-            state: null,
-            fullAddress: null,
-            zipCode: null,
-            latitude: null,
-            longitude: null,
+            street: "",
+            city: "",
+            state: "",
+            fullAddress: "",
+            zipCode: "",
+            latitude: "",
+            longitude: "",
         },
         menuItems: [
-            { name: null, price: null },
-            { name: null, price: null },
-            { name: null, price: null },
+            { name: "", price: "" },
+            { name: "", price: "" },
+            { name: "", price: "" },
         ],
-        type: null,
-        phone: null,
-        priceRange: null,
-        parkingInfo: null,
+        type: "",
+        phone: "",
+        priceRange: "",
+        parkingInfo: "",
         businessHours: [],
         closedDays: [],
     });
@@ -70,9 +65,9 @@ export default function StoreRegister () {
             <S.Article>
                 <S.RegisterForm onSubmit={handleSubmit}>
                     <DaumPost setStoreInfo={setStoreInfo} />
-                    <S.Map id="mapDiv">
+                    {/* <S.Map id="mapDiv">
                             <MapContainer coordinates={coordinates} setCoordinates={setCoordinates} />
-                    </S.Map>
+                    </S.Map> */}
                     <TypeModalButton setStoreInfo={setStoreInfo} /> 
                     <PhoneNumber />
                     <PriceAverage />
@@ -88,6 +83,3 @@ export default function StoreRegister () {
         </S.Container>
     )
 }
-StoreRegister.propTypes = {
-    setStoreInfo: PropTypes.func.isRequired,
-};

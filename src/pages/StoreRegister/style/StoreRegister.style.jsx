@@ -5,7 +5,7 @@ min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내
 margin-top: 100px; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
 height: 1900px;
 `;
-export const Article = styled.form`
+export const Article = styled.div`
 position: relative;
 top: 101px;
 width: 1440px;
@@ -139,12 +139,7 @@ export const TableLine = styled.div`
         }
     }
 `
-export const Map = styled.div`
-    width: 1360px;
-    height: 400px;
-    border-top: 2px solid #F0F0F0;
-    border-bottom: 2px solid #F0F0F0;
-`
+
 export const RegisterButton = styled.div`
     width: 1440px;
     display: flex;

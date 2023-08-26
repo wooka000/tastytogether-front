@@ -42,7 +42,7 @@ function MenuModalPage({ setModalOpen, setUpdatedMenus, setStoreInfo }){
             { name: menu[0].name, price: menu[0].price},
             { name: menu[1].name, price: menu[1].price},
             { name: menu[2].name, price: menu[2].price}
-        ]
+        ];
         setUpdatedMenus(updateMenus);
         setStoreInfo(prevInfo => ({
             ...prevInfo,
@@ -58,7 +58,7 @@ function MenuModalPage({ setModalOpen, setUpdatedMenus, setStoreInfo }){
                 <p>메뉴를 등록하세요</p>
             </div>
             <div className="form_div">
-                <S.MenuForm action="submit">
+                <S.MenuForm>
                     <div className="menu_line">
                         <p id="item_menu">대표 메뉴</p>
                         <p id="item_price">가격</p>
@@ -73,14 +73,14 @@ function MenuModalPage({ setModalOpen, setUpdatedMenus, setStoreInfo }){
                     <div className="menu_line">
                         <input id="name2" className="menu" type="text" onChange={(e) => handleMenuChange(1, 'name', e.target.value)} value={menu[1].name} />
                         <div>
-                            <input id="price2" className="price" type="number" onChange={(e) => handleMenuChange(0, 'price', e.target.value)} value={menu[1].price} />
+                            <input id="price2" className="price" type="number" onChange={(e) => handleMenuChange(1, 'price', e.target.value)} value={menu[1].price} />
                             <p>원</p>
                         </div>
                     </div>
                     <div className="menu_line">
                         <input id="name3" className="menu" type="text" onChange={(e) => handleMenuChange(2, 'name', e.target.value)} value={menu[2].name} />
                         <div>
-                            <input id="price3" className="price" type="number" onChange={(e) => handleMenuChange(0, 'price', e.target.value)} value={menu[2].price} />
+                            <input id="price3" className="price" type="number" onChange={(e) => handleMenuChange(2, 'price', e.target.value)} value={menu[2].price} />
                             <p>원</p>
                         </div>
                     </div>

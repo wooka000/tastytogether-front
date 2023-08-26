@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import * as S from './style/DaumPost.style'
 import PropTypes from 'prop-types';
-// import AddressSearchButton from './AddressSearchButton';
 import useDaumPostcodePopup from './useDaumPostcodePopup'; // useDaumPostcodePopup 함수 임포트
 import CheckInfo from './CheckInfo';
 import MyContext from './MyContext';
+import MapContainer from './MapContainer';
 import axios from 'axios'
-// import MapContainer from '../../components/storeRegister/MapContainer';
 
 
 function DaumPost({ setStoreInfo }){
-
   const [ addressObj, setAddressObj ] = useState({
     street: "",
     city: "",
@@ -114,9 +112,9 @@ function DaumPost({ setStoreInfo }){
             readOnly />
           </div>
       </S.TableLine>
-      {/* <S.Map id="mapDiv">
-        <MapContainer coordinates={coordinates} setCoordinates={setCoordinates} />
-      </S.Map> */}
+      <S.Map id="mapDiv">
+        <MapContainer addressObj={addressObj} setStoreInfo={setStoreInfo} />
+      </S.Map>
     </MyContext.Provider>
   )
 }
@@ -124,4 +122,5 @@ function DaumPost({ setStoreInfo }){
 DaumPost.propTypes = {
   setStoreInfo: PropTypes.func.isRequired,
 };
+
   export default DaumPost;

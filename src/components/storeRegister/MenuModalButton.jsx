@@ -57,7 +57,6 @@ function MenuModalButton({ setStoreInfo }){
 }
 
 MenuModalButton.propTypes = {
-
         setStoreInfo: PropTypes.func.isRequired,
 };
 export default MenuModalButton; 

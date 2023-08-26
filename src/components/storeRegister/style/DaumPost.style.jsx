@@ -61,3 +61,9 @@ export const TableLine = styled.div`
         }
     }
  `
+ export const Map = styled.div`
+ width: 1360px;
+ height: 400px;
+ border-top: 2px solid #F0F0F0;
+ border-bottom: 2px solid #F0F0F0;
+`

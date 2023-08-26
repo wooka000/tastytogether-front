@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const MenuModal = styled.form`
+export const MenuModal = styled.div`
 width: 1400px;
     height: 700px;
     z-index: 999;
@@ -83,7 +83,7 @@ width: 1400px;
     }
     
 `
-export const MenuForm = styled.form`
+export const MenuForm = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
