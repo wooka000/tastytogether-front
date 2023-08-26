@@ -6,7 +6,8 @@ const RequireLogin = ({ children }) => {
     console.log(auth);
     if (!auth.accessToken) {
         alert('accessToken이 만료되었습니다.');
-        // return <Navigate to="/users/login" replace />;
+        return;
+        // <Navigate to="/users/login" replace />;
     }
     return children;
 };

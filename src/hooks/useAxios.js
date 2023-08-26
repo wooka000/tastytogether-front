@@ -6,7 +6,7 @@ import useAuth from './useAuth';
 const useAxios = () => {
     const { refreshAccessToken } = useRefreshToken();
     const { auth } = useAuth();
-
+    // axios Instance
     const authRequiredAxios = axios.create({
         baseURL: 'http://localhost:8080',
         headers: {
@@ -15,18 +15,8 @@ const useAxios = () => {
         },
         withCredentials: true,
     });
-
+    //axios response Interceptors
     useEffect(() => {
-        // const requestIntercept = authRequiredAxios.interceptors.request.use(
-        //     (config) => {
-        //         if (!config.headers['Authorization']) {
-        //             config.headers['Authorization'] = `Bearer ${auth?.accessToken}`;
-        //         }
-        //         return config;
-        //     },
-        //     (error) => Promise.reject(error),
-        // );
-
         const responseIntercept = authRequiredAxios.interceptors.response.use(
             (response) => {
                 console.log(response);
@@ -39,8 +29,10 @@ const useAxios = () => {
                 console.log(originRequest);
                 if (!originRequest.sent) {
                     originRequest.sent = true;
+                    //get new Access Token by refresh token
                     const newAccessToken = await refreshAccessToken();
                     originRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                    //retry axios with refreh token
                     return authRequiredAxios(originRequest);
                 }
                 return Promise.reject(error);
@@ -48,7 +40,6 @@ const useAxios = () => {
         );
 
         return () => {
-            // authRequiredAxios.interceptors.request.eject(requestIntercept);
             authRequiredAxios.interceptors.response.eject(responseIntercept);
         };
     }, [auth, refreshAccessToken]);

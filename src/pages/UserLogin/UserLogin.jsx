@@ -46,7 +46,7 @@ export default function UserLogin() {
         <Container>
             <h2>tasty Together</h2>
             <h1>Login</h1>
-            <form onSubmit={login}>
+            <Form onSubmit={login}>
                 <ul>
                     <li>
                         <input
@@ -68,14 +68,12 @@ export default function UserLogin() {
                     </li>
                 </ul>
                 <button type="submit">로그인</button>
-            </form>
+            </Form>
             <div>{auth.accessToken}</div>
             <button></button>
             <div>
                 <button onClick={getUser}>사용자 정보 요청</button>
-                <div style={{ width: '100px', height: '100px', backgroundColor: 'red' }}>
-                    {result}
-                </div>
+                <span>{result}</span>
             </div>
             <Link to="/users/signup">회원가입 페이지로 이동</Link>
         </Container>
@@ -85,6 +83,13 @@ export default function UserLogin() {
 const Container = styled.div`
     min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
     margin-top: 100px; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Form = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
