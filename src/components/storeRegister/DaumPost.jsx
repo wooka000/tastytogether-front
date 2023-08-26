@@ -74,7 +74,9 @@ function DaumPost({ setStoreInfo }){
         console.error(error);
       });
   };
-
+  const handleAddressChange = (newAddressObj) => {
+    setAddressObj(newAddressObj);
+  };
 
 
   return (
@@ -113,7 +115,7 @@ function DaumPost({ setStoreInfo }){
           </div>
       </S.TableLine>
       <S.Map id="mapDiv">
-        <MapContainer addressObj={addressObj} setStoreInfo={setStoreInfo} />
+        <MapContainer addressObj={addressObj} setStoreInfo={setStoreInfo} onAddressChange={handleAddressChange} />
       </S.Map>
     </MyContext.Provider>
   )

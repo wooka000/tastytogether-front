@@ -8,11 +8,21 @@ import Parking from '../../components/storeRegister/Parking';
 import Time from '../../components/storeRegister/Time';
 import MenuModalButton from '../../components/storeRegister/MenuModalButton';
 import StoreImage from '../../components/storeRegister/StoreImage';
-// import MapContainer from '../../components/storeRegister/MapContainer';
 import axios from 'axios';
 
 
 export default function StoreRegister () {
+
+    // const [banners, setBanners] = useState();
+    // const [name, setName] = useState();
+    // const [address, setAddress] = useState();
+    // const [menuItems, setMenuItems] = useState();
+    // const [type, setType] = useState();
+    // const [phone, setPhone] = useState();
+    // const [priceRange, setPriceRange = useState();
+    // const [parkingInfo, setParkingInfo] = useState();
+    // const [businessHours, setbusinessHours] = useState();
+    // const [closedDays, setclosedDays] = useState();
 
     const [storeInfo, setStoreInfo] = useState({
         banners: [],
@@ -43,13 +53,7 @@ export default function StoreRegister () {
         e.preventDefault();
         handleSubmit(storeInfo);
     }
-    // const handleMenuItemsChange = (menuItems) => {
-    //     setStoreInfo(prevInfo => ({
-    //         ...prevInfo,
-    //         menuItems: menuItems,
-    //     }));
-    //     console.log(storeInfo)
-    // }
+
     const handleSubmit = (updatedStoreInfo) => { 
         axios.post('http://localhost:8080/stores', updatedStoreInfo)
             .then(response => {
@@ -63,11 +67,8 @@ export default function StoreRegister () {
     return(
         <S.Container>
             <S.Article>
-                <S.RegisterForm onSubmit={handleSubmit}>
+                <S.RegisterForm  onSubmit={handleSaveStore}>
                     <DaumPost setStoreInfo={setStoreInfo} />
-                    {/* <S.Map id="mapDiv">
-                            <MapContainer coordinates={coordinates} setCoordinates={setCoordinates} />
-                    </S.Map> */}
                     <TypeModalButton setStoreInfo={setStoreInfo} /> 
                     <PhoneNumber />
                     <PriceAverage />

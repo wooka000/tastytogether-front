@@ -5,11 +5,10 @@ export const MapContainer = styled.div`
     justify-content: center;
     align-items: center;
         #map{
-            width: 850px;
+            width: 700px;
             height: 360px;
         }
         button{
             z-index: 999;
         }
-
 `

@@ -79,12 +79,11 @@ const MapContainer = ({ addressObj, setStoreInfo }) => {
         <S.MapContainer>
             <div 
               id="map"
-              style={{ width: "100%", height: "360px" }}
+
             ></div>
                 {/* <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
                     <div style={{color:"#000"}}>Hello World!</div>
                 </MapMarker> */}
-            <input id="addressInput" type="text" value={addressObj.street} />
         </S.MapContainer>
     ) // 지도가 그려질 영역을 나타내는 엘리먼트입니다.
 }
