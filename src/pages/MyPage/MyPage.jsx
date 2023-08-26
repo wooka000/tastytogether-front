@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import MyBoard from '../../components/MyPage/MyBoard';
 import MyReview from '../../components/MyPage/MyReview';
 import MyBookmark from '../../components/MyPage/MyBookmark';
+import MyProfileEdit from '../../components/MyPage/MyProfileEdit';
+import { BiImageAdd } from 'react-icons/bi';
 
 export default function MyPage() {
     const [tab, setTab] = useState('게시글');
@@ -12,11 +14,31 @@ export default function MyPage() {
         리뷰: <MyReview />,
         북마크: <MyBookmark />,
     };
+    const [modalOpen, setModalOpen] = useState(false);
+    const [bgFile, setBgFile] = useState();
+    const handleChange = (e) => {
+        const { files } = e.target;
+        setBgFile(files && files[0]);
+        console.log(bgFile);
+    };
     return (
         <Container>
-            <ProfileBg></ProfileBg>
+            {modalOpen && <MyProfileEdit setModalOpen={setModalOpen}></MyProfileEdit>}
+            <ProfileBg file={bgFile ? bgFile : ''}>
+                <ShowInputFile htmlFor="file">
+                    <BiImageAdd />
+                    <FileText>배경 사진 변경</FileText>
+                </ShowInputFile>
+                <InputFile
+                    type="file"
+                    name="file"
+                    id="file"
+                    accept="image/*"
+                    onChange={handleChange}
+                />
+            </ProfileBg>
             <ProfileBox>
-                <EditBtn>프로필 수정</EditBtn>
+                <EditBtn onClick={() => setModalOpen(true)}>프로필 수정</EditBtn>
                 <Info>
                     <Img src="/imgs/profile.png" alt="profile" />
                     <Text>
@@ -45,12 +67,41 @@ const Container = styled.div`
 `;
 
 const ProfileBg = styled.div`
-    background-image: url('/imgs/profilebg.jpg');
+    background-image: ${(props) =>
+        props.file === ''
+            ? 'url("/imgs/profilebg.jpg")'
+            : `url(${URL.createObjectURL(props.file)})`};
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
     height: 300px;
+`;
+
+const ShowInputFile = styled.label`
+    font-size: 20px;
+    color: gray;
+    float: right;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    border: 1px dotted gray;
+    border-radius: 10px;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: all 250ms ease-out;
+    &:hover {
+        color: black;
+        border: 1px solid black;
+    }
+`;
+
+const FileText = styled.span`
+    font-size: 14px;
+`;
+
+const InputFile = styled.input`
+    display: none;
 `;
 
 const ProfileBox = styled.div`
