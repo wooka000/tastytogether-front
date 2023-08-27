@@ -39,9 +39,9 @@ export default function TopDetail() {
                 <S.DividerLine></S.DividerLine>
             </S.ScoreInfo>
             <S.TopBtns>
-                <S.TopBtn type="button">
-                    <S.TopBtnIcon src={'/imgs/heartGrayIcon.png'} />
-                    <S.TopBtnText>가고 싶다</S.TopBtnText>
+                <S.TopBtn type="button" isBook={true}>
+                    <S.TopBtnIcon src={'/imgs/bookmarkIcon.png'} isBook={true} />
+                    <S.TopBtnText isBook={true}>북마크 추가</S.TopBtnText>
                 </S.TopBtn>
                 <S.TopBtn type="button" onClick={() => navigate(`/review/1`)}>
                     <S.TopBtnIcon src={'/imgs/reviewIcon.png'} />
@@ -55,3 +55,6 @@ export default function TopDetail() {
         </S.TopDetailWrap>
     );
 }
+
+// 북마크 버튼 이미 가고싶다 누른 사람이면 북마크 채워져 있어야 함
+// 그리고 모든 버튼들 누르면 주황색으로 잠깐 변했다 돌아와야 함

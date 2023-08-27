@@ -18,4 +18,10 @@ export const Main = styled.div`
     padding: 44px 263px 25px 0px;
 `;
 
+// 리뷰 들어갈 자리 임시로 지정
+export const Review = styled.div`
+    height: 200vh;
+`;
+
+
 

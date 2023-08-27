@@ -88,8 +88,8 @@ export const StoreType = styled.p`
 `;
 export const ScoreInfo = styled.div`
     display: flex;
-    flex-wrap: wrap;
     margin-top: 18px;
+    flex-wrap: wrap;
 `;
 export const StarAverage = styled.p`
     margin-top: -3px;
@@ -115,7 +115,7 @@ export const LikesCount = styled.p`
     font-size: 15px;
     font-weight: 400;
 `;
-export const ViewInfo = styled.div`
+export const ViewInfo = styled.p`
     width: 91px;
     height: 12px;
     display: flex;
@@ -133,8 +133,8 @@ export const ViewText = styled.p`
     margin-left: 2px;
 `;
 export const DividerLine = styled.div`
-    margin-top: 8.99 px;
-    width: 577 px;
+    margin-top: 8.99px;
+    width: 577px;
     height: 1px;
     background: #d9d9d9;
 `;
@@ -157,18 +157,19 @@ export const TopBtn = styled.button`
         margin-left: 19px;
     }
     & + & + & {
-        margin-left: 257px;
+        margin-left: 251px;
     }
 `;
 
 export const TopBtnIcon = styled.img`
-    width: 15px;
-    height: 15px;
-    margin-top: -2px;
+    width: ${(props) => (props.isBook ? '10px' : '15px')};
+    height: ${(props) => (props.isBook ? '12px' : '15px')};
+    margin-top: ${(props) => (props.isBook ? '-1px' : '-2px')};
 `;
 
 export const TopBtnText = styled.p`
     color: #989797;
     font-size: 10px;
     font-weight: 400;
+    margin-left: ${(props) => (props.isBook ? '0px' : '')};
 `;
