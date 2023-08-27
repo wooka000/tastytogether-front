@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import * as S from './style/Board.style';
 import { useNavigate, Link, useParams } from 'react-router-dom';
+import * as S from './style/Board.style';
 import { FiSearch } from 'react-icons/fi';
 import axios from 'axios';
 
@@ -9,32 +9,41 @@ export default function Board() {
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const { countperpage = 10 } = useParams();
     const navigate = useNavigate();
-    const { countperpage = 10, pageno = 1 } = useParams(); 
 
     useEffect(() => {
-        fetchPosts();
-    }, [countperpage, pageno]);
+        fetchPosts(currentPage);
+    }, [countperpage, currentPage]);
 
-    const fetchPosts = async () => {
+    const fetchPosts = async (pageNo = 1) => {
         try {
             let response;
 
             if (text) {
-                response = await axios.get(`http://localhost:8080/regionSearch?value=${text}`);
+                const encodedValue = encodeURIComponent(text);
+                response = await axios.get(`http://localhost:8080/regionSearch?value=${encodedValue}`);
             } else {
-                response = await axios.get(`http://localhost:8080/posts/?countperpage=${countperpage}&pageno=${pageno}`);
+                response = await axios.get(
+                    `http://localhost:8080/posts/?countperpage=${countperpage}&pageno=${pageNo}`,
+                );
             }
 
-            const responseData = response.data;
-              console.log("API Response:", responseData);
-
-            setPosts(responseData.data);
-            setCurrentPage(responseData.currentPage);
-            setTotalPages(responseData.totalPages);
+            if (response.data && response.data.data) {
+                setPosts(response.data.data);
+                setCurrentPage(response.data.currentPage);
+                setTotalPages(response.data.totalPages);
+            } else {
+                setPosts([]);
+            }
         } catch (error) {
             console.error(error);
         }
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        fetchPosts(newPage);
     };
 
     const handleChange = (e) => {
@@ -74,28 +83,26 @@ export default function Board() {
                     />
                 </S.SearchForm>
                 <S.StyledBoxWrapper>
-                    {posts.map((post) => (
+                    {posts?.map((post) => (
                         <S.StyledBox key={post._id} onClick={() => handlePostClick(post._id)}>
                             <S.StyledBoxImageWrapper>
-                                <S.StyledBoxImage src={post.image[0]} alt="Post" />
+                                <S.StyledBoxImage src={post?.image[0]} alt="Post" />
                             </S.StyledBoxImageWrapper>
                             <S.PostInfo>
-                                <S.PostInfoText>{post.region}</S.PostInfoText>
-                                <S.PostInfoText>{post.title}</S.PostInfoText>
-                                <S.PostInfoText>{post.meetDate}</S.PostInfoText>
+                                <S.PostInfoText>{post?.region}</S.PostInfoText>
+                                <S.PostInfoText>{post?.title}</S.PostInfoText>
+                                <S.PostInfoText>{post?.meetDate}</S.PostInfoText>
                             </S.PostInfo>
                         </S.StyledBox>
                     ))}
                 </S.StyledBoxWrapper>
                 <S.Pagination>
-                    {Array.from({ length: totalPages }, (_, index) => (
-                        <S.PageNumber key={index} selected={index + 1 === currentPage}>
-                          <Link to={`/posts/?countperpage=10&pageno=${index + 1}`}>
-                                {index + 1}
-                            </Link>
-                        </S.PageNumber>
-                    ))}
-                </S.Pagination>
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <S.PageNumber key={index} selected={index + 1 === currentPage}>
+                                <S.pageBtn onClick={() => handlePageChange(index + 1)}>{index + 1}</S.pageBtn>
+                            </S.PageNumber>
+                        ))}
+                    </S.Pagination>
             </S.MainWrapper>
         </S.Container>
     );

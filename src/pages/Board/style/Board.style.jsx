@@ -8,6 +8,8 @@ export const MainWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 200px;
+    
 `;
 
 export const FindText = styled.div`
@@ -66,6 +68,7 @@ export const BannerBox = styled.div`
     }
 `;
 export const SearchForm = styled.form`
+    display: flex;
     margin-left: 300px;
     align-self: flex-start;
     border-radius: 30px;
@@ -73,6 +76,7 @@ export const SearchForm = styled.form`
     width: 250px;
     height: 50px;
     margin-top: 20px;
+    padding-left: 10px;
 `;
 export const SubmitBtn = styled.button`
     border: none;
@@ -87,9 +91,11 @@ export const SearchInput = styled.input`
     width: 70%;
     border: none;
     outline: none;
-    background-color: transparent;
+    background-color:transparent;
     &::placeholder {
+        text-indent: 50px;
         font-weight: bold;
+        
     }
 `;
 
@@ -101,7 +107,7 @@ export const StyledBoxImageWrapper = styled.div`
 
 export const StyledBoxImage = styled.img`
     width: 100%;
-    height: auto;
+    height: 180px;
     transition: transform 0.3s ease-out;
 `;
 
@@ -120,7 +126,6 @@ export const PostInfoText = styled.p`
 export const Pagination = styled.div`
     display: flex;
     justify-content: center;
-    margin-top: 20px;
 `;
 
 export const PageNumber = styled.div`
@@ -135,18 +140,23 @@ export const PageNumber = styled.div`
 export const StyledBoxWrapper = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-start;
     width: 1550px;
-    height: 600px;
+    height: 700px;
     margin: 30px 90px 206px;
     border-radius: 30px;
     background: #fff;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    gap:40px
 `;
 export const StyledBox = styled.div`
     width: 260px;
     height: 40%;
     border-radius: 30px;
+`;
+export const pageBtn = styled.div`
+    border: none;
+    width:30px,
 `;
