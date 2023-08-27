@@ -1,6 +1,6 @@
-// import React, { useState } from 'react';
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+// import React, { useState, useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import * as S from './style/StoreRegister.style'
 import DaumPost from '../../components/storeRegister/DaumPost'; 
 import TypeModalButton from '../../components/storeRegister/TypeModalButton';
@@ -15,22 +15,22 @@ import axios from 'axios';
 
 export default function StoreRegister () {
     
-    const navigate = useNavigate(); // useNavigate 초기화
+    // const navigate = useNavigate();
 
-    useEffect(() => {
-        initMypageView();
-    }, []);
+    // useEffect(() => {
+    //     initMypageView();
+    // }, []);
 
-    function initMypageView() {
-        const token = sessionStorage.getItem('token');
+    // function initMypageView() {
+    //     const token = sessionStorage.getItem('token');
 
-        if (token === null) {
-            alert('로그인이 필요한 페이지입니다.');
-            // navigate를 사용하여 로그인 페이지로 이동
-            navigate('/users/login');
-            return;
-        }
-    }
+    //     if (token === null) {
+    //         alert('로그인이 필요한 페이지입니다.');
+    //         // navigate를 사용하여 로그인 페이지로 이동
+    //         navigate('/users/login');
+    //         return;
+    //     }
+    // }
 
     const [storeInfo, setStoreInfo] = useState({
         banners: [],
