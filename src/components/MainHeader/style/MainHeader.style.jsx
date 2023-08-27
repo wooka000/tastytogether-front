@@ -52,26 +52,3 @@ export const MenuBtn = styled.button`
         color: var(--color-accent);
     }
 `;
-
-export const User = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-export const LoginBtn = styled.button`
-    border: 2px solid var(--color-accent);
-    border-radius: 30px;
-    background-color: transparent;
-    color: var(--color-accent);
-    font-size: 20px;
-    font-weight: bold;
-    padding: 8px 20px;
-    min-width: 100px;
-    transition: all 250ms ease-out;
-    margin-left: 30px;
-    flex-shrink: 0;
-    &:hover {
-        background-color: var(--color-accent);
-        color: white;
-    }
-`;

@@ -6,13 +6,9 @@ import * as S from './style/Header.style';
 
 export default function Header() {
     const [text, setText] = useState('');
-    const [user, setUser] = useState(false);
+
     const navigate = useNavigate();
 
-    const handleClick = () => {
-        setUser(!user);
-        navigate('/users/login');
-    };
     const handleChange = (e) => {
         setText(e.target.value);
     };
@@ -43,11 +39,7 @@ export default function Header() {
                 <S.MenuBtn onClick={() => navigate('/stores/register')}>음식점 등록</S.MenuBtn>
                 <S.MenuBtn onClick={() => navigate('/mypage/123')}>마이페이지</S.MenuBtn>
             </S.Menu>
-            <S.User>
-                {user && <UserInfo photo={'/imgs/profile.png'} name={'김망고'} />}
-                {user && <S.LoginBtn onClick={handleClick}>로그아웃</S.LoginBtn>}
-                {!user && <S.LoginBtn onClick={handleClick}>로그인</S.LoginBtn>}
-            </S.User>
+            <UserInfo />
         </S.Container>
     );
 }
