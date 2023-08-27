@@ -3,7 +3,7 @@ import * as S from './style/StoreDetail.style';
 import TopDetail from './TopDetail';
 import BottomDetail from './BottomDetail';
 import LeftBanner from './LeftBanner';
-// import { useNavigate } from 'react-router-dom';
+// import { useState } from 'react-router-dom';
 
 export default function StoreDetail() {
     return (
