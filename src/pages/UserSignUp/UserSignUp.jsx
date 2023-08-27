@@ -137,7 +137,7 @@ export default function UserSignUp() {
                                 </label>
                                 <div>
                                     {email.length > 0 && !isValidEmail && (
-                                        <IsValid>이메일 양식이 맞지 않습니다.</IsValid>
+                                        <IsValid>{ERROR_EMAIL}</IsValid>
                                     )}
                                 </div>
                                 <DuplicateCheckButton item="email" value={email} />
@@ -155,10 +155,7 @@ export default function UserSignUp() {
                                 </label>
                                 <div>
                                     {password.length > 0 && !isValidPassword && (
-                                        <IsValid>
-                                            비밀번호는 영문 대소문자와 숫자를 포함해 최소 8글자
-                                            이상이어야 합니다
-                                        </IsValid>
+                                        <IsValid>{ERROR_PASSWORD}</IsValid>
                                     )}
                                 </div>
                             </section>
@@ -173,12 +170,12 @@ export default function UserSignUp() {
                                         value={passwordCheck}
                                     />
                                 </label>
-                                {/* 별도의 일치 확인 버튼 제거, 바로 오류 문구 */}
+
                                 <div>
                                     {password.length > 0 &&
                                         passwordCheck.length > 0 &&
                                         password !== passwordCheck && (
-                                            <IsValid>비밀번호가 일치하지 않습니다.</IsValid>
+                                            <IsValid>{ERROR_PASSWORDCHECK}</IsValid>
                                         )}
                                 </div>
                             </section>
@@ -193,11 +190,7 @@ export default function UserSignUp() {
                                 />
                             </label>
                             <div>
-                                {name.length > 0 && !isValidName && (
-                                    <IsValid>
-                                        이름은 한글로만 구성되고 최대 5글자여야 합니다.
-                                    </IsValid>
-                                )}
+                                {name.length > 0 && !isValidName && <IsValid>{ERROR_NAME}</IsValid>}
                             </div>
                         </li>
                         <li>
@@ -213,7 +206,7 @@ export default function UserSignUp() {
                                 </label>
                                 <div>
                                     {nickname.length > 0 && !isValidNickname && (
-                                        <IsValid>닉네임은 최대 8글자 이하이어야 합니다.</IsValid>
+                                        <IsValid>{ERROR_NICKNAME}</IsValid>
                                     )}
                                 </div>
                                 <DuplicateCheckButton item="nickname" value={nickname} />
