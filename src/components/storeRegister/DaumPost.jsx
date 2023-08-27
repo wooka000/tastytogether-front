@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import useDaumPostcodePopup from './useDaumPostcodePopup'; // useDaumPostcodePopup 함수 임포트
 import CheckInfo from './CheckInfo';
 import MyContext from './MyContext';
-import axios from 'axios'
-
+import axios from 'axios';
 
 function DaumPost({ setStoreInfo }){
+  
   const [ addressObj, setAddressObj ] = useState({
     street: "",
     city: "",
@@ -72,15 +72,17 @@ function DaumPost({ setStoreInfo }){
 
 useEffect(() => {
   const script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=e60c72145803dce71a8cfdf73846c212&autoload=false`;
+  script.type = 'text/javascript'
+  /* eslint-disable */
+  script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_API_KEY}&autoload=false`;
   script.async = true;
 
   script.onload = () => {
       window.kakao.maps.load(() => {
+          let LatLng = window.kakao.maps.LatLng
           const mapContainer = document.getElementById('map');
           const mapOption = {
-              center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+              center: new LatLng(33.450701, 126.570667),
               level: 3,
           };
           const map = new window.kakao.maps.Map(mapContainer, mapOption); 
@@ -141,10 +143,8 @@ const handleSaveStoreInfo = () => {
       longitude: addressObj.longitude,
     },
     name: addressObj.name,
-    // ... (다른 필요한 정보 추가 가능)
   }));
 };
-
 
   return (
     <MyContext.Provider value={addressObj}>
