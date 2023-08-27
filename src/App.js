@@ -7,11 +7,13 @@ import MainHeader from './components/MainHeader/MainHeader';
 function App() {
     const location = useLocation();
     const isMain = location.pathname === '/';
+    const isUserPage =
+        location.pathname === '/users/login' || location.pathname === '/users/signup';
     return (
-        <>  
-            {isMain ? <MainHeader /> : <Header />}
+        <>
+            {!isUserPage && (isMain ? <MainHeader /> : <Header />)}
             <Outlet />
-            <Footer />
+            {!isUserPage && <Footer />}
         </>
     );
 }

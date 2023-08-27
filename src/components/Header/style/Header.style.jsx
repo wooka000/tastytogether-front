@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.header`
-    z-index: 1;
+    z-index: 3;
     position: fixed;
     top: 0;
     left: 0;
@@ -71,12 +71,11 @@ export const MenuBtn = styled.button`
     border: none;
     font-size: 22px;
     flex-shrink: 0;
-
+    &:nth-of-type(2) {
+        margin: 0 30px;
+    }
     &:hover {
         color: var(--color-accent);
-    }
-    &:nth-of-type(1) {
-        margin-right: 40px;
     }
 `;
 

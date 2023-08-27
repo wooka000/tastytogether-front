@@ -328,7 +328,7 @@ const Social = styled.div`
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             img{
                 width: 20px;
                 margin-right: 10px;

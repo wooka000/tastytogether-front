@@ -21,7 +21,6 @@ function useDaumPostcodePopup(scriptUrl) {
             new window.daum.Postcode(options).open();
         }
     };
-
     return openPopup;
 }
 
