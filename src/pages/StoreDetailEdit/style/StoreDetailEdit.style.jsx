@@ -12,10 +12,10 @@ export const DetailEditForm = styled.form`
     width: calc(100% - 20px);
     max-width: 804px;
     margin: 0 auto;
-    height: 90vh;
+    height: 50%;
     border-radius: 10px;
     background: #fff;
-    padding: 66px 14px 43px 14px;
+    padding: 66px 14px 14px 14px;
     display: flex;
     flex-direction: column;
     > div {
@@ -168,7 +168,7 @@ export const ChartInput = styled.input`
 export const DividerLine = styled.div`
     width: 776px;
     height: 1px;
-    margin-top: 130px;
+    margin-top: 140px;
     background: #d9d9d9;
 `;
 
@@ -186,7 +186,8 @@ export const EditFormBtn = styled.button`
 
 export const EditFormBtns = styled.div`
     display: flex;
-    justify-content: center;
+    padding-left: 200px;
+    padding-right: 200px;
+    justify-content: space-between;
     margin-top: 40px;
-    gap: 134px;
 `;
