@@ -3,18 +3,19 @@ import * as S from './style/MenuModalButton.style'
 import TypeModalPage from './TypeModalPage';
 import PropTypes from 'prop-types';
 
-function TypeModalButton({ setType }) {
+function TypeModalButton({ setStoreInfo }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
+
     const showModal = () => {
         setModalOpen(true);
     };
     const handleCategoryChange = (category) => {
         setSelectedCategory(category); // Update selectedCategory instead of setCategory
         setModalOpen(false);
-        setType(prevInfo => ({
+        setStoreInfo(prevInfo => ({
             ...prevInfo,
-            type: selectedCategory
+            type: category
         }));
     };
 
@@ -42,7 +43,7 @@ function TypeModalButton({ setType }) {
 }
 
 TypeModalButton.propTypes = {
-    setType: PropTypes.func.isRequired,
+    setStoreInfo: PropTypes.func.isRequired,
 };
 
 
