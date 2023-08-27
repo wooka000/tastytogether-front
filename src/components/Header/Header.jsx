@@ -41,6 +41,7 @@ export default function Header() {
             <S.Menu>
                 <S.MenuBtn onClick={() => navigate('/post')}>혼밥 메이트</S.MenuBtn>
                 <S.MenuBtn onClick={() => navigate('/stores/register')}>음식점 등록</S.MenuBtn>
+                <S.MenuBtn onClick={() => navigate('/mypage/123')}>마이페이지</S.MenuBtn>
             </S.Menu>
             <S.User>
                 {user && <UserInfo photo={'/imgs/profile.png'} name={'김망고'} />}
