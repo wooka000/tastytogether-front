@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../utils/axios';
 
 export default function UserSignUp() {
+    const navigate = useNavigate();
+
     //Input
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,6 +19,16 @@ export default function UserSignUp() {
     const PASSWORD_REGEX = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
     const NAME_REGEX = /^(?!$)[가-힣]{1,5}$/;
     const NICKNAME_REGEX = /^.{1,8}$/;
+
+    //CONSTANT
+
+    const ERROR_EMAIL = '이메일 양식이 맞지 않습니다.';
+    const ERROR_PASSWORD = '비밀번호는 영문 대소문자와 숫자를 포함해 최소 8글자 이상이어야 합니다';
+    const ERROR_NAME = '이름은 한글로만 구성되고 최대 5글자여야 합니다.';
+    const ERROR_NICKNAME = '닉네임은 최대 8글자 이하이어야 합니다.';
+    const ERROR_PASSWORDCHECK = '비밀번호가 일치하지 않습니다.';
+    const ERROR_EMAILCHECK = '이메일 중복검사를 수행하세요.';
+    const ERROR_NICKNAMECHECK = '닉네임 중복검사를 수행하세요.';
 
     //Input Valid Check
     const [isValidEmail, setIsValidEmail] = useState(false);
@@ -45,7 +58,7 @@ export default function UserSignUp() {
                         url: `/auth/${item}`,
                         data: { [item]: value },
                     });
-                    console.log(response);
+
                     alert(response.data.message);
                     item === 'email'
                         ? setEmailCheck((prev) => !prev)
@@ -54,9 +67,7 @@ export default function UserSignUp() {
                     alert(err.response.data.message);
                 }
             } else {
-                item === 'email'
-                    ? alert('이메일 양식이 맞지 않습니다.')
-                    : alert('닉네임은 최대 8글자 이하이어야 합니다.');
+                item === 'email' ? alert(ERROR_EMAIL) : alert(ERROR_NICKNAME);
             }
         };
         return (
@@ -78,8 +89,8 @@ export default function UserSignUp() {
             headers: { 'Content-Type': 'application/json' },
             data: { email, password, name, nickname },
         });
-
         alert(response.data.message);
+        navigate('/users/login', { state: { email }, replace: true });
     };
 
     const signUp = async (e) => {
@@ -87,22 +98,22 @@ export default function UserSignUp() {
         e.stopPropagation();
         try {
             !isValidEmail
-                ? alert('이메일 양식이 맞지 않습니다.')
-                : !isValidPassword
-                ? alert('비밀번호는 영문 대소문자와 숫자를 포함해 최소 8글자 이상이어야 합니다')
-                : !isValidName
-                ? alert('비밀번호가 일치하지 않습니다.')
+                ? alert(ERROR_EMAIL)
                 : !emailCheck
-                ? alert('이름은 한글로만 구성되고 최대 5글자여야 합니다.')
-                : !isValidNickname
-                ? alert('닉네임은 최대 8글자 이하이어야 합니다.')
+                ? alert(ERROR_EMAILCHECK)
+                : !isValidPassword
+                ? alert(ERROR_PASSWORD)
                 : password !== passwordCheck
-                ? alert('이메일 중복검사를 수행하세요.')
+                ? alert(ERROR_PASSWORDCHECK)
+                : !isValidName
+                ? alert(ERROR_NAME)
+                : !isValidNickname
+                ? alert(ERROR_NICKNAME)
                 : !nicknameCheck
-                ? alert('닉네임 중복검사를 수행하세요.')
+                ? alert(ERROR_NICKNAMECHECK)
                 : signUpHandler();
         } catch (err) {
-            alert('회원가입을 실패하였습니다. 다시 시도해주세요.');
+            alert(err.response.data.message);
         }
     };
 
@@ -211,7 +222,9 @@ export default function UserSignUp() {
                     </ul>
                     <button type="submit">회원가입</button>
                 </form>
-                <div>로그인 페이지로 이동</div>
+                <Link to="/users/login" replace={true}>
+                    로그인 페이지로 이동
+                </Link>
             </div>
         </Container>
     );

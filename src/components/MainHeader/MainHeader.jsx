@@ -7,11 +7,6 @@ export default function MainHeader() {
     const [scrollY, setScrollY] = useState(0);
     const [active, setActive] = useState('false');
     const navigate = useNavigate();
-    const [user, setUser] = useState(false);
-    const handleClick = () => {
-        setUser(!user);
-        // navigate('/users/login');
-    };
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -45,11 +40,7 @@ export default function MainHeader() {
                         마이페이지
                     </S.MenuBtn>
                 </S.Menu>
-                <S.User>
-                    {user && <UserInfo photo={'/imgs/profile.png'} name={'김망고'} />}
-                    {user && <S.LoginBtn onClick={handleClick}>로그아웃</S.LoginBtn>}
-                    {!user && <S.LoginBtn onClick={handleClick}>로그인</S.LoginBtn>}
-                </S.User>
+                <UserInfo active={active} />
             </S.Right>
         </S.Container>
     );

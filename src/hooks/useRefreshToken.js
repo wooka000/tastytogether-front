@@ -11,7 +11,6 @@ const useRefreshToken = () => {
             withCredentials: true,
         });
         setAuth((prev) => {
-            console.log(response.data);
             return {
                 ...prev,
                 accessToken: response.data.accessToken,

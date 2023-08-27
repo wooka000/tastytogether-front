@@ -19,14 +19,11 @@ const useAxios = () => {
     useEffect(() => {
         const responseIntercept = authRequiredAxios.interceptors.response.use(
             (response) => {
-                console.log(response);
                 return response;
             },
             async (error) => {
-                console.log(error);
                 // originRequest axios config
                 const originRequest = error.config;
-                console.log(originRequest);
                 if (!originRequest.sent) {
                     originRequest.sent = true;
                     //get new Access Token by refresh token

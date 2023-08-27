@@ -1,31 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../utils/axios';
 import useAuth from '../../hooks/useAuth';
-import useAxios from '../../hooks/useAxios';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const navigate = useNavigate();
-    const { auth, setAuth } = useAuth();
-    const { authRequiredAxios } = useAxios();
-    const [result, setResult] = useState();
-    const getUser = async () => {
-        try {
-            console.log(auth);
-            const response = await authRequiredAxios({ method: 'get', url: 'auth/user' });
-            console.log(response.data);
-            setResult(response.data[0].name);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    const navigate = useNavigate();
+    const { setAuth, setIsLogin } = useAuth();
+    const location = useLocation();
 
     const login = async (e) => {
         e.preventDefault();
+        e.stopPropagation();
         try {
             const response = await axios({
                 method: 'post',
@@ -37,15 +26,17 @@ export default function UserLogin() {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
             });
-            console.log(response.data);
+
             setAuth(() => {
                 return { ...response.data };
             });
-            // navigate('/');
+            setIsLogin(true);
+            navigate('/', { replace: true });
         } catch (err) {
             alert(err.response.data.message);
         }
     };
+
     return (
         <Container>
             <h2>tasty Together</h2>
@@ -58,6 +49,7 @@ export default function UserLogin() {
                             onChange={(e) => {
                                 setEmail(e.target.value);
                             }}
+                            placeholder={location.state?.email}
                             value={email}
                         />
                     </li>
@@ -73,13 +65,9 @@ export default function UserLogin() {
                 </ul>
                 <button type="submit">로그인</button>
             </Form>
-            <div>{auth.accessToken}</div>
-            <button></button>
-            <div>
-                <button onClick={getUser}>사용자 정보 요청</button>
-                <span>{result}</span>
-            </div>
-            <Link to="/users/signup">회원가입 페이지로 이동</Link>
+            <Link to="/users/signup" replace={true}>
+                회원가입 페이지로 이동
+            </Link>
         </Container>
     );
 }
