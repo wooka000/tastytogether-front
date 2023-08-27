@@ -32,7 +32,6 @@ const router = createBrowserRouter([
             { path: '/users/login', element: <UserLogin /> }, // 윤렬
             { path: '/users/signup', element: <UserSignUp /> }, // 윤렬
             { path: '/post', element: <Board /> }, // 화경
-            { path: '/post/countperpage/:countperpage/pageno/:pageno', element: <Board /> },
             { path: '/post/create', element: <CreatePost /> }, // 화경
             { path: '/post/update', element: <PostUpdate /> }, // 화경
             { path: '/post/:id', element: <PostDetail /> }, // 화경
