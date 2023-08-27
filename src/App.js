@@ -8,7 +8,7 @@ function App() {
     const location = useLocation();
     const isMain = location.pathname === '/';
     return (
-        <>
+        <>  
             {isMain ? <MainHeader /> : <Header />}
             <Outlet />
             <Footer />
