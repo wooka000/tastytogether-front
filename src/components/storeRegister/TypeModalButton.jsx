@@ -3,7 +3,7 @@ import * as S from './style/MenuModalButton.style'
 import TypeModalPage from './TypeModalPage';
 import PropTypes from 'prop-types';
 
-function TypeModalButton({ setStoreInfo }) {
+function TypeModalButton({ setType }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('');
     const showModal = () => {
@@ -12,7 +12,7 @@ function TypeModalButton({ setStoreInfo }) {
     const handleCategoryChange = (category) => {
         setSelectedCategory(category); // Update selectedCategory instead of setCategory
         setModalOpen(false);
-        setStoreInfo(prevInfo => ({
+        setType(prevInfo => ({
             ...prevInfo,
             type: selectedCategory
         }));
@@ -35,14 +35,14 @@ function TypeModalButton({ setStoreInfo }) {
                         required
                 />
                 <button id="Type_modal_button" onClick={showModal}>업종선택</button>
-                {modalOpen && <TypeModalPage setModalOpen={setModalOpen} setCategory={handleCategoryChange}  setStoreInfo={setStoreInfo} />}
+                {modalOpen && <TypeModalPage setModalOpen={setModalOpen} setCategory={handleCategoryChange}  />}
             </div>
         </S.TableLine>
     );
 }
 
 TypeModalButton.propTypes = {
-    setStoreInfo: PropTypes.func.isRequired,
+    setType: PropTypes.func.isRequired,
 };
 
 

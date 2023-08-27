@@ -26,14 +26,14 @@ export const TableLine = styled.div`
         flex-direction: row;
         justify-content: flex-start;
         line-height: 18px;
-        font-size: 20px;
+        font-size: 25px;
 
         .input{
             flex: 1;
             margin-right: 10px;
             height: 52px;
             border: none;
-            font-size: 22px;
+            font-size: 25px;
             color: #FF9C5F;
             padding: 10px;
         } 

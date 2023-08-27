@@ -26,8 +26,7 @@ export const TableLine = styled.div`
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        font-size: 20px;
-        font-weight: 600;
+        font-size: 25px;
 
         .parking{
             margin-right: 40px;
@@ -47,7 +46,7 @@ export const TableLine = styled.div`
                 margin-right: 10px;
                 height: 52px;
                 border: none;
-                font-size: 20px;
+                font-size: 25px;
                 display: flex;
                 justify-content: center;
                 align-items: center;

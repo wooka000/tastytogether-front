@@ -11,9 +11,7 @@ export const TypeModal = styled.form`
     // 본인 크기 기준으로 작동
     transform: translate(-50%, -50%);
     background-color: #F8F9FA;
-    border: 7px solid #FF9C5F;
-    border-radius: 0px;
- 
+    border: 7px solid #FF9C5F; 
     .type_title{
         p{
             width: 700px;

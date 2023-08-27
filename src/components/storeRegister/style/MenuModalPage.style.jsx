@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const MenuModal = styled.div`
-width: 1400px;
+width: 850px;
     height: 700px;
     z-index: 999;
     position: absolute;
@@ -11,26 +11,21 @@ width: 1400px;
     // 본인 크기 기준으로 작동
     transform: translate(-50%, -50%);
     background-color: #F8F9FA;
-    border: 8px solid #FF9C5F;
-    border-radius: 8px;
+    border: 7px solid #FF9C5F;
     .menu_title{
         img{
-            width: 100px;
-            height: 93px;
-            position: absolute;
-            left: 25px;
-            top: 25px;
+            display: none;
         }
         p{
-            width: 740px;
+            width: 700px;
             height: 93px;
             position: absolute;
             color: #636363;
-            left: 22%;
             text-align: center;
-            font-size: 50px;
+            font-size: 33px;
             font-weight: bold;
-            top: 40px;
+            top: 75px;
+            left: 9%
         }
     }
     .form_div{
@@ -42,7 +37,7 @@ width: 1400px;
         margin-right: 100px;
     }
     #button_div{
-        width: 10%;
+        width: 5%;
         box-sizing: border-box;
         position: position;
         display: flex;
@@ -54,28 +49,32 @@ width: 1400px;
             width: 100px;
             height: 50px;
             position: absolute;
-            right: 100px;
-            top: 40px;
-            background-color: #B0B0B0;
+            right: 150px;
+            top: 60px;
+            background-color: none;
             color: #FFF;
             border:none;
             text-align: center;
-            font-size: 36px;
+            font-size: 25px;
+            &:hover {
+                filter: brightness(100%);
+            }
             &:active {
                 filter: brightness(70%);
             }
         }
         .close_button{
-            width: 50px;
-            height: 50px;
+            width: 37px;
+            height: 37px;
             position: absolute;
-            right: 40px;
-            top: 40px;
-            background-color: #B0B0B0;
+            right: 0;
+            bottom: 0;
+            opacity: 80%;
             color: #FFF;
             border:none;
             text-align: center;
-            font-size: 36px;
+            font-size: 25px;
+            border-radius: 0;
             &:active {
                 filter: brightness(70%);
             }
@@ -92,25 +91,25 @@ export const MenuForm = styled.div`
     position: relative;
     top: 130px;
     #item_menu{
-        width: 600px;
+        width: 400px;
         height: 40px;
         border: none;
         padding: 10px;
         text-align: center;
         margin: 5px;
         font-weight: 700;
-        font-size: 30px;
+        font-size: 25px;
         color: #636363;
     }
     #item_price{
-        width: 300px;
+        width: 200px;
         height: 40px;
         border: none;
         padding: 10px;
         text-align: center;
         margin: 5px;
         font-weight: 700;
-        font-size: 30px;
+        font-size: 25px;
         color: #636363;
     }
     .menu_line{
@@ -118,13 +117,13 @@ export const MenuForm = styled.div`
         margin-bottom: 10px;
         align-items: center;
         .menu{
-            width: 600px;
+            width: 450px;
             height: 70px;
             border: none;
             padding: 10px;
             text-align: center;
             margin: 5px;
-            font-size: 30px;
+            font-size: 25px;
             border-radius: 10px;
         }
         div{
@@ -135,20 +134,20 @@ export const MenuForm = styled.div`
             height: 70px;
 
             .price{
-                width: 300px;
+                width: 200px;
                 height: 70px;
                 border: none;
                 padding: 10px;
                 text-align: center;
                 margin: 5px;
-                font-size: 30px;
+                font-size: 25px;
                 border-radius: 10px;
             }
             p{
                 padding: 10px;
                 text-align: right;
                 margin: 5px;
-                font-size: 30px;
+                font-size: 25px;
                 color: #636363;
             }
         }

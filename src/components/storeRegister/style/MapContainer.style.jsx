@@ -8,7 +8,5 @@ export const MapContainer = styled.div`
             width: 700px;
             height: 360px;
         }
-        button{
-            z-index: 999;
-        }
+
 `

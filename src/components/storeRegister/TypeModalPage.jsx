@@ -1,5 +1,4 @@
 import * as S from './style/TypeModalPage.style'
-
 import PropTypes from 'prop-types';
 
 

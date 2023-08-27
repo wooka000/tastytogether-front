@@ -27,22 +27,21 @@ export const TableLine = styled.div`
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        font-size: 20px;
-        font-weight: 600;
+        font-size: 25px;
 
         .input{
             flex: 1;
             margin-right: 10px;
             height: 52px;
             border: none;
-            font-size: 20px;
+            font-size: 25px;
             color: #FF9C5F;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         input{
-            font-size: 22px;
+            font-size: 25px;
             color: #FF9C5F;
             padding: 10px;
         }

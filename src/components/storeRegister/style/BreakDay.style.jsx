@@ -28,29 +28,43 @@ export const TableLine = styled.div`
         align-items: center;
         font-size: 25px;
 
-        .price{
-            margin-right: 40px;
-            line-height: 18px;
+        label{
             display: flex;
-            flex-direction: row
             justify-content: center;
             align-items: center;
+        }
 
-            .radio_button{
+        .input{
+            flex: 1;
+            margin-right: 10px;
+            height: 52px;
+            border: none;
+            font-size: 25px;
+            color: #FF9C5F;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        input{
+            font-size: 25px;
+            color: #FF9C5F;
+            padding: 10px;
+        }
+        .day{
+            margin-right: 50px;
+            line-height: 18px;
+            display:flex;
+            padding-top:20px;
+            align-items: center;
+            input{
                 width: 25px;
                 height: 25px;
-                margin: 20px;
-            }
-            .radio_input{
-                flex: 1;
-                margin-right: 10px;
-                height: 52px;
-                border: none;
+                margin-right: 15px;
+        }
+            span{
                 font-size: 25px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
             }
         }
     }
 `
+

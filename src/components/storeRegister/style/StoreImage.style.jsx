@@ -26,9 +26,9 @@ export const TableLine = styled.div`
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        font-size: 20px;
+        font-size: 25px;
         input{
-          font-size: 20px;
+          font-size: 25px;
           color: #FF9C5F;
         }
       }

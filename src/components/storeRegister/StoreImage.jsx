@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import * as S from './style/StoreImage.style'
+import * as S from './style/StoreImage.style';
 
-const StoreImage = () => {
+const StoreImage = ({ setStoreInfo }) => {
   const [imageSrcs, setImageSrcs] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -17,8 +18,8 @@ const StoreImage = () => {
       return;
     }
 
-    const newImageSrcs = [];
-    const newUploadedImages = [];
+    const newImageSrcs = [...imageSrcs];
+    const newUploadedImages = [...uploadedImages];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
@@ -32,6 +33,9 @@ const StoreImage = () => {
           newUploadedImages.push(file);
           setImageSrcs(newImageSrcs);
           setUploadedImages(newUploadedImages);
+
+          // 업로드 후 storeInfo 업데이트
+          setStoreInfo(newUploadedImages);
         };
       } else {
         alert(`${file.name} 파일은 이미 업로드되었습니다.`);
@@ -47,8 +51,15 @@ const StoreImage = () => {
     const newImageSrcs = [...imageSrcs];
     newImageSrcs.splice(index, 1);
     setImageSrcs(newImageSrcs);
-  };
 
+    const newUploadedImages = [...uploadedImages];
+    newUploadedImages.splice(index, 1);
+    setUploadedImages(newUploadedImages);
+
+    // 이미지 삭제 후 storeInfo 업데이트
+    setStoreInfo(newUploadedImages);
+  };
+  
   return (
     <>
       <S.TableLine>
@@ -90,6 +101,8 @@ const StoreImage = () => {
     </>
   );
 };
-
+StoreImage.propTypes = {
+  setStoreInfo: PropTypes.func.isRequired,
+};
 export default StoreImage;
 
