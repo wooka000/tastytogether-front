@@ -9,7 +9,6 @@ export const MainWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     padding-bottom: 200px;
-    
 `;
 
 export const FindText = styled.div`
@@ -72,8 +71,10 @@ export const SearchForm = styled.form`
     margin-left: 300px;
     align-self: flex-start;
     border-radius: 30px;
-    background-color: #ffff;
-    width: 250px;
+    background-color: transparent;
+    width: 1550px;
+    text-align: center;
+    margin: 0 auto;
     height: 50px;
     margin-top: 20px;
     padding-left: 10px;
@@ -82,8 +83,11 @@ export const SubmitBtn = styled.button`
     border: none;
     outline: none;
     font-size: 24px;
-    background-color: transparent;
+    background-color: white;
     color: grey;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding: 0px 15px;
 `;
 export const SearchInput = styled.input`
     font-size: 20px;
@@ -91,11 +95,13 @@ export const SearchInput = styled.input`
     width: 70%;
     border: none;
     outline: none;
-    background-color:transparent;
+    background-color: white;
+    width: 300px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
     &::placeholder {
         text-indent: 50px;
         font-weight: bold;
-        
     }
 `;
 
@@ -103,7 +109,7 @@ export const StyledBoxImageWrapper = styled.div`
     position: relative;
     overflow: hidden;
     cursor: pointer;
-`;
+`
 
 export const StyledBoxImage = styled.img`
     width: 100%;
@@ -126,6 +132,11 @@ export const PostInfoText = styled.p`
 export const Pagination = styled.div`
     display: flex;
     justify-content: center;
+    background-color: white; // 추가
+    width: 1550px; // 추가
+    border-bottom-right-radius: 30px; // 추가
+    border-bottom-left-radius: 30px; // 추가
+    padding-bottom: 20px; // 추가
 `;
 
 export const PageNumber = styled.div`
@@ -135,6 +146,7 @@ export const PageNumber = styled.div`
     color: ${({ selected }) => (selected ? '#FFF' : '#000')};
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
 `;
 
 export const StyledBoxWrapper = styled.div`
@@ -143,13 +155,16 @@ export const StyledBoxWrapper = styled.div`
     justify-content: flex-start;
     width: 1550px;
     height: 700px;
-    margin: 30px 90px 206px;
-    border-radius: 30px;
+    margin: 30px 90px 0px;
+    border-top-left-radius: 30px; // 추가
+    border-top-right-radius: 30px; // 추가
     background: #fff;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap:40px
+    gap: 40px;
+    padding: 20px;
+    padding-bottom: 0;
 `;
 export const StyledBox = styled.div`
     width: 260px;
@@ -158,5 +173,5 @@ export const StyledBox = styled.div`
 `;
 export const pageBtn = styled.div`
     border: none;
-    width:30px,
+    width: 30px;
 `;

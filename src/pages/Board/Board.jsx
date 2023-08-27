@@ -13,16 +13,16 @@ export default function Board() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchPosts(currentPage);
-    }, [countperpage, currentPage]);
+        fetchPosts(currentPage, text);
+    }, [countperpage, currentPage, text]);
 
-    const fetchPosts = async (pageNo = 1) => {
+    const fetchPosts = async (pageNo = 1, searchText = '') => {
         try {
             let response;
 
-            if (text) {
-                const encodedValue = encodeURIComponent(text);
-                response = await axios.get(`http://localhost:8080/regionSearch?value=${encodedValue}`);
+            if (searchText && searchText.length >= 2) {
+                response = await axios.get(`http://localhost:8080/regionSearch?value=${searchText}`);
+                console.log(response.data);
             } else {
                 response = await axios.get(
                     `http://localhost:8080/posts/?countperpage=${countperpage}&pageno=${pageNo}`,
@@ -43,7 +43,6 @@ export default function Board() {
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
-        fetchPosts(newPage);
     };
 
     const handleChange = (e) => {
@@ -52,7 +51,7 @@ export default function Board() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetchPosts();
+        setCurrentPage(1);
     };
 
     const handlePostClick = (postId) => {
@@ -83,27 +82,29 @@ export default function Board() {
                     />
                 </S.SearchForm>
                 <S.StyledBoxWrapper>
-                    {posts?.map((post) => (
-                        <S.StyledBox key={post._id} onClick={() => handlePostClick(post._id)}>
-                            <S.StyledBoxImageWrapper>
-                                <S.StyledBoxImage src={post?.image[0]} alt="Post" />
-                            </S.StyledBoxImageWrapper>
-                            <S.PostInfo>
-                                <S.PostInfoText>{post?.region}</S.PostInfoText>
-                                <S.PostInfoText>{post?.title}</S.PostInfoText>
-                                <S.PostInfoText>{post?.meetDate}</S.PostInfoText>
-                            </S.PostInfo>
-                        </S.StyledBox>
-                    ))}
-                </S.StyledBoxWrapper>
+                {posts?.map((post) => (
+                    <S.StyledBox key={post._id} onClick={() => handlePostClick(post._id)}>
+                        <S.StyledBoxImageWrapper>
+                            <S.StyledBoxImage src={post.image} alt="Post" />
+                        </S.StyledBoxImageWrapper>
+                        <S.PostInfo>
+                            <S.PostInfoText>{post.region}</S.PostInfoText>
+                            <S.PostInfoText>{post.title}</S.PostInfoText>
+                            <S.PostInfoText>{post.meetDate}</S.PostInfoText>
+                        </S.PostInfo>
+                    </S.StyledBox>
+                ))}
+            </S.StyledBoxWrapper>
                 <S.Pagination>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <S.PageNumber key={index} selected={index + 1 === currentPage}>
-                                <S.pageBtn onClick={() => handlePageChange(index + 1)}>{index + 1}</S.pageBtn>
-                            </S.PageNumber>
-                        ))}
-                    </S.Pagination>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <S.PageNumber key={index} selected={index + 1 === currentPage}>
+                            <S.pageBtn onClick={() => handlePageChange(index + 1)}>{index + 1}</S.pageBtn>
+                        </S.PageNumber>
+                    ))}
+                </S.Pagination>
             </S.MainWrapper>
         </S.Container>
     );
 }
+
+
