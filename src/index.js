@@ -40,7 +40,6 @@ const router = createBrowserRouter([
             { path: '/mypage/:userId/review', element: <MyReview /> }, // 진규
             { path: '/mypage/:userId/like', element: <BoardLike /> }, // 진규
             { path: '/post', element: <Board /> }, // 화경
-            { path: '/post/countperpage/:countperpage/pageno/:pageno', element: <Board /> },
             { path: '/post/create', element: <CreatePost /> }, // 화경
             { path: '/post/update', element: <PostUpdate /> }, // 화경
             { path: '/post/:id', element: <PostDetail /> }, // 화경
