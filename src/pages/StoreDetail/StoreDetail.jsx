@@ -5,6 +5,7 @@ import * as S from './style/StoreDetail.style';
 import TopDetail from './TopDetail';
 import BottomDetail from './BottomDetail';
 import LeftBanner from './LeftBanner';
+import Reviews from '../../components/Reviews/Reviews';
 
 export default function StoreDetail() {
     // const [storeInfo, setStoreInfo] = useState({});
@@ -21,10 +22,10 @@ export default function StoreDetail() {
                 <S.Main>
                     <TopDetail></TopDetail>
                     <BottomDetail></BottomDetail>
+                    <Reviews></Reviews>
                 </S.Main>
                 <LeftBanner></LeftBanner>
             </S.Container>
-            <S.Review></S.Review>
         </>
     );
 }
