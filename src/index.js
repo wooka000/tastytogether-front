@@ -28,7 +28,7 @@ const router = createBrowserRouter([
             { path: '/mypage/:id', element: <MyPage /> }, // 진규
             { path: '/review/:storeId', element: <CreateReview /> }, // 진규
             { path: '/stores/detail/:storeId', element: <StoreDetail /> }, // 수연
-            { path: '/stores/detail/edit', element: <StoreDetailEdit /> }, // 수연
+            { path: '/stores/detail/:storeId/edit', element: <StoreDetailEdit /> }, // 수연
             { path: '/users/login', element: <UserLogin /> }, // 윤렬
             { path: '/users/signup', element: <UserSignUp /> }, // 윤렬
             { path: '/post', element: <Board /> }, // 화경
