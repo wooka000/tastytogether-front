@@ -15,6 +15,7 @@ export default function StoreDetail() {
     // const getStoreInfo = async () => {
     //     const res = await axios.get(`https://localhost:8080/stores/${storeId}`);
     // };
+
     return (
         <>
             <S.Container>
@@ -24,7 +25,6 @@ export default function StoreDetail() {
                 </S.Main>
                 <LeftBanner></LeftBanner>
             </S.Container>
-            <S.Review></S.Review>
         </>
     );
 }
