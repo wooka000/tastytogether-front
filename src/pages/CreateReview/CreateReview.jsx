@@ -8,7 +8,8 @@ export default function CreateReview() {
     const [content, setContent] = useState('');
     const [photos, setPhotos] = useState([]);
     const [count, setCount] = useState(0);
-    const { authRequiredAxios: authRequiredAxiosForImage } = useAxios('multipart/form-data');
+
+    const { authRequiredAxios } = useAxios('multipart/form-data');
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === 'file') {
@@ -43,12 +44,13 @@ export default function CreateReview() {
         formData.append('grade', grade);
         formData.append('content', content);
         formData.append('photos', photos);
+        console.log(photos);
 
         try {
-            const response = await authRequiredAxiosForImage({
+            const response = await authRequiredAxios({
                 method: 'post',
                 url: '/review/64ec9f355385494e68f4730f',
-                data: { formData },
+                data: formData,
             });
             console.log(response);
         } catch (err) {
