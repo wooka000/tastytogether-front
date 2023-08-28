@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as S from './style/LeftBanner.style';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-export default function StoreDetail() {
+export default function StoreDetail({ storeName, storeAddress }) {
+    const navigate = useNavigate();
+    const region = `${storeAddress.city} ${storeAddress.state}`;
+    useEffect(() => {
+        const getPost = async () => {
+            const res = await axios.get(`http://localhost:8080/regionSearch?value=${region}`);
+            const data = res.data;
+            console.log(data)
+        };
+        getPost();
+    }, []);
+
     return (
         <S.LeftBannerWrapper>
             <S.MiniMap>
                 <S.MapImage>카카오주소이미지</S.MapImage>
-                <S.MapInfoTitle>오레노라멘 본점</S.MapInfoTitle>
+                <S.MapInfoTitle>{storeName}</S.MapInfoTitle>
                 <S.Navi isMap={true}>
                     <S.NaviText isMap={true}>맛집으로 길찾기 하고 싶다면?</S.NaviText>
-                    <S.NaviBtn href="/">Go</S.NaviBtn>
+                    <S.NaviBtn onClick={() => navigate(`/`)}>Go</S.NaviBtn>
                 </S.Navi>
             </S.MiniMap>
             <S.MatePost>
@@ -25,7 +38,7 @@ export default function StoreDetail() {
                 </S.MatePostCotent>
                 <S.Navi>
                     <S.NaviText>위의 메이트와 약속을 잡고 싶다면?</S.NaviText>
-                    <S.NaviBtn href="/">Go</S.NaviBtn>
+                    <S.NaviBtn onClick={() => navigate(`/`)}>Go</S.NaviBtn>
                 </S.Navi>
             </S.MatePost>
         </S.LeftBannerWrapper>
