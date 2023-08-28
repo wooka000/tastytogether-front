@@ -16,11 +16,13 @@ export default function Review({ review }) {
                 </S.InfoLeft>
                 <S.InfoRight>
                     <S.Date>{date}</S.Date>
-                    <S.Content>{content}</S.Content>
-                    <S.Btns>
+                    <S.Content>
+                        {content} {content} {content} {content}
+                    </S.Content>
+                    {/* <S.Btns>
                         <S.EditBtn>수정</S.EditBtn>
                         <S.DeleteBtn>삭제</S.DeleteBtn>
-                    </S.Btns>
+                    </S.Btns> */}
                     <S.Grade>
                         {grade === '5' && <S.GradeImg src="/imgs/good.png" alt="grade-good" />}
                         {grade === '5' && <S.GradeText>good</S.GradeText>}
@@ -32,6 +34,9 @@ export default function Review({ review }) {
                 </S.InfoRight>
             </S.Info>
             <S.Photos>
+                <S.Photo src={photo} alt="review-image" />
+                <S.Photo src={photo} alt="review-image" />
+                <S.Photo src={photo} alt="review-image" />
                 <S.Photo src={photo} alt="review-image" />
             </S.Photos>
         </S.Item>

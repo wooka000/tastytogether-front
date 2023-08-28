@@ -45,7 +45,7 @@ export const InfoRight = styled.div`
     position: relative;
     background-color: whitesmoke;
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px;
     width: 100%;
     height: 100%;
 `;
@@ -61,7 +61,7 @@ export const Content = styled.div`
     font-size: 15px;
     font-weight: bolder;
     margin: 10px 0;
-    width: 340px;
+    width: 380px;
 `;
 
 export const Btns = styled.div`
@@ -122,6 +122,7 @@ export const GradeText = styled.span`
 
 export const Photos = styled.div`
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     margin-top: 30px;
@@ -132,7 +133,7 @@ export const Photo = styled.img`
     height: 100px;
     border-radius: 10px;
     transition: all 250ms ease-out;
-
+    margin: 5px 0;
     &:hover {
         filter: brightness(110%);
     }
