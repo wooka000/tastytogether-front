@@ -3,14 +3,14 @@ import { useEffect } from 'react';
 import useRefreshToken from './useRefreshToken';
 import useAuth from './useAuth';
 
-const useAxios = () => {
+const useAxios = (contentType) => {
     const { refreshAccessToken } = useRefreshToken();
     const { auth } = useAuth();
     // axios Instance
     const authRequiredAxios = axios.create({
         baseURL: 'http://localhost:8080',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': contentType,
             Authorization: `Bearer ${auth.accessToken} `,
         },
         withCredentials: true,
