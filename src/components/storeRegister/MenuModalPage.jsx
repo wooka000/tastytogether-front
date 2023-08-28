@@ -91,7 +91,6 @@ function MenuModalPage({ setModalOpen, setUpdatedMenus, setStoreInfo }){
                 <button type="button" className="close_button" onClick={closeModal}>x</button>
             </div>
         </S.MenuModal>
-
     )
 }
 

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from '../../utils/axios';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+// import useAxios from '../../hooks/useAxios';
 
 export default function UserLogin() {
     const [email, setEmail] = useState('');
@@ -37,6 +38,28 @@ export default function UserLogin() {
         }
     };
 
+    //axios test
+    // const { authRequiredAxios } = useAxios('application/json');
+    // const { authRequiredAxios: authRequiredAxiosForImage } = useAxios('multipart/form-data');
+
+    // const formData = new FormData();
+    // formData.append('email', 'hello');
+    // formData.append('name', 'Jin');
+
+    // const testAxiosForImage = async () => {
+    //     const response = await authRequiredAxiosForImage({
+    //         method: 'post',
+    //         url: 'auth/user',
+    //         data: { formData },
+    //     });
+    //     console.log(response);
+    // };
+
+    // const testAxios = async () => {
+    //     const response = await authRequiredAxios({ method: 'get', url: 'auth/user' });
+    //     console.log(response);
+    // };
+
     return (
         <Container>
             <h2>tasty Together</h2>
@@ -68,6 +91,8 @@ export default function UserLogin() {
             <Link to="/users/signup" replace={true}>
                 회원가입 페이지로 이동
             </Link>
+            {/* <button onClick={testAxios}>JSON LoginRequiredAxios 테스트</button>
+            <button onClick={testAxiosForImage}>MultiForm LoginRequiredAxios 테스트</button> */}
         </Container>
     );
 }

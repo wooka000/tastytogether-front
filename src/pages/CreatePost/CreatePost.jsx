@@ -1,18 +1,46 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FaImage } from 'react-icons/fa';
-import { FaRegCalendarAlt } from 'react-icons/fa';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import axios from 'axios';
+import { FaImage, FaRegCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function CreatePost() {
     const fileInputRef = useRef(null);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [date, setDate] = useState('');
+    const [region, setRegion] = useState('');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+
     const handleIconClick = () => {
-        fileInputRef.current.click(); // 파일 업로드 input 클릭
+        fileInputRef.current.click();
     };
 
     const handleFileUpload = (event) => {
         const selectedFile = event.target.files[0];
-        console.log(selectedFile); // 선택한 파일 정보 출력 또는 원하는 처리 로직 추가
+        if (selectedFile) {
+            const imageURL = URL.createObjectURL(selectedFile);
+            setSelectedImage(imageURL);
+        }
+        console.log(selectedFile);
+    };
+
+    const handleSubmit = async () => {
+        const formData = new FormData();
+        formData.append('image', fileInputRef.current.files[0]);
+
+        formData.append('userId', '1');
+        formData.append('region', region);
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('meetDate', date);
+
+        try {
+            await axios.post('http://localhost:8080/posts', formData);
+            alert('게시글이 성공적으로 생성되었습니다!');
+        } catch (error) {
+            alert('게시글 생성에 실패했습니다.');
+            console.error(error);
+        }
     };
 
     return (
@@ -23,14 +51,14 @@ export default function CreatePost() {
                         <FaRegCalendarAlt />
                         <label>
                             날짜
-                            <input type="date" />
+                            <input type="date" onChange={(e) => setDate(e.target.value)} />
                         </label>
                     </div>
                     <div>
                         <FaMapMarkerAlt />
                         <label>
                             지역
-                            <input type="text" />
+                            <input type="text" onChange={(e) => setRegion(e.target.value)} />
                         </label>
                     </div>
                 </Box1>
@@ -42,26 +70,45 @@ export default function CreatePost() {
                         ref={fileInputRef}
                         onChange={handleFileUpload}
                     />
-                    <ImageUploadIcon onClick={handleIconClick}>
-                        <FaImage />
-                    </ImageUploadIcon>
+                    {selectedImage ? (
+                        <img
+                            src={selectedImage}
+                            alt="Selected"
+                            style={{ width: '100%', height: '100%' }}
+                        />
+                    ) : (
+                        <>
+                            <ImageUploadIcon onClick={handleIconClick}>
+                                <FaImage />
+                            </ImageUploadIcon>
+                            <span style={{ fontSize: '24px' }}>이미지 파일을 선택해주세요.</span>
+                        </>
+                    )}
                 </Box2>
 
                 <Box3>
-                    <textarea placeholder="ex)8월 18일 오레노라멘 가실분 구합니다." />
+                    <textarea
+                        placeholder="ex)8월 18일 오레노라멘 가실분 구합니다."
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
                 </Box3>
 
                 <Box4>
-                    <textarea placeholder="어떤 동행을 찾고있나요? 구체적으로 작성해주세요." />
+                    <textarea
+                        placeholder="어떤 동행을 찾고있나요? 구체적으로 작성해주세요."
+                        onChange={(e) => setContent(e.target.value)}
+                    />
                 </Box4>
+
                 <Btn>
                     <ButtonCancel>취소</ButtonCancel>
-                    <ButtonSubmit>작성하기</ButtonSubmit>
+                    <ButtonSubmit onClick={handleSubmit}>작성하기</ButtonSubmit>
                 </Btn>
             </BoxContainer>
         </Container>
     );
 }
+
 const Container = styled.div`
     min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
     margin-top: 6%; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
@@ -105,13 +152,6 @@ const Box2 = styled(Box)`
     height: 280px;
     input[type='file'] {
         display: none;
-    }
-
-    &::before {
-        content: '이미지 파일을 선택해주세요.';
-        color: black;
-        font-size: 45px;
-        font-style: normal;
     }
 `;
 
