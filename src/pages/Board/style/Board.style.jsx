@@ -151,18 +151,20 @@ export const PageNumber = styled.div`
 
 export const StyledBoxWrapper = styled.div`
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 1550px;
     height: 700px;
     margin: 30px 90px 0px;
     border-top-left-radius: 30px; // 추가
     border-top-right-radius: 30px; // 추가
     background: #fff;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     gap: 40px;
+    padding-left: 45px;
+    border-left-width: 40px;
+    padding-top: 30px;
     padding: 20px;
     padding-bottom: 0;
 `;
