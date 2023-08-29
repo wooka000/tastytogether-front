@@ -23,7 +23,6 @@ export const MapImage = styled.div`
     width: 216px;
     height: 207px;
     border-radius: 5px;
-    background: green;
 `;
 
 export const MapInfoTitle = styled.h4`

@@ -1,24 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import * as S from './style/LeftBanner.style';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import KakaoMap from './KakaoMap';
+// import axios from '../../utils/axios';
 
-export default function StoreDetail({ storeName, storeAddress }) {
+export default function LeftBanner({ storeName, storeAddress }) {
     const navigate = useNavigate();
-    const region = `${storeAddress.city} ${storeAddress.state}`;
-    useEffect(() => {
-        const getPost = async () => {
-            const res = await axios.get(`http://localhost:8080/regionSearch?value=${region}`);
-            const data = res.data;
-            console.log(data)
-        };
-        getPost();
-    }, []);
 
     return (
         <S.LeftBannerWrapper>
             <S.MiniMap>
-                <S.MapImage>카카오주소이미지</S.MapImage>
+                <S.MapImage>
+                    <KakaoMap storeAddress={storeAddress}></KakaoMap>
+                </S.MapImage>
                 <S.MapInfoTitle>{storeName}</S.MapInfoTitle>
                 <S.Navi isMap={true}>
                     <S.NaviText isMap={true}>맛집으로 길찾기 하고 싶다면?</S.NaviText>

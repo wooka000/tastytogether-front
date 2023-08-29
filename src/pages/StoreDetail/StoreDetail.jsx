@@ -1,11 +1,11 @@
 // import React, { useEffect, useState, useLocation } from 'react';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import * as S from './style/StoreDetail.style';
 import TopDetail from './TopDetail';
 import BottomDetail from './BottomDetail';
 import LeftBanner from './LeftBanner';
 import Reviews from '../../components/Reviews/Reviews';
+import axios from '../../utils/axios';
 
 export default function StoreDetail() {
     const [storeInfo, setStoreInfo] = useState({});
@@ -18,7 +18,7 @@ export default function StoreDetail() {
     //64ec68f97758e6fe3d7a771a 이미지 늘어나는 애들
     useEffect(() => {
         const getData = async () => {
-            const res = await axios.get(`http://localhost:8080/stores/${id}`);
+            const res = await axios.get(`/stores/${id}`);
             const data = res.data;
             setStoreInfo(data.storeInfo);
             setStoreLikeCount(data.storeLikeCount);
