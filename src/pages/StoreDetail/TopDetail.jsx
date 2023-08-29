@@ -7,6 +7,8 @@ export default function TopDetail({ storeInfo, storeReviewCount, storeLikeCount,
     const { name, type, starRating, address, banners } = storeInfo;
     const bottomPhotoList = banners && banners.slice(1);
     const reviewPhotos = storeReview && storeReview.map((el) => el.photos);
+    const reviewPhotoList = [].concat(...reviewPhotos);
+
     return (
         <S.TopDetailWrap>
             <S.StoreBanners>
@@ -24,8 +26,8 @@ export default function TopDetail({ storeInfo, storeReviewCount, storeLikeCount,
                 <S.StoreRightImgs>
                     {storeReview &&
                         new Array(4).fill(null).map((_, idx) => {
-                            const photoIndex = idx % reviewPhotos.length;
-                            const reviewPhoto = reviewPhotos[photoIndex];
+                            const photoIndex = idx % reviewPhotoList.length;
+                            const reviewPhoto = reviewPhotoList[photoIndex];
                             return (
                                 <S.GridImg
                                     isRight={true}

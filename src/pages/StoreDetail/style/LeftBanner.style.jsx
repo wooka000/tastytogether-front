@@ -62,6 +62,7 @@ export const NaviBtn = styled.a`
     font-size: 9px;
     font-weight: 400;
     text-align: center;
+    cursor: pointer;
 `;
 
 export const MatePost = styled.div`

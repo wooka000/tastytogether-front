@@ -14,8 +14,8 @@ export default function StoreDetail() {
     const [storeReview, setStoreReview] = useState([]);
     // const location = useLocation();
     // const storeId = location.state.storeId;
-    const id = '64e60a3f4433822fe34ace7a';
-    //64ec68f97758e6fe3d7a771a 이미지 늘어나는 애들
+    const id = '64ed7f5be345728ff438f3da';
+    
     useEffect(() => {
         const getData = async () => {
             const res = await axios.get(`/stores/${id}`);

@@ -26,6 +26,7 @@ export const StoreEditLink = styled.a`
     color: #c0c0c0;
     font-size: 12px;
     font-weight: 700;
+    cursor: pointer;
 `;
 
 export const Addresses = styled.div`

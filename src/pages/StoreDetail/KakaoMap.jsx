@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react';
-// import * as S from './style/KakaoMap.style';
 
-export default function KakaoMap() {
+export default function KakaoMap({ latitude, longitude }) {
     useEffect(() => {
         window.kakao.maps.load(() => {
             const container = document.getElementById('map');
             const options = {
-                center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+                center: new window.kakao.maps.LatLng(latitude, longitude),
                 level: 3,
             };
             /* eslint-disable */
             const map = new window.kakao.maps.Map(container, options);
+            const markerPosition = new kakao.maps.LatLng(latitude, longitude);
+            const marker = new kakao.maps.Marker({
+                position: markerPosition,
+            });
+            marker.setMap(map);
         });
     }, []);
     return <div id="map" style={{ width: '100%', height: '100%' }}></div>;
