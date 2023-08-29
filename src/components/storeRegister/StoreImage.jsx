@@ -64,7 +64,7 @@ const StoreImage = ({ setStoreInfo }) => {
     <>
       <S.TableLine>
         <div className="table_title">
-          <span>대표이미지</span>
+          <span>대표이미지*</span>
         </div>
         <div className="table_content">
           <S.ImgDiv>
@@ -81,6 +81,8 @@ const StoreImage = ({ setStoreInfo }) => {
                 multiple
                 onChange={onUpload}
               />
+        {imageSrcs.length === 0 &&  <p style={{ color: 'red' }}>이미지를 최소 1장 업로드해주세요.</p>}
+
             </S.ImageUpload>
           </S.ImgDiv>
         </div>

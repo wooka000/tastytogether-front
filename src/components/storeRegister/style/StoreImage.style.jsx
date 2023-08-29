@@ -40,6 +40,10 @@ export const ImgDiv = styled.div``
 export const ImageUpload = styled.div`
   font-size: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
   div{
     width: 160px;
     height: 52px;

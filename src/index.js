@@ -18,6 +18,7 @@ import StoreRegister from './pages/StoreRegister/StoreRegister';
 import SearchResult from './pages/SearchResult/SearchResult';
 import StoreDetailEdit from './pages/StoreDetailEdit/StoreDetailEdit';
 import MyPage from './pages/MyPage/MyPage';
+import RequireLogin from './components/RequireLogin/RequireLogin'
 const router = createBrowserRouter([
     {
         path: '/',
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
             { path: '/post/create', element: <CreatePost /> }, // 화경
             { path: '/post/update', element: <PostUpdate /> }, // 화경
             { path: '/post/:id', element: <PostDetail /> }, // 화경
-            { path: '/stores/register', element: <StoreRegister /> }, // 혜지
+            { path: '/stores/register', element: <RequireLogin><StoreRegister /></RequireLogin> }, // 혜지
             { path: '/stores/search', element: <SearchResult /> }, // 혜지
         ],
     },

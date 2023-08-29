@@ -79,3 +79,6 @@ export const MapContainer = styled.div`
             z-index: 999;
         }
 `
+export const AddressInput = styled.input`
+    display: none;
+`

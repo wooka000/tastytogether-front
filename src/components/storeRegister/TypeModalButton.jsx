@@ -11,7 +11,7 @@ function TypeModalButton({ setStoreInfo }) {
         setModalOpen(true);
     };
     const handleCategoryChange = (category) => {
-        setSelectedCategory(category); // Update selectedCategory instead of setCategory
+        setSelectedCategory(category);
         setModalOpen(false);
         setStoreInfo(prevInfo => ({
             ...prevInfo,
@@ -22,7 +22,7 @@ function TypeModalButton({ setStoreInfo }) {
     return (
         <S.TableLine>
             <div className="table_title">
-                <span>업종</span>
+                <span>업종*</span>
             </div>
             <div className="table_content">
                 <input

@@ -24,35 +24,75 @@ function MenuModalButton({ setStoreInfo }){
     return(
         <S.TableLine>
             <div className="table_title">
-                <span>대표 메뉴</span>
+                <span>대표 메뉴*</span>
             </div>
             <div className="table_content">
-                {updatedMenus.map((menu, index) => (
-                <S.Menu key={index}>
-                    <input
-                        id={`name${index+1}`}
-                        className="input" 
-                        type="text" 
-                        placeholder={index === 0 ? '메뉴등록' : ''}
-                        value={menu[`name${index+1}`]}
-                        onChange={(e) => handleMenuChange(index, `name${index + 1}`, e.target.value)}
-                        required={index===0}
-                    />
-                    <input
-                        id={`price${index+1}`}
-                        className="input" 
-                        type="text"  
-                        placeholder={`${index === 0? '(필수입력)' : ''} `} 
-                        value={menu[`price${index+1}`]}
-                        onChange={(e) => handleMenuChange(index, `price${index + 1}`, e.target.value)}
-                        required={index===0}
-                    />
-                </S.Menu>
-                ))}
-                <button id="menu_modal_button" onClick={showModal}>메뉴작성</button>
-                {modalOpen && <MenuModalPage setStoreInfo={setStoreInfo} setModalOpen={setModalOpen} setUpdatedMenus={setUpdatedMenus} />}
-            </div>
-        </S.TableLine>
+            <div className="table_content">
+            <S.Menu>
+                <input
+                    id="name1"
+                    className="input"
+                    type="text"
+                    value={updatedMenus[0].name}
+                    onChange={(e) => handleMenuChange(0, 'name', e.target.value)}
+                    readOnly
+                    required
+                />
+                <input
+                    id="price1"
+                    className="input"
+                    type="text"
+                    value={updatedMenus[0].price}
+                    onChange={(e) => handleMenuChange(0, 'price', e.target.value)}
+                    readOnly
+                    required
+                />
+            </S.Menu>
+            <S.Menu>
+                <input
+                    id="name2"
+                    className="input"
+                    type="text"
+                    placeholder=""
+                    value={updatedMenus[1].name}
+                    onChange={(e) => handleMenuChange(1, 'name', e.target.value)}
+                    readOnly
+                />
+                <input
+                    id="price2"
+                    className="input"
+                    type="text"
+                    placeholder=""
+                    value={updatedMenus[1].price}
+                    onChange={(e) => handleMenuChange(1, 'price', e.target.value)}
+                    readOnly
+                />
+            </S.Menu>
+            <S.Menu>
+                <input
+                    id="name3"
+                    className="input"
+                    type="text"
+                    placeholder=""
+                    value={updatedMenus[2].name}
+                    onChange={(e) => handleMenuChange(2, 'name', e.target.value)}
+                    readOnly
+                />
+                <input
+                    id="price3"
+                    className="input"
+                    type="text"
+                    placeholder=""
+                    value={updatedMenus[2].price}
+                    onChange={(e) => handleMenuChange(2, 'price', e.target.value)}
+                    readOnly
+                />
+            </S.Menu>
+        </div>
+            <button id="menu_modal_button" onClick={showModal}>메뉴작성</button>
+            {modalOpen && <MenuModalPage setStoreInfo={setStoreInfo} setModalOpen={setModalOpen} setUpdatedMenus={setUpdatedMenus} />}
+        </div>
+    </S.TableLine>
     )
 }
 

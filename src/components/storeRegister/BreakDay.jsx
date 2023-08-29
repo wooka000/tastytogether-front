@@ -13,35 +13,35 @@ const BreakDay = ({ setStoreInfo }) => {
     return(
         <S.TableLine>
             <div className="table_title">
-                <span>휴무일</span>
+                <span>휴무일*</span>
             </div>
             <div className="table_content">
                 <label className="day" htmlFor="monday">
-                    <input type="checkbox" id="monday" name="day" value="월" onChange={handleSelectDay} />
+                    <input type="checkbox" id="monday" name="day" value="월요일휴무" onChange={handleSelectDay} />
                     <span>월</span>
                 </label>
                 <label className="day" htmlFor="tuesday">
-                    <input type="checkbox" id="tuesday" name="day" value="화" onChange={handleSelectDay} />
+                    <input type="checkbox" id="tuesday" name="day" value="화요일휴무" onChange={handleSelectDay} />
                     <span>화</span>
                 </label>
                 <label className="day" htmlFor="wednesday">
-                    <input type="checkbox" id="wednesday" name="day" value="수" onChange={handleSelectDay} />
+                    <input type="checkbox" id="wednesday" name="day" value="수요일휴무" onChange={handleSelectDay} />
                     <span>수</span>
                 </label>
                 <label className="day" htmlFor="thursday">
-                    <input type="checkbox" id="thursday" name="day" value="목" onChange={handleSelectDay} />
+                    <input type="checkbox" id="thursday" name="day" value="목요일휴무" onChange={handleSelectDay} />
                     <span>목</span>
                 </label>
                 <label className="day" htmlFor="friday">
-                    <input type="checkbox" id="friday" name="day" value="금" onChange={handleSelectDay} />
+                    <input type="checkbox" id="friday" name="day" value="금요일휴무" onChange={handleSelectDay} />
                     <span>금</span>
                 </label>
                 <label className="day" htmlFor="saturday">
-                    <input type="checkbox" id="saturday" name="day" value="토" onChange={handleSelectDay} />
+                    <input type="checkbox" id="saturday" name="day" value="토요일휴무" onChange={handleSelectDay} />
                     <span>토</span>
                 </label>
                 <label className="day" htmlFor="sunday">
-                    <input type="checkbox" id="sunday" name="day" value="일" onChange={handleSelectDay} />
+                    <input type="checkbox" id="sunday" name="day" value="일요일휴무" onChange={handleSelectDay} />
                     <span>일</span>
                 </label>
                 <label className="day" htmlFor="everyday">
