@@ -34,6 +34,7 @@ export default function StoreDetail() {
                 <S.Main>
                     <TopDetail
                         storeInfo={storeInfo}
+                        setStoreInfo={setStoreInfo}
                         storeLikeCount={storeLikeCount}
                         storeReviewCount={storeReviewCount}
                         storeReview={storeReview}

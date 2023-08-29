@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import * as S from './style/TopDetail.style';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
 import useAuth from '../../hooks/useAuth';
 import axios from '../../utils/axios';
 
-export default function TopDetail({ storeInfo, storeReviewCount, storeLikeCount, storeReview, setStoreLikeCount }) {
+export default function TopDetail({
+    storeInfo,
+    storeReviewCount,
+    storeLikeCount,
+    storeReview,
+    setStoreLikeCount,
+    setStoreInfo,
+}) {
     const navigate = useNavigate();
-    const { name, type, starRating, address, banners } = storeInfo;
+    const { name, type, starRating, address, banners, storeLikes } = storeInfo;
     const bottomPhotoList = banners && banners.slice(1);
     const reviewPhotos = storeReview && storeReview.map((el) => el.photos);
     const reviewPhotoList = [].concat(...reviewPhotos);
     const { authRequiredAxios } = useAxios('application/json');
-    const { isLogin } = useAuth();
+    const { isLogin, auth } = useAuth();
 
     const ClickBookMark = async () => {
         if (!isLogin) {
@@ -24,10 +31,13 @@ export default function TopDetail({ storeInfo, storeReviewCount, storeLikeCount,
             url: `/stores/${storeInfo._id}/storelikes`,
         });
         const res = await axios.get(`/stores/${storeInfo._id}`);
-        const data = res.data
-        setStoreLikeCount(data.storeLikeCount)
+        const data = res.data;
+        setStoreLikeCount(data.storeLikeCount);
+        setStoreInfo(data.storeInfo);
     };
-
+    
+    const isUserLike = useMemo(() => storeLikes && storeLikes.includes(auth.userId), [storeLikes]);
+    
     return (
         <S.TopDetailWrap>
             <S.StoreBanners>
@@ -79,7 +89,10 @@ export default function TopDetail({ storeInfo, storeReviewCount, storeLikeCount,
             </S.ScoreInfo>
             <S.TopBtns>
                 <S.TopBtn type="button" isBook={true} onClick={ClickBookMark}>
-                    <S.TopBtnIcon src={'/imgs/bookmarkIcon.png'} isBook={true} />
+                    <S.TopBtnIcon
+                        src={isUserLike ? '/imgs/orageBookmarkIcon.png' : '/imgs/bookmarkIcon.png'}
+                        isBook={true}
+                    />
                     <S.TopBtnText isBook={true}>북마크 추가</S.TopBtnText>
                 </S.TopBtn>
                 <S.TopBtn

@@ -77,16 +77,15 @@ export const MatePost = styled.div`
 `;
 
 export const MatePostTitle = styled.h5`
-    width: 195px;
-    margin-left: 10px;
+    max-width: 195px;
     line-height: 15px;
     color: #000;
-    font-size: 12px;
-    font-weight: 400;
+    align-self: center;
+    font-size: 14px;
+    font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    align-self: center;
 `;
 
 export const TitleLine = styled.div`

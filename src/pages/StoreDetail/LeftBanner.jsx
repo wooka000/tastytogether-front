@@ -15,11 +15,10 @@ export default function LeftBanner({ storeName, storeAddress }) {
         const getPost = async () => {
             const res = await axios.get(`regionSearch?value=${keyword}`);
             const data = res.data;
-            setBoard(data);
+            setBoard(data[0]);
         };
         getPost();
-    }, [storeAddress]);
-    console.log(board);
+    }, []);
     return (
         <S.LeftBannerWrapper>
             <S.MiniMap>
@@ -44,12 +43,12 @@ export default function LeftBanner({ storeName, storeAddress }) {
                 </S.Navi>
             </S.MiniMap>
             <S.MatePost>
-                <S.MatePostTitle>8월 11일 오레노라멘 가실 분 구합니다!</S.MatePostTitle>
+                <S.MatePostTitle>{board && board.title}</S.MatePostTitle>
                 <S.TitleLine></S.TitleLine>
-                <S.MatePostCotent>안녕하세요</S.MatePostCotent>
+                <S.MatePostCotent>{board && board.content}</S.MatePostCotent>
                 <S.Navi>
                     <S.NaviText>위의 메이트와 약속을 잡고 싶다면?</S.NaviText>
-                    <S.NaviBtn onClick={() => navigate(`/`)}>Go</S.NaviBtn>
+                    <S.NaviBtn onClick={() => navigate(`/post/${board._id}`)}>Go</S.NaviBtn>
                 </S.Navi>
             </S.MatePost>
         </S.LeftBannerWrapper>

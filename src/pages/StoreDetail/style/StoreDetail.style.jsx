@@ -22,6 +22,3 @@ export const Main = styled.div`
 export const Review = styled.div`
     height: 200vh;
 `;
-
-
-
