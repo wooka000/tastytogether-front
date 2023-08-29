@@ -49,6 +49,13 @@ export const Img = styled.img`
     height: 100%;
 `;
 
+export const TextHeader = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
 export const Text = styled.div`
     color: white;
     display: flex;
@@ -74,25 +81,8 @@ export const Grade = styled.p`
     margin-bottom: 4px;
 `;
 
-export const Title = styled.p`
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 15px;
-    color: var(--color-accent);
-    text-align: center;
-
-    width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    word-break: break-word;
-
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-`;
-
 export const Content = styled.p`
-    font-size: 14px;
+    font-size: 16px;
 
     width: 100%;
     text-overflow: ellipsis;
