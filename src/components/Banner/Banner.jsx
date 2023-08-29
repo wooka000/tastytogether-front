@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import * as S from './style/Banner.style';
+import axios from 'axios';
 
 export default function Banner() {
     const [text, setText] = useState('');
+    const [photos, setPhotos] = useState();
     const navigate = useNavigate();
     const handleChange = (e) => {
         setText(e.target.value);
@@ -13,8 +15,20 @@ export default function Banner() {
         e.preventDefault();
         navigate('/stores/search', { state: { keyword: text } });
     };
+    useEffect(() => {
+        try {
+            const getBanner = async () => {
+                const res = await axios.get('http://localhost:8080/banner');
+                const data = await res.data.bannerImages;
+                setPhotos(data);
+            };
+            getBanner();
+        } catch (err) {
+            console.err(err);
+        }
+    }, []);
     return (
-        <S.Container>
+        <S.Container photos={photos && photos[0]}>
             <S.TextContainer>
                 <S.Title>
                     솔직한 리뷰, 믿을 수 있는 평점! <br /> TASTY TOGETHER
