@@ -15,7 +15,7 @@ const Parking = ({setStoreInfo}) =>{
     return(
         <S.TableLine>
             <div className="table_title">
-                <span>주차</span>
+                <span>주차*</span>
             </div>
             <div className="table_content">
                 <label className="parking" htmlFor="parkingOption1">

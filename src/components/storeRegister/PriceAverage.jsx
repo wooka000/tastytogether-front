@@ -14,7 +14,7 @@ const PriceAverage = ({ setStoreInfo }) => {
     return (
         <S.TableLine>
             <div className="table_title">
-                <span>가격대</span>
+                <span>가격대*</span>
             </div>
             <div className="table_content">
                 <label className="price" htmlFor="price_range1">

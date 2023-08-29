@@ -1,0 +1,261 @@
+// import React, { useState, useEffect } from 'react';
+// // import * as S from './style/SearchResult.style';
+// // import { useLocation, useNavigate, Link, useParams } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
+// import axios from 'axios';
+import * as S from './style/SearchResult.style'
+// import Social from '../../components/SearchResult/Social'; 
+// import TypeFilter from '../../components/SearchResult/TypeFilter'; 
+// import RegionFilter from '../../components/SearchResult/RegionFilter'; 
+
+export default function SearchResult() {
+    // const [selectedOption, setSelectedOption] = useState('');
+
+    // const location = useLocation();
+    // const keyword = location.state.keyword;
+
+    // const [likedStoresData, setLikedStoresData] = useState([]);
+    // const [userReviewData, setUserReviewData] = useState([]);
+    // const [searchData, setSearchData] = useState([]);
+    // const [storeData, setStoreData] = useState([]);
+
+    // const handleOptionClick = (option) => {
+    //     setSelectedOption(option);
+    // };
+
+    // useEffect(() =>{
+    //     fetchData()
+    // },[]);
+
+    // const [tab, setTab] = useState('기본');
+    // const socialTabList = [
+    //     { category: '찜한가게' },
+    //     { category: '리뷰한가게' }
+    // ];
+    // const typeTabList = [
+    //     { category: '기본' },
+    //     { category: '양식' },
+    //     { category: '일식' },
+    //     { category: '중식' },
+    //     { category: '한식' },
+    //     { category: '아시안' },
+    //     { category: '디저트' }
+    // ];
+    // const regionTabList = [
+    //     {category: '시도'},
+    //     {category: '시군구'}
+    // ];
+
+    // const tabComponent = {
+    //     찜한가게: <LikeStore />,
+    //     리뷰한가게: <ReviewStore />,
+    //     기본: <Basic />,
+    //     양식: <Western />,
+    //     일식: <Japan />,
+    //     중식: <China />,
+    //     한식: <Korea />,
+    //     아시안: <Asia />,
+    //     디저트: <Cafe />
+    // };
+    // const handleChange = (e) => {
+    //     const { files } = e.target;
+    //     setBgFile(files && files[0]);
+    //     console.log(bgFile);
+    // };
+
+    return(
+        <S.Container>
+            <S.Search>
+                <S.Nav>
+                    <S.Social>
+                        <div className="filter_title">
+                            <div className="square"></div>
+                            <h2>소셜</h2>
+                        </div>
+                        <div className="filter_content">
+                            <div>
+                                <img src="/imgs/add.png" alt="" />
+                                <h3>내가 찜한 가게</h3>
+                            </div>
+                            <div>
+                                <img src="/imgs/add.png" alt="" />
+                                <h3>내가 리뷰한 가게</h3>
+                            </div>
+                        </div>
+                    </S.Social>
+                    <S.TypeFilter>
+                        <div className="filter_title">
+                            <div className="square"></div>
+                            <h2>업종</h2>
+                        </div>
+                        <div className="filter_content">
+                            <label>
+                                    <input className="filter_radio" type="radio" id="basic" name="store_type" value="일식" />
+                                    <span htmlFor="basic">기본</span>
+                            </label>
+                            <label>
+                                    <input className="filter_radio" type="radio" id="western" name="store_type" value="일식" />
+                                    <span htmlFor="western">양식</span>
+                            </label>
+                            <label>
+                                    <input className="filter_radio" type="radio" id="japan" name="store_type" value="일식" />
+                                    <span htmlFor="japan">일식</span>
+                            </label>
+                            <label>
+                                    <input className="filter_radio" type="radio" id="china" name="store_type" value="일식" />
+                                    <span htmlFor="china">중식</span>
+                            </label>
+                            <label>
+                                    <input className="filter_radio" type="radio" id="korea" name="store_type" value="일식" />
+                                    <span htmlFor="korea">한식</span>
+                            </label>
+                            <label>
+                                    <input className="filter_radio" type="radio" id="japan" name="store_type" value="일식" />
+                                    <span htmlFor="asia">아시안</span>
+                            </label>
+                            <label>
+                                    <input className="filter_radio" type="radio" id="cafe" name="store_type" value="일식" />
+                                    <span htmlFor="cafe">카페.디저트</span>
+                            </label>
+                        </div>
+                    </S.TypeFilter>
+                    <S.RegionFilter>
+                        <div className="filter_title">
+                            <div className="square"></div>
+                            <h2>지역</h2>
+                        </div>
+                        <div className="filter_content">
+                            <select name="city" id="city" onChange={handleCityChange} value={selectedCity}>
+                                <option value="">시도</option>
+                                {cities.map((city) => (
+                                <option key={city} value={city}>
+                                    {city}
+                                </option>
+                                ))}
+                            </select>            
+                            <select name="area" id="area" onChange={(e) => setSelectedArea(e.target.value)} value={selectedArea}>
+                                <option value="">시군구</option>
+                                {areas[selectedCity] && areas[selectedCity].map((area) => (
+                                    <option key={area} value={area}>
+                                        {area}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </S.RegionFilter>
+                </S.Nav>
+                <S.ResultDiv>
+                    <S.Sort>
+                        <div>
+                            <img src="/imgs/related.png" alt="" />
+                            <h4>정렬</h4>
+                        </div>
+                        <button>평점순</button>
+                        <button>리뷰순</button>
+                        <button>찜한순</button>
+                    </S.Sort>
+                    <S.FilteredMap>
+
+                    </S.FilteredMap>
+                    <div className="result_notice">
+                        <S.Keyword>{keyword}</S.Keyword>
+                        <h3>에 대한 검색결과입니다.</h3>
+                    </div>
+                    <S.ResultStore>
+                        <div className="store_info">
+                            <div className="info_left">
+                                <img src="/imgs/food1.jpg" alt="" />
+                            </div>
+                            <div className="info_right">
+                                <div className="store_name">
+                                    <h3 className="name">1. 3일한우국밥</h3>
+                                    <h3 className="store_region">서울 관악구</h3>
+                                </div>
+                                <div>
+                                    <p className="store_type">한식</p>
+                                </div>
+                                <div className="store_hash">
+                                    <p>#무료주차</p>
+                                    <p>#월요일휴무</p>
+                                    <p>#1만원대</p>
+                                </div>
+                                <div className="store_eval">
+                                    <div>⭐</div>
+                                    <p>4.3</p>
+                                    <div>🤍</div>
+                                    <p>161</p>
+                                </div>
+                            </div>
+                        </div>
+                        <S.StoreReview>
+                            <p id="review_content">“취향저격 당한 국밥 뜨끈하고, 얼큰한 국물에 밥 말아서 먹으면 술은 안마셨지만 아침 해장메뉴구나 싶다.”</p>
+                            <p id="review_id">by.야생돼지</p>
+                        </S.StoreReview>
+                    </S.ResultStore>
+                    <S.ResultStore>
+                        <div className="store_info">
+                            <div className="info_left">
+                                <img src="/imgs/food1.jpg" alt="" />
+                            </div>
+                            <div className="info_right">
+                                <div className="store_name">
+                                    <h3 className="name">1. 3일한우국밥</h3>
+                                    <h3 className="store_region">서울 관악구</h3>
+                                </div>
+                                <div>
+                                    <p className="store_type">한식</p>
+                                </div>
+                                <div className="store_hash">
+                                    <p>#무료주차</p>
+                                    <p>#월요일휴무</p>
+                                    <p>#1만원대</p>
+                                </div>
+                                <div className="store_eval">
+                                    <div>⭐</div>
+                                    <p>4.3</p>
+                                    <div>🤍</div>
+                                    <p>161</p>
+                                </div>
+                            </div>
+                        </div>
+                        <S.StoreReview>
+                            <p id="review_content">“취향저격 당한 국밥 뜨끈하고, 얼큰한 국물에 밥 말아서 먹으면 술은 안마셨지만 아침 해장메뉴구나 싶다.”</p>
+                            <p id="review_id">by.야생돼지</p>
+                        </S.StoreReview>
+                    </S.ResultStore>
+                    <S.ResultStore>
+                        <div className="store_info">
+                            <div className="info_left">
+                                <img src="/imgs/food1.jpg" alt="" />
+                            </div>
+                            <div className="info_right">
+                                <div className="store_name">
+                                    <h3 className="name">1. 3일한우국밥</h3>
+                                    <h3 className="store_region">서울 관악구</h3>
+                                </div>
+                                <div>
+                                    <p className="store_type">한식</p>
+                                </div>
+                                <div className="store_hash">
+                                    <p>#무료주차</p>
+                                    <p>#월요일휴무</p>
+                                    <p>#1만원대</p>
+                                </div>
+                                <div className="store_eval">
+                                    <div>⭐</div>
+                                    <p>4.3</p>
+                                    <div>🤍</div>
+                                    <p>161</p>
+                                </div>
+                            </div>
+                        </div>
+                        <S.StoreReview>
+                            <p id="review_content">“취향저격 당한 국밥 뜨끈하고, 얼큰한 국물에 밥 말아서 먹으면 술은 안마셨지만 아침 해장메뉴구나 싶다.”</p>
+                            <p id="review_id">by.야생돼지</p>
+                        </S.StoreReview>
+                    </S.ResultStore>
+                </S.ResultDiv>
+            </S.Search>
+        </S.Container>
+    )
+}

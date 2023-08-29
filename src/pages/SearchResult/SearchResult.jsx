@@ -1,19 +1,129 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import '../../utils/axios'
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import * as S from './style/SearchResult.style'
+// // import { useLocation, useNavigate, Link, useParams } from 'react-router-dom';
+// import Social from '../../components/SearchResult/Social'; 
+// import TypeFilter from '../../components/SearchResult/TypeFilter'; 
+// import RegionFilter from '../../components/SearchResult/RegionFilter'; 
 
 export default function SearchResult() {
     const location = useLocation();
-    const keyword = location.state.keyword;
+    const keyword = location.state && location.state.keyword ? location.state.keyword : '';
+    const navigate = useNavigate();
 
-    const [selectedCity, setSelectedCity] = useState('');
-    const [selectedArea, setSelectedArea] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [loading, setLoading] = useState(false);
 
+    const [filteredData, setFilteredData] = useState([]);
+
+    const [ selectedType, setSelectedType ] = useState();
+    const [ selectedCity, setSelectedCity ] = useState('');
+    const [ selectedArea, setSelectedArea ] = useState('');
+    const [ selectedSort, setSelectedSort ] = useState('');
+
+    // 검색데이터
+    const fetchSearchData = async () => {
+        try {
+            setLoading(true);
+            const searchResponse = await axios.get(`/stores/search?keyword=${keyword}`);
+            setSearchResults(searchResponse.data);
+            setLoading(false);
+            navigate(`/stores/search?keyword=${keyword}`);
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+        }
+    };
+    // 필터데이터
+    const fetchFilteredData = async () => {
+        try {
+            const filterResponse = await axios.get(`/stores/filter?type=${selectedType}&region=${selectedCity}/${selectedArea}`);
+            setFilteredData(filterResponse.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        if (selectedType || selectedCity || selectedArea || selectedSort) {
+            fetchFilteredData();
+        } else if (keyword) {
+            fetchSearchData();
+        } else {
+            fetchSearchData(); // Fetch initial data when no filters or search term are applied
+        }
+    }, [selectedType, selectedCity, selectedArea, selectedSort, keyword]);
+
+
+    const checkKeywordMatch = (item, keyword) => {
+        return (
+            (item.city.includes(keyword) && keyword.length >= 2) ||
+            (item.state.includes(keyword) && keyword.length >= 2) ||
+            (item.name.includes(keyword) && keyword.length >= 1) ||
+            item.menuItems.some(menuItem => menuItem.name.includes(keyword) && keyword.length >= 1)
+        );
+    };
+
+// 선택한 업종에 따라 필터링
+
+    const handleTypeChange = (e) => {
+        setSelectedType(e.target.value);
+    }
+    const handleSortChange = (e) => {
+        setSelectedSort(e.target.value);
+    }
+    const handleSelectCityOption = (e) => {
+        setSelectedCity(e.target.value);
+    }
+    const handleAreaChange = (e) => {
+        setSelectedArea(e.target.value);
+    }
+    // 검색 + 정렬
+    const applySearchAndSort = useMemo(() => {
+        return filteredData
+            .filter(item => {
+                const keywordMatch = checkKeywordMatch(item, keyword);
+                return keywordMatch;
+            })
+            .sort((a, b) => a.name.localeCompare(b.name));
+    }, [filteredData, keyword]);
+    // 필터 + 정렬
+    const applyFiltersAndSort = useMemo(() => {
+        let filteSortdData = [...filteredData];
+        
+        if (selectedType) {
+            filteSortdData = filteredData.filter(item => item.type === selectedType);
+        }
+        if (selectedCity && selectedArea) {
+            filteSortdData = filteredData.filter(item => item.state === selectedArea && item.city === selectedCity);
+        }
+        if (selectedType && selectedCity && selectedArea) {
+            filteSortdData = filteredData.filter(item => item.type === selectedType && item.state === selectedArea && item.city === selectedCity);
+        }
+        // 필터가 지정되지 않으면 기존 데이터 유지
+        if (!selectedType && !selectedCity && !selectedArea) {
+            filteSortdData = [...filteredData]; 
+        }
+        
+        if (selectedSort === '평점순') {
+            filteSortdData.sort((a, b) => b.rating - a.rating);
+        } else if (selectedSort === '리뷰순') {
+            filteSortdData.sort((a, b) => b.reviews.length - a.reviews.length);
+        } else if (selectedSort === '찜한순') {
+            filteSortdData.sort((a, b) => b.likes.length - a.likes.length);
+        } else {
+            filteSortdData.sort((a, b) => a.name.localeCompare(b.name));
+        }
+        return filteSortdData;
+    }, [filteredData, selectedType, selectedCity, selectedArea, selectedSort]);
+    
+    // 지역필터정의
     const handleCityChange = (event) => {
         setSelectedCity(event.target.value);
         setSelectedArea(''); // 선택된 도시 변경 시 시군구 선택 초기화
     };
-
     const cities = ['서울','인천','대전','대구','울산','광주','부산','경기도','강원도','충청북도','충청남도','전라북도','전라남도','경상북도','경상남도','제주도']
     const areas = {
         서울 : ['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '서초구', '성동구', '성북구', '송파구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'],
@@ -33,18 +143,17 @@ export default function SearchResult() {
         경상남도 : ['창원시', '진주시', '통영시', '사천시', '김해시', '밀양시', '거제시', '양산시', '의령군', '함안군', '창녕군', '고성군', '남해군', '하동군', '산청군', '함양군', '거창군', '합천군'],
         제주도 : ['제주시', '서귀포시']
       }
-    // const selectedAreas = areas[selectedCity] || [];
 
     return(
         <S.Container>
             <S.Search>
                 <S.Nav>
                     <S.Social>
-                        <div className="filter_title">
-                            <div className="square"></div>
+                        <S.MyFilterTitle>
+                            <S.Square></S.Square>
                             <h2>소셜</h2>
-                        </div>
-                        <div className="filter_content">
+                        </S.MyFilterTitle>
+                        <S.MyFilterContent>
                             <div>
                                 <img src="/imgs/add.png" alt="" />
                                 <h3>내가 찜한 가게</h3>
@@ -53,179 +162,205 @@ export default function SearchResult() {
                                 <img src="/imgs/add.png" alt="" />
                                 <h3>내가 리뷰한 가게</h3>
                             </div>
-                        </div>
+                        </S.MyFilterContent>
                     </S.Social>
                     <S.TypeFilter>
-                        <div className="filter_title">
-                            <div className="square"></div>
+                        <S.TypeFilterTitle>
+                            <S.Square></S.Square>
                             <h2>업종</h2>
-                        </div>
-                        <div className="filter_content">
-                            <label>
-                                    <input className="filter_radio" type="radio" id="basic" name="store_type" value="일식" />
-                                    <span htmlFor="basic">기본</span>
-                            </label>
-                            <label>
-                                    <input className="filter_radio" type="radio" id="western" name="store_type" value="일식" />
-                                    <span htmlFor="western">양식</span>
-                            </label>
-                            <label>
-                                    <input className="filter_radio" type="radio" id="japan" name="store_type" value="일식" />
-                                    <span htmlFor="japan">일식</span>
-                            </label>
-                            <label>
-                                    <input className="filter_radio" type="radio" id="china" name="store_type" value="일식" />
-                                    <span htmlFor="china">중식</span>
-                            </label>
-                            <label>
-                                    <input className="filter_radio" type="radio" id="korea" name="store_type" value="일식" />
-                                    <span htmlFor="korea">한식</span>
-                            </label>
-                            <label>
-                                    <input className="filter_radio" type="radio" id="japan" name="store_type" value="일식" />
-                                    <span htmlFor="asia">아시안</span>
-                            </label>
-                            <label>
-                                    <input className="filter_radio" type="radio" id="cafe" name="store_type" value="일식" />
-                                    <span htmlFor="cafe">카페.디저트</span>
-                            </label>
-                        </div>
+                        </S.TypeFilterTitle>
+                        <S.TypeFilterContent>
+                            <S.TypeLabel value="기본" onClick={handleTypeChange}>
+                                    <S.TypeFilterRadio className="filter_radio" type="radio" id="basic" name="store_type" value="일식" />
+                                    <S.TypeFilterSpan htmlFor="basic">기본</S.TypeFilterSpan>
+                            </S.TypeLabel>
+                            <S.TypeLabel value="양식" onClick={handleTypeChange}>
+                                    <S.TypeFilterRadio className="filter_radio" type="radio" id="western" name="store_type" value="일식" />
+                                    <S.TypeFilterSpan htmlFor="western">양식</S.TypeFilterSpan>
+                            </S.TypeLabel>
+                            <S.TypeLabel value="일식" onClick={handleTypeChange}>
+                                    <S.TypeFilterRadio className="filter_radio" type="radio" id="japan" name="store_type" value="일식" />
+                                    <S.TypeFilterSpan htmlFor="japan">일식</S.TypeFilterSpan>
+                            </S.TypeLabel>
+                            <S.TypeLabel value="중식" onClick={handleTypeChange}>
+                                    <S.TypeFilterRadio className="filter_radio" type="radio" id="china" name="store_type" value="일식" />
+                                    <S.TypeFilterSpan htmlFor="china">중식</S.TypeFilterSpan>
+                            </S.TypeLabel>
+                            <S.TypeLabel value="한식" onClick={handleTypeChange}>
+                                    <S.TypeFilterRadio className="filter_radio" type="radio" id="korea" name="store_type" value="일식" />
+                                    <S.TypeFilterSpan htmlFor="korea">한식</S.TypeFilterSpan>
+                            </S.TypeLabel>
+                            <S.TypeLabel value="아시안" onClick={handleTypeChange}>
+                                    <S.TypeFilterRadio className="filter_radio" type="radio" id="japan" name="store_type" value="일식" />
+                                    <S.TypeFilterSpan htmlFor="asia">아시안</S.TypeFilterSpan>
+                            </S.TypeLabel>
+                            <S.TypeLabel value="카페" onClick={handleTypeChange}>
+                                    <S.TypeFilterRadio className="filter_radio" type="radio" id="cafe" name="store_type" value="일식" />
+                                    <S.TypeFilterSpan htmlFor="cafe">카페.디저트</S.TypeFilterSpan>
+                            </S.TypeLabel>
+                        </S.TypeFilterContent>
                     </S.TypeFilter>
                     <S.RegionFilter>
-                        <div className="filter_title">
-                            <div className="square"></div>
+                        <S.RegionFilterTitle>
+                            <S.Square></S.Square>
                             <h2>지역</h2>
-                        </div>
-                        <div className="filter_content">
-                            <select name="city" id="city" onChange={handleCityChange} value={selectedCity}>
-                                <option value="">시도</option>
+                        </S.RegionFilterTitle>
+                        <S.RegionFilterContent>
+                            <S.CitySelect name="city" id="city" onChange={handleCityChange} value={selectedCity}>
+                                <S.SelectOption value="시도">시도</S.SelectOption>
                                 {cities.map((city) => (
-                                <option key={city} value={city}>
+                                <S.SelectOption key={city} value={city} onClick={handleSelectCityOption}>
                                     {city}
-                                </option>
+                                </S.SelectOption>
                                 ))}
-                            </select>            
-                            <select name="area" id="area" onChange={(e) => setSelectedArea(e.target.value)} value={selectedArea}>
-                                <option value="">시군구</option>
+                            </S.CitySelect>            
+                            <S.AreaSelect name="area" id="area" onChange={(e) => setSelectedArea(e.target.value)} value={selectedArea}>
+                                <S.SelectOption value="시군구">시군구</S.SelectOption>
                                 {areas[selectedCity] && areas[selectedCity].map((area) => (
-                                    <option key={area} value={area}>
+                                    <S.SelectOption key={area} value={area}  onClick={handleAreaChange}>
                                         {area}
-                                    </option>
+                                    </S.SelectOption>
                                 ))}
-                            </select>
-                        </div>
+                            </S.AreaSelect>
+                        </S.RegionFilterContent>
                     </S.RegionFilter>
                 </S.Nav>
+
                 <S.ResultDiv>
                     <S.Sort>
-                        <div>
+                        <S.SortTitle>
                             <img src="/imgs/related.png" alt="" />
                             <h4>정렬</h4>
-                        </div>
-                        <button>평점순</button>
-                        <button>리뷰순</button>
-                        <button>찜한순</button>
+                        </S.SortTitle>
+                        <S.SortButton value="평점순" onClick={handleSortChange}>평점순</S.SortButton>
+                        <S.SortButton value="리뷰순" onClick={handleSortChange}>리뷰순</S.SortButton>
+                        <S.SortButton value="찜한순" onClick={handleSortChange}>찜한순</S.SortButton>
                     </S.Sort>
-                    <S.FilteredMap>
 
+                    <S.FilteredMap>
                     </S.FilteredMap>
-                    <div className="result_notice">
-                        <S.Keyword>{keyword}</S.Keyword>
-                        <h3>에 대한 검색결과입니다.</h3>
-                    </div>
-                    <S.ResultStore>
-                        <div className="store_info">
-                            <div className="info_left">
-                                <img src="/imgs/food1.jpg" alt="" />
-                            </div>
-                            <div className="info_right">
-                                <div className="store_name">
-                                    <h3 className="name">1. 3일한우국밥</h3>
-                                    <h3 className="store_region">서울 관악구</h3>
-                                </div>
-                                <div>
-                                    <p className="store_type">한식</p>
-                                </div>
-                                <div className="store_hash">
-                                    <p>#무료주차</p>
-                                    <p>#월요일휴무</p>
-                                    <p>#1만원대</p>
-                                </div>
-                                <div className="store_eval">
-                                    <div>⭐</div>
-                                    <p>4.3</p>
-                                    <div>🤍</div>
-                                    <p>161</p>
-                                </div>
-                            </div>
+                    {loading && <p>검색중</p>}
+                    {(searchResults.length === 0 && keyword.trim() === '') && (
+                        <div>
+                            <S.ResultNotice>
+                                <S.Keyword>검색어를 입력해주세요.</S.Keyword>
+                            </S.ResultNotice>
                         </div>
-                        <S.StoreReview>
-                            <p id="review_content">“취향저격 당한 국밥 뜨끈하고, 얼큰한 국물에 밥 말아서 먹으면 술은 안마셨지만 아침 해장메뉴구나 싶다.”</p>
-                            <p id="review_id">by.야생돼지</p>
-                        </S.StoreReview>
-                    </S.ResultStore>
-                    <S.ResultStore>
-                        <div className="store_info">
-                            <div className="info_left">
-                                <img src="/imgs/food1.jpg" alt="" />
-                            </div>
-                            <div className="info_right">
-                                <div className="store_name">
-                                    <h3 className="name">1. 3일한우국밥</h3>
-                                    <h3 className="store_region">서울 관악구</h3>
-                                </div>
-                                <div>
-                                    <p className="store_type">한식</p>
-                                </div>
-                                <div className="store_hash">
-                                    <p>#무료주차</p>
-                                    <p>#월요일휴무</p>
-                                    <p>#1만원대</p>
-                                </div>
-                                <div className="store_eval">
-                                    <div>⭐</div>
-                                    <p>4.3</p>
-                                    <div>🤍</div>
-                                    <p>161</p>
-                                </div>
-                            </div>
+                    )}
+                    {(searchResults.length > 0 || keyword.trim() === '') && ( 
+                        <div>
+                            <S.ResultNotice>
+                                <S.Keyword>{keyword}에 대한 검색결과입니다.</S.Keyword>
+                            </S.ResultNotice>
+                            {applySearchAndSort.map((item, index) => {
+                                const keywordMatch = 
+                                (item.city.includes(keyword) && keyword.length >= 2) ||
+                                (item.state.includes(keyword) && keyword.length >= 2) ||
+                                (item.name.includes(keyword) && keyword.length >= 1) ||
+                                item.menuItems.some(menuItem => menuItem.name.includes(keyword) && keyword.length >= 1);
+
+                                if (keywordMatch) {
+                                    return(
+                                        <Link 
+                                            key={item.id} 
+                                            to={`/stores/detail/${item.id}`} 
+                                            style={{ textDecoration: 'none', color: 'inherit' }}
+                                        >
+                                            <S.ResultStore key={item.id}>
+                                                <S.StoreInfo>
+                                                    <S.InfoLeft>
+                                                        <img src={item.banners[0]} alt="" />
+                                                    </S.InfoLeft>
+                                                    <S.InfoRight>
+                                                        <S.StoreName>
+                                                            <h3 className="name">{index+1}. {item.name}</h3>
+                                                            <h3 className="store_region">{item.city} {item.state}</h3>
+                                                        </S.StoreName>
+                                                        <div>
+                                                            <S.StoreType>{item.type}</S.StoreType>
+                                                        </div>
+                                                        <S.StoreHash>
+                                                            <p>#{item.parkingInfo}</p>
+                                                            <p>#{item.closedDays}</p>
+                                                            <p>#{item.PriceRange}</p>
+                                                        </S.StoreHash>
+                                                        <S.StoreEval>
+                                                            <div>⭐</div>
+                                                            <p>{item.starRating}</p>
+                                                            <div>🤍</div>
+                                                            <p>{item.storeLikes}</p>
+                                                        </S.StoreEval>
+                                                    </S.InfoRight>
+                                                </S.StoreInfo>
+                                                {item.reviews.length !== 0 ? (
+                                                    <S.StoreReview key={index}>
+                                                        <S.ReviewContent>{item.reviews[0].content}</S.ReviewContent>
+                                                        <S.ReviewId>by.{item.reviews[0].userId}</S.ReviewId>
+                                                    </S.StoreReview>
+                                                ) : (
+                                                    <S.StoreReview>
+                                                        <S.ReviewContent>아직 첫 리뷰가 없습니다.</S.ReviewContent>
+                                                    </S.StoreReview>
+                                                )}
+                                            </S.ResultStore>
+                                        </Link>
+                                    )
+                                }else {
+                                    return null;
+                                }
+                            })}
                         </div>
-                        <S.StoreReview>
-                            <p id="review_content">“취향저격 당한 국밥 뜨끈하고, 얼큰한 국물에 밥 말아서 먹으면 술은 안마셨지만 아침 해장메뉴구나 싶다.”</p>
-                            <p id="review_id">by.야생돼지</p>
-                        </S.StoreReview>
-                    </S.ResultStore>
-                    <S.ResultStore>
-                        <div className="store_info">
-                            <div className="info_left">
-                                <img src="/imgs/food1.jpg" alt="" />
-                            </div>
-                            <div className="info_right">
-                                <div className="store_name">
-                                    <h3 className="name">1. 3일한우국밥</h3>
-                                    <h3 className="store_region">서울 관악구</h3>
-                                </div>
-                                <div>
-                                    <p className="store_type">한식</p>
-                                </div>
-                                <div className="store_hash">
-                                    <p>#무료주차</p>
-                                    <p>#월요일휴무</p>
-                                    <p>#1만원대</p>
-                                </div>
-                                <div className="store_eval">
-                                    <div>⭐</div>
-                                    <p>4.3</p>
-                                    <div>🤍</div>
-                                    <p>161</p>
-                                </div>
-                            </div>
+                    )}
+                    {applyFiltersAndSort.map((item, index) => (
+                        <div key={item.id}>
+                            <S.ResultNotice>
+                                <S.Keyword>{keyword}에 대한 필터결과입니다.</S.Keyword>
+                            </S.ResultNotice>
+                            <Link 
+                                key={item.id} 
+                                to={`/stores/detail/${item.id}`} 
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <S.ResultStore key={item.id}>
+                                    <S.StoreInfo>
+                                        <S.InfoLeft>
+                                            <img src={item.banners[0]} alt="" />
+                                        </S.InfoLeft>
+                                        <S.InfoRight>
+                                            <S.StoreName>
+                                                <h3 className="name">{index+1}. {item.name}</h3>
+                                                <h3 className="store_region">{item.city} {item.state}</h3>
+                                            </S.StoreName>
+                                            <div>
+                                                <S.StoreType>{item.type}</S.StoreType>
+                                            </div>
+                                            <S.StoreHash>
+                                                <p>#{item.parkingInfo}</p>
+                                                <p>#{item.closedDays}</p>
+                                                <p>#{item.PriceRange}</p>
+                                            </S.StoreHash>
+                                            <S.StoreEval>
+                                                <div>⭐</div>
+                                                <p>{item.starRating}</p>
+                                                <div>🤍</div>
+                                                <p>{item.storeLikes}</p>
+                                            </S.StoreEval>
+                                        </S.InfoRight>
+                                    </S.StoreInfo>
+                                    {item.reviews.length !== 0 ? (
+                                            <S.StoreReview Key={index}>
+                                                <S.ReviewContent>{item.reviews[0].content}</S.ReviewContent>
+                                                <S.ReviewId>by.{item.reviews[0].userId}</S.ReviewId>
+                                            </S.StoreReview>
+                                    ) : (
+                                        <S.StoreReview>
+                                                <S.ReviewContent>아직 첫 리뷰가 없습니다.</S.ReviewContent>
+                                        </S.StoreReview>
+                                    )}
+                                </S.ResultStore>
+                            </Link>
                         </div>
-                        <S.StoreReview>
-                            <p id="review_content">“취향저격 당한 국밥 뜨끈하고, 얼큰한 국물에 밥 말아서 먹으면 술은 안마셨지만 아침 해장메뉴구나 싶다.”</p>
-                            <p id="review_id">by.야생돼지</p>
-                        </S.StoreReview>
-                    </S.ResultStore>
+                    ))}
                 </S.ResultDiv>
             </S.Search>
         </S.Container>

@@ -16,7 +16,6 @@ function TypeModalPage({ setModalOpen, setCategory }) {
     return(
         <S.TypeModal>
             <div className="type_title">
-                {/* <img src="/imgs/logo2.png" alt="" /> */}
                 <p>업종을 선택하세요</p>
             </div>
             <S.TypeButtons>
