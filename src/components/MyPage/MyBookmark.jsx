@@ -1,14 +1,17 @@
-import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
 import React, { useEffect, useState } from 'react';
 import * as S from './style/MyBookmark.style';
 
 export default function MyBookmark() {
     const [bookmarks, setBookmarks] = useState();
-
+    const { authRequiredAxios } = useAxios('application/json');
     useEffect(() => {
         const getData = async () => {
-            const res = await axios.get('/data/mybookmark.json');
-            const data = res.data;
+            const res = await authRequiredAxios({
+                method: 'get',
+                url: '/user/storelikes',
+            });
+            const data = await res.data.storeLikeList;
             setBookmarks(data);
         };
         getData();

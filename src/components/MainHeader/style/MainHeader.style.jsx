@@ -34,8 +34,7 @@ export const Menu = styled.div`
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    position: absolute;
-    right: 300px;
+    margin-right: 30px;
 `;
 
 export const MenuBtn = styled.button`

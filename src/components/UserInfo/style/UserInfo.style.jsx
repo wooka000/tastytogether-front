@@ -9,7 +9,7 @@ export const User = styled.div`
 export const Img = styled.img`
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 50%;
     flex-shrink: 0;
 `;
 

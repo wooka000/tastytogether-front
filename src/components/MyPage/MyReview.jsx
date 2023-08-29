@@ -1,14 +1,17 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import * as S from './style/MyReview.style';
+import useAxios from '../../hooks/useAxios';
 
 export default function MyReview() {
     const [reviews, setReviews] = useState();
-
+    const { authRequiredAxios } = useAxios('application/json');
     useEffect(() => {
         const getData = async () => {
-            const res = await axios.get('/data/myreview.json');
-            const data = res.data;
+            const res = await authRequiredAxios({
+                method: 'get',
+                url: '/user/reviews',
+            });
+            const data = await res.data.reviewList;
             setReviews(data);
         };
         getData();
@@ -18,12 +21,13 @@ export default function MyReview() {
             {reviews &&
                 reviews.map((review) => {
                     return (
-                        <S.Box key={review.id}>
-                            <S.Img src={review.photo} />
+                        <S.Box key={review._id}>
+                            <S.Img src={review.photos[0]} />
                             <S.Text>
-                                <S.Date>{review.date}</S.Date>
-                                <S.Grade>⭐️{review.grade}</S.Grade>
-                                <S.Title>{review.title}</S.Title>
+                                <S.TextHeader>
+                                    <S.Date>{review.updatedAt.split('T')[0]}</S.Date>
+                                    <S.Grade>⭐️{review.grade}</S.Grade>
+                                </S.TextHeader>
                                 <S.Content>{review.content}</S.Content>
                             </S.Text>
                         </S.Box>
