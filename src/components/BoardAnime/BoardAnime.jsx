@@ -1,15 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import * as S from './style/BoardAnime.style';
+import { useNavigate } from 'react-router-dom';
 
 export default function BoardAnime() {
     const [boards, setBoards] = useState();
-
+    const navigate = useNavigate();
     useEffect(() => {
         async function featchData() {
-            const res = await axios.get('/data/board.json');
+            const res = await axios.get('http://localhost:8080/posts/?countperpage=10&pageno=2');
             const data = await res.data;
-            setBoards(data.slice(0, 10));
+            setBoards(data.data);
         }
         featchData();
     }, []);
@@ -20,13 +21,11 @@ export default function BoardAnime() {
                 {boards &&
                     boards.map((board) => {
                         return (
-                            <S.Item key={board.id}>
-                                <S.Img src={board.photo} alt="photo" />
+                            <S.Item key={board._id} onClick={() => navigate(`/post/${board._id}`)}>
+                                <S.Img src={board.image[0]} alt="photo" />
                                 <S.Text>
-                                    <S.Title>
-                                        {board.id} {board.title}
-                                    </S.Title>
-                                    <S.Description>{board.description}</S.Description>
+                                    <S.Title>{board.title}</S.Title>
+                                    <S.Description>{board.content}</S.Description>
                                 </S.Text>
                             </S.Item>
                         );
