@@ -10,7 +10,11 @@ import * as S from './style/SearchResult.style'
 
 export default function SearchResult() {
     const location = useLocation();
-    const keyword = location.state && location.state.keyword ? location.state.keyword : '';
+    const keyword = location.state.keyword ? location.state.keyword : '';
+    const type = location.state.type ? location.state.type : '';
+    // const city = location.state && location.state.city ? location.state.city : '';
+    // const state = location.state && location.state.state ? location.state.state : '';
+
     const navigate = useNavigate();
 
     const [searchResults, setSearchResults] = useState([]);
@@ -24,38 +28,62 @@ export default function SearchResult() {
     const [ selectedSort, setSelectedSort ] = useState('');
 
     // 검색데이터
-    const fetchSearchData = async () => {
+    // const fetchSearchData = async () => {
+    //     try {
+    //         setLoading(true);
+    //         const searchResponse = await axios.get(`/stores/search?keyword=${keyword}`);
+    //         setSearchResults(searchResponse.data);
+    //         setLoading(false);
+    //         navigate(`/stores/search?keyword=${keyword}`);
+    //     } catch (error) {
+    //         console.error(error);
+    //         setLoading(false);
+    //     }
+    // };
+    // // 필터데이터
+    // const fetchFilteredData = async () => {
+    //     try {
+    //         const filterResponse = await axios.get(`/stores/filter?type=${selectedType}&region=${selectedCity}/${selectedArea}`);
+    //         setFilteredData(filterResponse.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
+
+    const fetchData = async () => {
         try {
             setLoading(true);
-            const searchResponse = await axios.get(`/stores/search?keyword=${keyword}`);
-            setSearchResults(searchResponse.data);
+
+            let searchResponse;
+            let filterResponse;
+            if (keyword) {
+                searchResponse = await axios.get(`/stores/search?keyword=${keyword}`);
+                navigate(`/stores/search?keyword=${keyword}`);
+            } else {
+                filterResponse = await axios.get(`/stores/filter?type=${selectedType}&region=${selectedCity}/${selectedArea}`);
+                navigate(`/stores/filter?type=${selectedType}&region=${selectedCity}/${selectedArea}`);
+            }
+
+            const searchResponseData = searchResponse.data;
+            const filterResponseData = filterResponse.data;
+
+            console.log("API Response:", searchResponseData);
+            console.log("API Response:",filterResponseData);
+
+            setSearchResults(searchResponseData.data);
+            setFilteredData(filterResponseData.data);
+
             setLoading(false);
-            navigate(`/stores/search?keyword=${keyword}`);
         } catch (error) {
             console.error(error);
             setLoading(false);
-        }
-    };
-    // 필터데이터
-    const fetchFilteredData = async () => {
-        try {
-            const filterResponse = await axios.get(`/stores/filter?type=${selectedType}&region=${selectedCity}/${selectedArea}`);
-            setFilteredData(filterResponse.data);
-        } catch (error) {
-            console.error(error);
         }
     };
 
     useEffect(() => {
-        if (selectedType || selectedCity || selectedArea || selectedSort) {
-            fetchFilteredData();
-        } else if (keyword) {
-            fetchSearchData();
-        } else {
-            fetchSearchData(); // Fetch initial data when no filters or search term are applied
-        }
+        fetchData();
     }, [selectedType, selectedCity, selectedArea, selectedSort, keyword]);
-
 
     const checkKeywordMatch = (item, keyword) => {
         return (
@@ -263,7 +291,10 @@ export default function SearchResult() {
                                     return(
                                         <Link 
                                             key={item.id} 
-                                            to={`/stores/detail/${item.id}`} 
+                                            to={{
+                                                pathname: `/stores/search`,
+                                                state: {keyword: keyword}
+                                            }} 
                                             style={{ textDecoration: 'none', color: 'inherit' }}
                                         >
                                             <S.ResultStore key={item.id}>
@@ -318,7 +349,13 @@ export default function SearchResult() {
                             </S.ResultNotice>
                             <Link 
                                 key={item.id} 
-                                to={`/stores/detail/${item.id}`} 
+                                to={{
+                                    pathname: `/stores/filter`,
+                                    state: {
+                                        type: type,
+                                        region: `${item.city}/${item.state}`
+                                    }
+                                }} 
                                 style={{ textDecoration: 'none', color: 'inherit' }}
                             >
                                 <S.ResultStore key={item.id}>
