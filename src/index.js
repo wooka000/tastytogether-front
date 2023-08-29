@@ -18,7 +18,6 @@ import StoreRegister from './pages/StoreRegister/StoreRegister';
 import SearchResult from './pages/SearchResult/SearchResult';
 import StoreDetailEdit from './pages/StoreDetailEdit/StoreDetailEdit';
 import MyPage from './pages/MyPage/MyPage';
-//todo 커밋때 빼기
 import RequireLogin from './components/RequireLogin/RequireLogin';
 
 const router = createBrowserRouter([
@@ -28,14 +27,20 @@ const router = createBrowserRouter([
         errorElement: <NotFound />,
         children: [
             { index: true, path: '/', element: <Main /> }, // 진규
-            { path: '/mypage/:id', element: <MyPage /> }, // 진규
+            {
+                path: '/mypage/:id',
+                element: (
+                    <RequireLogin>
+                        <MyPage />
+                    </RequireLogin>
+                ),
+            }, // 진규
             { path: '/review/:storeId', element: <CreateReview /> }, // 진규
             { path: '/stores/detail/:storeId', element: <StoreDetail /> }, // 수연
             { path: '/stores/detail/:storeId/edit', element: <StoreDetailEdit /> }, // 수연
             { path: '/users/login', element: <UserLogin /> }, // 윤렬
             { path: '/users/signup', element: <UserSignUp /> }, // 윤렬
             { path: '/post', element: <Board /> }, // 화경
-//todo 커밋때 빼기
             {
                 path: '/post/create',
                 element: (

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UserInfo from '../UserInfo/UserInfo';
 import * as S from './style/MainHeader.style';
+import useAuth from '../../hooks/useAuth';
 
 export default function MainHeader() {
     const [scrollY, setScrollY] = useState(0);
     const [active, setActive] = useState('false');
     const navigate = useNavigate();
+    const { auth } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
@@ -36,7 +38,7 @@ export default function MainHeader() {
                     <S.MenuBtn onClick={() => navigate('/stores/register')} active={active}>
                         음식점 등록
                     </S.MenuBtn>
-                    <S.MenuBtn onClick={() => navigate('/mypage/123')} active={active}>
+                    <S.MenuBtn onClick={() => navigate(`/mypage/${auth.userId}`)} active={active}>
                         마이페이지
                     </S.MenuBtn>
                 </S.Menu>

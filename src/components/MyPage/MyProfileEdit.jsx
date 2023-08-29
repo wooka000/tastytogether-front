@@ -1,46 +1,91 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as S from './style/MyProfileEdit.style';
+import useAxios from '../../hooks/useAxios';
+import useAuth from '../../hooks/useAuth';
 
-export default function MyProfileEdit({ setModalOpen }) {
+export default function MyProfileEdit({ setModalOpen, user }) {
     MyProfileEdit.propTypes = {
         setModalOpen: PropTypes.func.isRequired,
+        user: PropTypes.object.isRequired,
     };
-
+    const { authRequiredAxios } = useAxios('multipart/form-data');
+    const { auth } = useAuth();
+    const [name, setName] = useState(user.name);
+    const [nickname, setNickname] = useState(user.nickname);
+    const [profileText, setProfileText] = useState(user.profileText);
+    const [profileImage, setProfileImage] = useState(user.profileImage);
+    const [coverImage, setCoverImage] = useState(user.coverImage);
     const [file, setFile] = useState();
-    const [info, setInfo] = useState({
-        name: '엘리스',
-        nickName: '나는야리뷰왕',
-        description: '안녕하세요 정직한 리뷰만 달고 있습니다~',
-        photo: '/imgs/profile.png',
-    });
+    const [fileBg, setFileBg] = useState();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(info, file);
-        setModalOpen(false);
+
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('nickname', nickname);
+        formData.append('profileText', profileText);
+        formData.append('profileImage', profileImage);
+        // formData.append('coverImage', coverImage);
+        try {
+            await authRequiredAxios({
+                method: 'patch',
+                url: `/user/${auth.userId}`,
+                data: formData,
+            });
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setModalOpen(false);
+        }
     };
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        if (name === 'file') {
-            setFile(files && files[0]);
+        if (name === 'profileImage') {
+            setProfileImage(files[0]);
+            setFile(files[0]);
+            return;
+        } else if (name === 'coverImage') {
+            setCoverImage(value);
+            setFileBg(files[0]);
+            return;
+        } else if (name === 'name') {
+            setName(value);
+            return;
+        } else if (name === 'nickname') {
+            setNickname(value);
+            return;
+        } else if (name === 'profileText') {
+            setProfileText(value);
             return;
         }
-        setInfo((info) => ({ ...info, [name]: value }));
     };
 
     const handleCancel = () => {
         setModalOpen(false);
     };
+
     return (
         <S.Container onClick={handleCancel}>
             <S.Modal onClick={(e) => e.stopPropagation()}>
                 <S.ModalHeader>
                     <S.CancellBtn onClick={handleCancel}>X</S.CancellBtn>
                 </S.ModalHeader>
-                {!file && <S.PreviewImg src={info.photo} alt="preview" />}
-                {file && <S.PreviewImg src={URL.createObjectURL(file)} alt="preview" />}
+                <S.PreviewImgs>
+                    {file && (
+                        <S.PreviewImg src={URL.createObjectURL(file)} alt="preview-profile-image" />
+                    )}
+                    {!file && <S.PreviewImg src={profileImage} alt="preview-profile-image" />}
+                    {fileBg && (
+                        <S.PreviewImg
+                            src={URL.createObjectURL(fileBg)}
+                            alt="preview-profile-image"
+                        />
+                    )}
+                    {!fileBg && <S.PreviewImg src={coverImage} alt="preview-profile-image" />}
+                </S.PreviewImgs>
                 <S.Form onSubmit={handleSubmit}>
                     <S.FieldFile>
                         <S.FileLabel htmlFor="fileInput">프로필 사진 설정</S.FileLabel>
@@ -49,7 +94,15 @@ export default function MyProfileEdit({ setModalOpen }) {
                             id="fileInput"
                             onChange={handleChange}
                             accept="image/*"
-                            name="file"
+                            name="profileImage"
+                        />
+                        <S.BgFileLabel htmlFor="bgFileInput">배경 사진 설정</S.BgFileLabel>
+                        <S.BgFileInput
+                            type="file"
+                            id="bgFileInput"
+                            onChange={handleChange}
+                            accept="image/*"
+                            name="coverImage"
                         />
                     </S.FieldFile>
                     <S.Field>
@@ -59,7 +112,7 @@ export default function MyProfileEdit({ setModalOpen }) {
                             id="name"
                             name="name"
                             onChange={handleChange}
-                            value={info.name}
+                            value={name}
                         />
                     </S.Field>
                     <S.Field>
@@ -68,8 +121,8 @@ export default function MyProfileEdit({ setModalOpen }) {
                             type="text"
                             id="nickName"
                             onChange={handleChange}
-                            name="nickName"
-                            value={info.nickName}
+                            name="nickname"
+                            value={nickname}
                         />
                         <S.CheckText>이미 존재하는 닉네임입니다</S.CheckText>
                         <S.CheckBtn type="button">중복 확인</S.CheckBtn>
@@ -79,8 +132,8 @@ export default function MyProfileEdit({ setModalOpen }) {
                         <S.Input
                             type="text"
                             id="description"
-                            name="description"
-                            value={info.description}
+                            name="profileText"
+                            value={profileText}
                             onChange={handleChange}
                         />
                     </S.Field>
