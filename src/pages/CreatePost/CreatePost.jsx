@@ -38,6 +38,7 @@ export default function CreatePost() {
         try {
             await authRequiredAxios.post('/posts', formData);
             alert('게시글이 성공적으로 생성되었습니다!');
+            window.location.href = '/post';
         } catch (error) {
             alert('게시글 생성에 실패했습니다.');
             console.error(error);
@@ -101,8 +102,8 @@ export default function CreatePost() {
                 </S.Box4>
 
                 <S.Btn>
-                <Link to="/post">
-                    <S.ButtonCancel>취소</S.ButtonCancel>
+                    <Link to="/post">
+                        <S.ButtonCancel>취소</S.ButtonCancel>
                     </Link>
                     <S.ButtonSubmit onClick={handleSubmit}>작성하기</S.ButtonSubmit>
                 </S.Btn>
@@ -110,4 +111,3 @@ export default function CreatePost() {
         </S.Container>
     );
 }
-
