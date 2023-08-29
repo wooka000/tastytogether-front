@@ -1,13 +1,32 @@
 import React from 'react';
 import * as S from './style/TopDetail.style';
 import { useNavigate } from 'react-router-dom';
+import useAxios from '../../hooks/useAxios';
+import useAuth from '../../hooks/useAuth';
+import axios from '../../utils/axios';
 
-export default function TopDetail({ storeInfo, storeReviewCount, storeLikeCount, storeReview }) {
+export default function TopDetail({ storeInfo, storeReviewCount, storeLikeCount, storeReview, setStoreLikeCount }) {
     const navigate = useNavigate();
     const { name, type, starRating, address, banners } = storeInfo;
     const bottomPhotoList = banners && banners.slice(1);
     const reviewPhotos = storeReview && storeReview.map((el) => el.photos);
     const reviewPhotoList = [].concat(...reviewPhotos);
+    const { authRequiredAxios } = useAxios('application/json');
+    const { isLogin } = useAuth();
+
+    const ClickBookMark = async () => {
+        if (!isLogin) {
+            navigate(`/users/login`);
+            return;
+        }
+        await authRequiredAxios({
+            method: 'patch',
+            url: `/stores/${storeInfo._id}/storelikes`,
+        });
+        const res = await axios.get(`/stores/${storeInfo._id}`);
+        const data = res.data
+        setStoreLikeCount(data.storeLikeCount)
+    };
 
     return (
         <S.TopDetailWrap>
@@ -59,7 +78,7 @@ export default function TopDetail({ storeInfo, storeReviewCount, storeLikeCount,
                 <S.DividerLine></S.DividerLine>
             </S.ScoreInfo>
             <S.TopBtns>
-                <S.TopBtn type="button" isBook={true}>
+                <S.TopBtn type="button" isBook={true} onClick={ClickBookMark}>
                     <S.TopBtnIcon src={'/imgs/bookmarkIcon.png'} isBook={true} />
                     <S.TopBtnText isBook={true}>북마크 추가</S.TopBtnText>
                 </S.TopBtn>

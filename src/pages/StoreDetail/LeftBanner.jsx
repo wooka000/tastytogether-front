@@ -1,26 +1,25 @@
-// import React, { useState, useEffect } from 'react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+// import React from 'react';
 import * as S from './style/LeftBanner.style';
 import { useNavigate } from 'react-router-dom';
 import KakaoMap from './KakaoMap';
-// import axios from '../../utils/axios';
+import axios from '../../utils/axios';
 
 export default function LeftBanner({ storeName, storeAddress }) {
     const navigate = useNavigate();
-    if (!storeAddress) return null;
-    // const { latitude, longitude, city, state } = storeAddress;
-    const { latitude, longitude} = storeAddress;
-    // const [board, setBoard] = useState([]);
-    // const keyword = `${city} ${state}`;
-    // useEffect(() => {
-    //     const getPost = async () => {
-    //         const res = await axios.get(`regionSearch?value=${keyword}`);
-    //         const data = res.data;
-    //         setBoard(data);
-    //     };
-    //     getPost();
-    // }, [storeAddress]);
-    // console.log(board);
+    const { latitude, longitude, city, state } = storeAddress;
+    const [board, setBoard] = useState([]);
+    const keyword = `${city} ${state}`;
+
+    useEffect(() => {
+        const getPost = async () => {
+            const res = await axios.get(`regionSearch?value=${keyword}`);
+            const data = res.data;
+            setBoard(data);
+        };
+        getPost();
+    }, [storeAddress]);
+    console.log(board);
     return (
         <S.LeftBannerWrapper>
             <S.MiniMap>

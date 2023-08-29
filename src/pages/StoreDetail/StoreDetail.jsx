@@ -15,7 +15,7 @@ export default function StoreDetail() {
     // const location = useLocation();
     // const storeId = location.state.storeId;
     const id = '64ed7f5be345728ff438f3da';
-    
+
     useEffect(() => {
         const getData = async () => {
             const res = await axios.get(`/stores/${id}`);
@@ -27,6 +27,7 @@ export default function StoreDetail() {
         };
         getData();
     }, []);
+    
     return (
         <>
             <S.Container>
@@ -36,14 +37,17 @@ export default function StoreDetail() {
                         storeLikeCount={storeLikeCount}
                         storeReviewCount={storeReviewCount}
                         storeReview={storeReview}
+                        setStoreLikeCount={setStoreLikeCount}
                     ></TopDetail>
                     <BottomDetail storeInfo={storeInfo}></BottomDetail>
                     <Reviews></Reviews>
                 </S.Main>
-                <LeftBanner
-                    storeName={storeInfo.name}
-                    storeAddress={storeInfo.address}
-                ></LeftBanner>
+                {storeInfo.address && (
+                    <LeftBanner
+                        storeName={storeInfo.name}
+                        storeAddress={storeInfo.address}
+                    ></LeftBanner>
+                )}
             </S.Container>
         </>
     );
