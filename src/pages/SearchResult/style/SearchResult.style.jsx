@@ -106,123 +106,7 @@ export const MyFilterContent = styled.div`
         }
     }
 `
-export const TypeFilter = styled.div`
-    margin-bottom: 20px;
-`
-export const TypeFilterTitle = styled.div`
-    font-size: 1.3rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 20px;
-`
-export const TypeFilterContent = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-`
-export const TypeLabel = styled.label`
-    margin-bottom: 10px;
-    &:hover{
-        cursor: pointer;
-    }
-`
-export const TypeFilterRadio = styled.input`
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-`
-export const TypeFilterSpan = styled.span`
-    font-size: 1.1rem;
-    font-weight: 600;
-    &:hover{
-        background-color: var(--color-accent);
-        opacity: 70%;
-        color: white;
-        border-radius: 3px;
-    }
-`
-export const RegionFilter = styled.div`
-    margin-bottom: 20px;
 
-`
-export const RegionFilterTitle = styled.div`
-    font-size: 1.3rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 20px;
-`
-export const RegionFilterContent = styled.div`
-    width: 260px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-`
-export const CitySelect = styled.select`
-    width: 100%;
-    height: 50px;
-    text-align: center;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-`
-export const AreaSelect = styled.select`
-    width: 100%;
-    height: 50px;
-    text-align: center;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-`
-export const SelectOption = styled.option`
-    font-size: 22px;
-    font-weight: 600;
-    background-color: #fff;
-`
-
-export const Sort = styled.div`
-    width: 985px;
-    height: 70px;
-    display: flex;
-    flex-direction: row;
-    padding: 10px 20px;
-    justify-content: flex-start;
-    align-items: center;
-`
-export const SortTitle = styled.div`
-    display: flex;
-    img{
-        width: 30px;
-        height: 30px;
-        margin-right: 15px;
-    }
-    h4{
-        font-size: 25px;
-        margin-right: 50px;
-    }
-`
-export const SortButton =styled.button`
-    width: 120px;
-    height: 50px;
-    font-size: 15px;
-    margin-right: 15px;
-    box-sizing: border-box;
-    border: 1px solid #f0f0f0;
-    border-radius: 20px;
-    background: white;
-    font-size: 20px;
-    font-weight: 600;
-    border: none;
-    background-color: #f0f0f0;
-    transition: all 250ms ease-out;
-    &:hover{
-        background-color: var(--color-accent);
-        color: white;
-    }
-`
 export const FilteredMap = styled.div`
     width: 985px;
     height: 400px;
@@ -239,111 +123,18 @@ export const Keyword = styled.h3`
     font-size: 25px;
     color: red;
 `
-
-export const ResultStore = styled.div`
-    height: 260px;
+export const MapContainer = styled.div`
     display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    border-radius: 10px;
-    transition: all 500ms ease-out;
-    &:hover{
-        background-color: #f0f0f0;
-    }
-`
-export const StoreInfo = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    padding: 20px 0 0 0;
-`
-export const InfoLeft = styled.div`
-    width: 227px;
-    height: 169px;
-    border-radius: 10px;
-    background: lightgray 50% / cover no-repeat;
-    margin-right: 20px;
-    img{
-        width: 227px;
-        height: 169px;
-        border-radius: 10px;
-        &:hover{
-            cursor: pointer;
+    justify-content: center;
+    align-items: center;
+        #map{
+            width: 700px;
+            height: 360px;
+        }
+        button{
+            z-index: 999;
         }
 `
-export const InfoRight = styled.div`
-    flex:1;
-    height: 169px;
-    box-sizing: border-box;
-    line-height: 50px;
-    display: flex;
-    flex-direction: column;
-`
-export const StoreName = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 742px;
-    height: 35px;
-    font-size: 28px;
-    flex: 1;
-    &:hover{
-        cursor: pointer;
-    }
-    .name{
-        width: 50%;
-        text-align: left;
-    }
-    .store_region{
-        width: 50%;
-        text-align: right;
-        color: gray;
-        margin-right: 20px;
-    }
-`
-export const StoreType = styled.p`
-    font-size: 23px;
-    font-weight: 600;
-    color: gray;
-`
-export const StoreHash = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    height: 35px;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: normal;
-`
-export const StoreEval =styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    height: 35px;
-    font-size: 24px;
-    p{
-        margin-right: 15px;
-    }
-`
-
-export const StoreReview = styled.div`
-    width: 963px;
-    height: 52px;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-`
-export const ReviewContent = styled.p`
-    width: 963px;
-    font-size: 20px;
-    font-weight: 600;
-    color: gray;
-`
-export const ReviewId = styled.p`
-    width: 963px;
-    text-align: right;
-    font-size: 20px;
-    color: #FF914D;
-    font-weight: 600;
+export const AddressInput = styled.input`
+    display: none;
 `

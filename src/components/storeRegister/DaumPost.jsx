@@ -45,9 +45,9 @@ function DaumPost({ setStoreInfo }){
   const handleClick = () => {
         open({onComplete: handleComplete});
   }
-  // DB에서 가져온 데이터와 비교(400error)
+  // DB에서 가져온 데이터와 비교
   const handleInfoChange = () => {
-    const apiUrl = 'http://localhost:8080/stores';
+    const apiUrl = 'stores';
     axios.get(apiUrl)
       .then(response => {
         const isRegistered = response.data.some(store => {
