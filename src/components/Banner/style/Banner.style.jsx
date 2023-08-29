@@ -5,7 +5,8 @@ export const Container = styled.section`
     top: 0;
     width: 100%;
     height: 500px;
-    background-image: url('/imgs/banner.jpg');
+    background-image: ${(props) =>
+        props.photos == null ? 'url("/imgs/banner.jpg")' : `url(${props.photos})`};
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
