@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import * as S from './style/CreateReview.style';
 import { AiOutlinePlus } from 'react-icons/ai';
+import useAxios from '../../hooks/useAxios';
 
 export default function CreateReview() {
-    const [review, setReview] = useState({});
-    const [fileList, setFileList] = useState([]);
+    const [grade, setGrade] = useState('');
+    const [content, setContent] = useState('');
+    const [photos, setPhotos] = useState([]);
     const [count, setCount] = useState(0);
 
+    const { authRequiredAxios } = useAxios('multipart/form-data');
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === 'file') {
@@ -14,25 +17,45 @@ export default function CreateReview() {
                 return;
             }
             setCount((prev) => prev + 1);
-            files[0] && setFileList((list) => [...list, files[0]]);
+            files[0] && setPhotos((list) => [...list, files[0]]);
             return;
+        } else if (name === 'grade') {
+            setGrade(value);
+        } else if (name === 'content') {
+            setContent(value);
         }
-        setReview((review) => ({ ...review, [name]: value }));
     };
 
     const handleReset = () => {
-        setReview({});
-        setFileList([]);
+        setGrade('');
+        setContent('');
+        setPhotos([]);
         setCount(0);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!review.grade) {
+
+        if (!grade) {
             alert('평점 아이콘을 눌러주세요!');
             return;
         }
-        console.log(review, fileList);
+        const formData = new FormData();
+        formData.append('grade', grade);
+        formData.append('content', content);
+        formData.append('photos', photos);
+        console.log(photos);
+
+        try {
+            const response = await authRequiredAxios({
+                method: 'post',
+                url: '/review/64ec9f355385494e68f4730f',
+                data: formData,
+            });
+            console.log(response);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     const handleRemove = (e) => {
@@ -47,7 +70,7 @@ export default function CreateReview() {
                 </S.Title>
                 <S.Form onSubmit={handleSubmit}>
                     <S.GradeList>
-                        <S.GradeItem ischecked={review.grade === '5' ? 'yes' : 'no'}>
+                        <S.GradeItem ischecked={grade === '5' ? 'yes' : 'no'}>
                             <S.RadioBtn
                                 type="radio"
                                 id="good"
@@ -60,7 +83,7 @@ export default function CreateReview() {
                                 <S.LabelText>good</S.LabelText>
                             </S.Label>
                         </S.GradeItem>
-                        <S.GradeItem ischecked={review.grade === '3' ? 'yes' : 'no'}>
+                        <S.GradeItem ischecked={grade === '3' ? 'yes' : 'no'}>
                             <S.RadioBtn
                                 type="radio"
                                 id="soso"
@@ -73,7 +96,7 @@ export default function CreateReview() {
                                 <S.LabelText>soso</S.LabelText>
                             </S.Label>
                         </S.GradeItem>
-                        <S.GradeItem ischecked={review.grade === '1' ? 'yes' : 'no'}>
+                        <S.GradeItem ischecked={grade === '1' ? 'yes' : 'no'}>
                             <S.RadioBtn
                                 type="radio"
                                 id="bad"
@@ -93,12 +116,12 @@ export default function CreateReview() {
                         cols="30"
                         rows="10"
                         placeholder="회원님, 주문하신 메뉴는 어떠셨나요? 식당의 분위기와 서비스도 궁금해요!"
-                        value={review.content ?? ''}
+                        value={content ?? ''}
                         onChange={handleChange}
                     ></S.Content>
                     <S.Files>
-                        {fileList &&
-                            fileList.map((filed, index) => {
+                        {photos &&
+                            photos.map((filed, index) => {
                                 return (
                                     <S.Preview key={index}>
                                         <S.PreviewImg
