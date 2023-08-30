@@ -10,7 +10,7 @@ export default function MyProfileEdit({ setModalOpen, user }) {
         user: PropTypes.object.isRequired,
     };
     const { authRequiredAxios } = useAxios('multipart/form-data');
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
     const [name, setName] = useState(user.name);
     const [nickname, setNickname] = useState(user.nickname);
     const [profileText, setProfileText] = useState(user.profileText);
@@ -29,13 +29,21 @@ export default function MyProfileEdit({ setModalOpen, user }) {
         formData.append('profileImage', profileImage);
         formData.append('coverImage', coverImage);
         try {
-            console.log(profileImage);
-            console.log(coverImage);
-            await authRequiredAxios({
+            const res = await authRequiredAxios({
                 method: 'patch',
                 url: `/user/${auth.userId}`,
                 data: formData,
             });
+            const data = await res.data;
+            const status = res.status;
+            console.log(res);
+            if (status == 200) {
+                setAuth((prev) => ({
+                    ...prev,
+                    nickname: data.nickname,
+                    profileImage: data.profileImage,
+                }));
+            }
         } catch (err) {
             console.error(err);
         } finally {

@@ -44,6 +44,7 @@ export default function CreateReview() {
         formData.append('grade', grade);
         formData.append('content', content);
         formData.append('photos', photos);
+
         try {
             const response = await authRequiredAxios({
                 method: 'post',
