@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useLocation } from 'react-router-dom';
 import * as S from './style/StoreDetailEdit.style';
 // import useAxios from '../../hooks/useAxios';
-import { regPhone, regHour, regMinute } from '../../utils/regList';
+// import { regPhone, regHour, regMinute } from '../../utils/regList';
 
 export default function StoreDetailEdit() {
     // const { authRequiredAxios } = useAxios('application/json');
-    const [newPhone, setNewPhone] = useState('');
+    // const [newPhone, setNewPhone] = useState('');
     const [newClosedDays, setNewClosedDays] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     // const location = useLocation();
@@ -14,6 +14,12 @@ export default function StoreDetailEdit() {
 
     // const storeId = location.state.storeId;
 
+    // const handleChange = (e)=>{
+    //     const {name, value} = e.target
+    //     if(name=== 'newPhone'){
+    //         if(value)
+    //     }
+    // }
     const checkedDayHandler = (value, isChecked) => {
         if (isChecked) {
             setNewClosedDays((prev) => [...prev, value]);
@@ -32,17 +38,20 @@ export default function StoreDetailEdit() {
             if (e.target.checked) {
                 setNewClosedDays([]);
             }
+        } else if (newClosedDays[0] === '연중무휴') {
+            setNewClosedDays([]);
         }
         checkedDayHandler(value, e.target.checked);
     };
-    console.log(newClosedDays);
 
-    // const handleChange = (e)=>{
-    //     const {name, value} = e.target
-    //     if(name=== 'newPhone'){
-    //         if(value)
-    //     }
-    // }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const sortedDayList = newClosedDays.sort(
+            (a, b) => dayCheckList.indexOf(a) - dayCheckList.indexOf(b),
+        );
+        setNewClosedDays(sortedDayList);
+    };
+
     return (
         <S.Container>
             <S.DetailEditForm>
@@ -213,7 +222,9 @@ export default function StoreDetailEdit() {
                 </S.EditContentBox>
                 <S.DividerLine></S.DividerLine>
                 <S.EditFormBtns>
-                    <S.EditFormBtn isOrange={true}>수정하기</S.EditFormBtn>
+                    <S.EditFormBtn type="button" isOrange={true} onClick={handleSubmit}>
+                        수정하기
+                    </S.EditFormBtn>
                     <S.EditFormBtn>취소하기</S.EditFormBtn>
                 </S.EditFormBtns>
             </S.DetailEditForm>
