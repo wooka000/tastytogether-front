@@ -1,6 +1,4 @@
-// import React, { useState } from 'react';
-import React, { useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import * as S from './style/StoreRegister.style'
 import DaumPost from '../../components/storeRegister/DaumPost'; 
 import TypeModalButton from '../../components/storeRegister/TypeModalButton';
@@ -11,19 +9,20 @@ import Time from '../../components/storeRegister/Time';
 import BreakDay from '../../components/storeRegister/BreakDay';
 import MenuModalButton from '../../components/storeRegister/MenuModalButton';
 import StoreImage from '../../components/storeRegister/StoreImage';
-import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
+
 
 export default function StoreRegister () {
-    // 로그인시 주석 해제
-    const navigate = useNavigate();
+
+    const { authRequiredAxios } = useAxios('multipart/form-data');
 
     const [storeInfo, setStoreInfo] = useState({
         banners: [],
         name: "",
         address: {
-            street: "",
             city: "",
             state: "",
+            street: "",
             fullAddress: "",
             zipCode: "",
             latitude: "",
@@ -37,9 +36,6 @@ export default function StoreRegister () {
         businessHours: [],
         closedDays: [],
     });
-
-    const handleSaveStore = async (e) => {
-        e.preventDefault();
 
         const {
             banners,
@@ -68,6 +64,12 @@ export default function StoreRegister () {
             formData.append(`menuItems[${index}][name]`, menuItem.name);
             formData.append(`menuItems[${index}][price]`, menuItem.price);
         });
+        businessHours && businessHours.forEach((hour, index) => {
+            formData.append(`businessHours[${index}]`, hour);
+        });
+        closedDays && closedDays.forEach((day, index) => {
+            formData.append(`closedDays[${index}]`, day);
+        });
 
         formData.append('address[street]', address.street);
         formData.append('address[city]', address.city);
@@ -77,31 +79,23 @@ export default function StoreRegister () {
         formData.append('address[latitude]', address.latitude);
         formData.append('address[longitude]', address.longitude);
 
-        businessHours && businessHours.forEach((day, index) => {
-            formData.append(`businessHours[${index}]`, day);
-        });
-        closedDays && closedDays.forEach((day, index) => {
-            formData.append(`closedDays[${index}]`, day);
-        });
-        console.log(address.street)
-        try {
-            const response = await axios.post('/stores', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+        formData.forEach(function(value, key) {
+            console.log(key + ': ' + value);
             });
-            console.log(response.data);
-            navigate('/');
-        } catch (error) {
-            console.error(error);
+        const handleSaveStore = async () =>{
+            const response = await authRequiredAxios({
+                method: 'post',
+                url: '/stores',
+                data: formData,
+            })
+            console.log(response);
         }
-        console.log(storeInfo)
-    };
+
 
     return(
         <S.Container>
             <S.Article>
-                <S.RegisterForm onSubmit={handleSaveStore}>
+                <S.RegisterForm>
                     <DaumPost setStoreInfo={setStoreInfo}  />
                     <TypeModalButton setStoreInfo={setStoreInfo} /> 
                     <PhoneNumber setStoreInfo={setStoreInfo} />
@@ -112,7 +106,7 @@ export default function StoreRegister () {
                     <MenuModalButton setStoreInfo={setStoreInfo} />
                     <StoreImage setStoreInfo={setStoreInfo} />
                     <S.RegisterButton>
-                        <button type="submit">새로운 업체 등록하기</button>
+                        <button type="button" onClick={handleSaveStore}>새로운 업체 등록하기</button>
                     </S.RegisterButton>
                 </S.RegisterForm>
             </S.Article>

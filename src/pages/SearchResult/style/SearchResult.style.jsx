@@ -52,17 +52,6 @@ export const ResultDiv = styled.div`
     left: 365px;
 `
 
-export const Social = styled.div`
-    width: 260px;
-    height: 125px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    margin-bottom: 30px;
-`
-
 export const MyFilterTitle = styled.div`
     font-size: 1.3rem;
     display: flex;
@@ -112,29 +101,7 @@ export const FilteredMap = styled.div`
     height: 400px;
     border: 1px solid #f0f0f0;
 `
-export const ResultNotice = styled.div`
-    font-size: 20px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-`
 
-export const Keyword = styled.h3`
-    font-size: 25px;
-    color: red;
-`
-export const MapContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-        #map{
-            width: 700px;
-            height: 360px;
-        }
-        button{
-            z-index: 999;
-        }
-`
-export const AddressInput = styled.input`
-    display: none;
-`
+export const ResultStores = styled.div``
+export const Pagination = styled.div``
+export const Result = styled.div``

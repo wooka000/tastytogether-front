@@ -54,33 +54,24 @@ export const TableLine = styled.div`
             }
         }
     }
-    #type_modal_button{
-        width: 107px;
-        height: 52px;
-        border-radius: 5px;
-        border: none;
-        background-color: lightgray;
-        font-size: 18px;
-        color: white;
-        margin-left: 20px;
-        right: 20px;
-        &:hover{
-            background-color: #FF9C5F;
-        }
-        &:active {
-            filter: brightness(70%);
-          }
+ `
+ export const TypeButton = styled.div`
+    width: 107px;
+    height: 52px;
+    border-radius: 5px;
+    border: none;
+    background-color: lightgray;
+    font-size: 18px;
+    color: white;
+    margin-left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover{
+        background-color: #FF9C5F;
+    }
+    &:active {
+        filter: brightness(70%);
     }
  `
-export const Menu = styled.div`
-    display: flex;
-    box-sizing: border-box;
-    width: 310px;
-    input{
-        width: 55px;
-        height: 42px;
-        border:none;
-        font-size: 22px;
-        text-align: center;
-    }
-`
