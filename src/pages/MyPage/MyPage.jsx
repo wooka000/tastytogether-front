@@ -1,49 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style/MyPage.style';
 import MyBoard from '../../components/MyPage/MyBoard';
 import MyReview from '../../components/MyPage/MyReview';
 import MyBookmark from '../../components/MyPage/MyBookmark';
 import MyProfileEdit from '../../components/MyPage/MyProfileEdit';
-import { BiImageAdd } from 'react-icons/bi';
+import useAxios from '../../hooks/useAxios';
 
 export default function MyPage() {
+    const { authRequiredAxios } = useAxios('application/json');
     const [tab, setTab] = useState('게시글');
     const tabList = [{ category: '게시글' }, { category: '리뷰' }, { category: '북마크' }];
+    const [user, setUser] = useState({});
     const tabComponent = {
         게시글: <MyBoard />,
         리뷰: <MyReview />,
         북마크: <MyBookmark />,
     };
+
     const [modalOpen, setModalOpen] = useState(false);
-    const [bgFile, setBgFile] = useState();
-    const handleChange = (e) => {
-        const { files } = e.target;
-        setBgFile(files && files[0]);
-        console.log(bgFile);
-    };
+
+    useEffect(() => {
+        const getUser = async () => {
+            const res = await authRequiredAxios({
+                method: 'get',
+                url: '/user',
+            });
+            const data = await res.data;
+            setUser(data);
+        };
+        getUser();
+    }, [modalOpen]);
+    const { profileImage, nickname, profileText, coverImage } = user;
     return (
         <S.Container>
-            {modalOpen && <MyProfileEdit setModalOpen={setModalOpen}></MyProfileEdit>}
-            <S.ProfileBg file={bgFile ? bgFile : ''}>
-                <S.ShowInputFile htmlFor="file">
-                    <BiImageAdd />
-                    <S.FileText>배경 사진 변경</S.FileText>
-                </S.ShowInputFile>
-                <S.InputFile
-                    type="file"
-                    name="file"
-                    id="file"
-                    accept="image/*"
-                    onChange={handleChange}
-                />
-            </S.ProfileBg>
+            {modalOpen && <MyProfileEdit setModalOpen={setModalOpen} user={user}></MyProfileEdit>}
+            {coverImage ? (
+                <S.ProfileBg bg={coverImage}></S.ProfileBg>
+            ) : (
+                <S.ProfileBg bg={''}></S.ProfileBg>
+            )}
             <S.ProfileBox>
                 <S.EditBtn onClick={() => setModalOpen(true)}>프로필 수정</S.EditBtn>
                 <S.Info>
-                    <S.Img src="/imgs/profile.png" alt="profile" />
+                    <S.Img src={profileImage} alt="profile" />
                     <S.Text>
-                        <S.Name>김망고</S.Name>
-                        <S.Description>안녕하세요 정직한 리뷰만 달고 있습니다~</S.Description>
+                        <S.Name>{nickname}</S.Name>
+                        <S.Description>{profileText}</S.Description>
                     </S.Text>
                 </S.Info>
                 <S.Menu>

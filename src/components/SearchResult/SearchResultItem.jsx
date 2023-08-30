@@ -1,16 +1,25 @@
-import { React } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import * as S from './style/SearchResultItem.style'; // import your styles
+import * as S from './style/SearchResultItem.style';
 
-function SearchResultItem({ item, index, linkTo, checkKeywordMatch }) {
+const SearchResultItem = ({ item, index, linkTo, checkKeywordMatch, handleItemClick }) => {
     
     if (!checkKeywordMatch) {
         return null;
     }
-    return(
-        <Link to={linkTo} style={{ textDecoration: 'none', color: 'inherit' }}>
+
+    const handleClick = () => {
+        handleItemClick(item._id);
+    };
+
     
-            <S.ResultStore key={item.id}>
+    return(
+        <Link 
+            to={linkTo} 
+            style={{ textDecoration: 'none', color: 'inherit' }} 
+            onClick={handleItemClick}
+        >
+            <S.ResultStore  onClick={handleClick}>
                 <S.StoreInfo>
                     <S.InfoLeft>
                         <img src={item.banners[0]} alt="" />
@@ -37,7 +46,7 @@ function SearchResultItem({ item, index, linkTo, checkKeywordMatch }) {
                     </S.InfoRight>
                 </S.StoreInfo>
                 {item.reviews.length !== 0 ? (
-                    <S.StoreReview key={index}>
+                    <S.StoreReview>
                         <S.ReviewContent>{item.reviews[0].content}</S.ReviewContent>
                         <S.ReviewId>by.{item.reviews[0].userId}</S.ReviewId>
                     </S.StoreReview>

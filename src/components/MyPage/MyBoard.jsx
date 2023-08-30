@@ -1,14 +1,18 @@
-import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
 import React, { useEffect, useState } from 'react';
 import * as S from './style/MyBoard.style';
 
 export default function MyBoard() {
     const [boards, setBoards] = useState();
 
+    const { authRequiredAxios } = useAxios('application/json');
     useEffect(() => {
         const getData = async () => {
-            const res = await axios.get('/data/myboard.json');
-            const data = res.data;
+            const res = await authRequiredAxios({
+                method: 'get',
+                url: '/user/boards',
+            });
+            const data = await res.data.boardList;
             setBoards(data);
         };
         getData();

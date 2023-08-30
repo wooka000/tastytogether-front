@@ -6,10 +6,7 @@ export const Container = styled.div`
 `;
 
 export const ProfileBg = styled.div`
-    background-image: ${(props) =>
-        props.file === ''
-            ? 'url("/imgs/profilebg.jpg")'
-            : `url(${URL.createObjectURL(props.file)})`};
+    background-image: ${(props) => (props.bg ? `url(${props.bg})` : "url('/imgs/profilebg.jpg')")};
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -17,13 +14,12 @@ export const ProfileBg = styled.div`
     height: 300px;
 `;
 
-export const ShowInputFile = styled.label`
+export const Form = styled.form`
     font-size: 20px;
     color: gray;
     float: right;
     display: flex;
     align-items: center;
-    margin: 10px;
     border: 1px dotted gray;
     border-radius: 10px;
     padding: 5px 15px;
@@ -33,6 +29,22 @@ export const ShowInputFile = styled.label`
         color: black;
         border: 1px solid black;
     }
+`;
+
+export const ShowInputFile = styled.label`
+    display: flex;
+    align-items: center;
+    margin: 10px;
+`;
+
+export const SubmitBtn = styled.button`
+    border: 1px solid gray;
+    padding: 10px;
+    background: transparent;
+`;
+
+export const BtnText = styled.span`
+    font-size: 15px;
 `;
 
 export const FileText = styled.span`
@@ -75,15 +87,18 @@ export const EditBtn = styled.button`
 export const Info = styled.div`
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
 `;
 
 export const Img = styled.img`
     width: 150px;
     height: 150px;
+    border-radius: 50%;
 `;
 
 export const Text = styled.div`
     max-width: 800px;
+    margin-left: 20px;
 `;
 
 export const Name = styled.p`

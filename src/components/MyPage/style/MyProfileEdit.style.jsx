@@ -49,14 +49,31 @@ export const FieldFile = styled.div`
     margin: 0 auto;
     width: 70%;
     position: relative;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
     height: 60px;
 `;
 
 export const FileLabel = styled.label`
     background-color: whitesmoke;
     color: gray;
-    padding: 10px;
+    padding: 10px 30px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: block;
+    height: 38px;
+    cursor: pointer;
+    transition: all 250ms ease-out;
+
+    &:hover {
+        color: black;
+    }
+`;
+
+export const BgFileLabel = styled.label`
+    background-color: whitesmoke;
+    color: gray;
+    padding: 10px 30px;
     border-radius: 10px;
     font-weight: bold;
     display: block;
@@ -73,12 +90,22 @@ export const FileInput = styled.input`
     display: none;
 `;
 
+export const BgFileInput = styled.input`
+    display: none;
+`;
+
+export const PreviewImgs = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+    text-align: center;
+    margin: 0 auto 15px;
+`;
+
 export const PreviewImg = styled.img`
     width: 150px;
     height: 150px;
-    text-align: center;
-    margin: 0 auto;
-    margin-bottom: 10px;
     border-radius: 50%;
 `;
 
