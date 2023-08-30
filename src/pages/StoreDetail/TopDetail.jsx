@@ -21,7 +21,7 @@ export default function TopDetail({
     const { authRequiredAxios } = useAxios('application/json');
     const { isLogin, auth } = useAuth();
 
-    const ClickBookMark = async () => {
+    const clickBookMarkBtn = async () => {
         if (!isLogin) {
             navigate(`/users/login`);
             return;
@@ -35,9 +35,24 @@ export default function TopDetail({
         setStoreLikeCount(data.storeLikeCount);
         setStoreInfo(data.storeInfo);
     };
-    
+    const clickReviewBtn = async () => {
+        if (!isLogin) {
+            navigate(`/users/login`);
+            return;
+        }
+        navigate(`/review/${storeInfo._id}`, { state: { name: storeInfo.name } });
+        return;
+    };
+    const clickMateBtn = async () => {
+        if (!isLogin) {
+            navigate(`/users/login`);
+            return;
+        }
+        navigate(`/post/create`);
+        return;
+    };
     const isUserLike = useMemo(() => storeLikes && storeLikes.includes(auth.userId), [storeLikes]);
-    
+
     return (
         <S.TopDetailWrap>
             <S.StoreBanners>
@@ -88,23 +103,18 @@ export default function TopDetail({
                 <S.DividerLine></S.DividerLine>
             </S.ScoreInfo>
             <S.TopBtns>
-                <S.TopBtn type="button" isBook={true} onClick={ClickBookMark}>
+                <S.TopBtn type="button" isBook={true} onClick={clickBookMarkBtn}>
                     <S.TopBtnIcon
                         src={isUserLike ? '/imgs/orageBookmarkIcon.png' : '/imgs/bookmarkIcon.png'}
                         isBook={true}
                     />
                     <S.TopBtnText isBook={true}>북마크 추가</S.TopBtnText>
                 </S.TopBtn>
-                <S.TopBtn
-                    type="button"
-                    onClick={() =>
-                        navigate(`/review/${storeInfo._id}`, { state: { name: storeInfo.name } })
-                    }
-                >
+                <S.TopBtn type="button" onClick={clickReviewBtn}>
                     <S.TopBtnIcon src={'/imgs/reviewIcon.png'} />
                     <S.TopBtnText>리뷰 쓰기</S.TopBtnText>
                 </S.TopBtn>
-                <S.TopBtn type="button" onClick={() => navigate(`/post/create`)}>
+                <S.TopBtn type="button" onClick={clickMateBtn}>
                     <S.TopBtnIcon src={'/imgs/mateIcon.png'} />
                     <S.TopBtnText>메이트 구하기</S.TopBtnText>
                 </S.TopBtn>
@@ -112,6 +122,3 @@ export default function TopDetail({
         </S.TopDetailWrap>
     );
 }
-
-// 북마크 버튼 이미 가고싶다 누른 사람이면 북마크 채워져 있어야 함
-// 그리고 모든 버튼들 누르면 주황색으로 잠깐 변했다 돌아와야 함

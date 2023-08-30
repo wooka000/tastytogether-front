@@ -1,7 +1,30 @@
-import React from 'react';
+import React, {  } from 'react';
 import * as S from './style/StoreDetailEdit.style';
 
 export default function StoreDetailEdit() {
+    // const { authRequiredAxios } = useAxios('application/json');
+    // const [phone, setPhone] = useState("")
+    //  const [phone, setPhone] = useState("")
+    //  const [phone, setPhone] = useState("")
+    //  const [phone, setPhone] = useState("")
+    //  const [phone, setPhone] = useState("")
+    // const handleSubmit = async () => {
+    //     const formData = new FormData();
+    //     formData.append('region', region);
+    //     formData.append('title', title);
+    //     formData.append('content', content);
+    //     formData.append('meetDate', date);
+
+    //     try {
+    //         await authRequiredAxios.post('/posts', formData);
+    //         alert('게시글이 성공적으로 생성되었습니다!');
+    //         window.location.href = '/post';
+    //     } catch (error) {
+    //         alert('게시글 생성에 실패했습니다.');
+    //         console.error(error);
+    //     }
+    // };
+
     return (
         <S.Container>
             <S.DetailEditForm>
@@ -35,7 +58,7 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="radio5">
                             기타
                             <S.RadioInput id="radio5" name="priceInfo" type="radio" />
-                            <S.InputBox placeholder="가격대를 입력해주세요." isPhone={false} />
+                            <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                     </div>
                 </S.EditContentBox>
@@ -162,7 +185,9 @@ export default function StoreDetailEdit() {
                 </S.EditContentBox>
                 <S.DividerLine></S.DividerLine>
                 <S.EditFormBtns>
-                    <S.EditFormBtn isOrange={true}>수정하기</S.EditFormBtn>
+                    <S.EditFormBtn isOrange={true} >
+                        수정하기
+                    </S.EditFormBtn>
                     <S.EditFormBtn>취소하기</S.EditFormBtn>
                 </S.EditFormBtns>
             </S.DetailEditForm>

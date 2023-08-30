@@ -96,6 +96,7 @@ export const TimeInput = styled.input`
     margin-top: -6px;
     text-align: center;
     font-size: 15px;
+    color: #ff9c5f;
     &:focus {
         outline: none;
     }

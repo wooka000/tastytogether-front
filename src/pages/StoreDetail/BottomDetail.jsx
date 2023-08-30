@@ -1,12 +1,22 @@
 import React from 'react';
 import * as S from './style/BottomDetail.style';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 export default function BottomDetail({ storeInfo }) {
     const navigate = useNavigate();
+    const { isLogin } = useAuth();
     const { address, phone, menuItems, priceRange, parkingInfo, businessHours, closedDays } =
         storeInfo;
 
+    const infoEditBtn = async () => {
+        if (!isLogin) {
+            navigate(`/users/login`);
+            return;
+        }
+        navigate(`/stores/detail/${storeInfo._id}/edit`);
+        return;
+    };
     return (
         <S.BottomDetailWrap>
             <S.StoreDetailBox>
@@ -46,40 +56,26 @@ export default function BottomDetail({ storeInfo }) {
                 <S.StoreDetailItem>
                     <S.StoreDetailTitle>대표 메뉴</S.StoreDetailTitle>
                     <S.MenuItems>
-                        <S.MenuItem>
-                            <S.StoreDetailContent>
-                                {menuItems && menuItems[0].name}
-                            </S.StoreDetailContent>
-                            <S.StoreDetailContent>
-                                {menuItems && Number(menuItems[0].price).toLocaleString()}
-                            </S.StoreDetailContent>
-                        </S.MenuItem>
-                        <S.MenuDividerLine></S.MenuDividerLine>
-                        <S.MenuItem>
-                            <S.StoreDetailContent>
-                                {menuItems && menuItems[1].name}
-                            </S.StoreDetailContent>
-                            <S.StoreDetailContent>
-                                {menuItems && Number(menuItems[1].price).toLocaleString()}
-                            </S.StoreDetailContent>
-                        </S.MenuItem>
-                        <S.MenuDividerLine></S.MenuDividerLine>
-                        <S.MenuItem>
-                            <S.StoreDetailContent>
-                                {menuItems && menuItems[2].name}
-                            </S.StoreDetailContent>
-                            <S.StoreDetailContent>
-                                {menuItems && Number(menuItems[2].price).toLocaleString()}
-                            </S.StoreDetailContent>
-                        </S.MenuItem>
-                        <S.MenuDividerLine></S.MenuDividerLine>
+                        {menuItems &&
+                            menuItems.map((el) => {
+                                return (
+                                    <>
+                                        <S.MenuItem>
+                                            <S.StoreDetailContent>{el.name}</S.StoreDetailContent>
+                                            <S.StoreDetailContent>
+                                                {Number(el.price).toLocaleString()}원
+                                            </S.StoreDetailContent>
+                                        </S.MenuItem>
+                                        <S.MenuDividerLine></S.MenuDividerLine>
+                                    </>
+                                );
+                            })}
+                       
                     </S.MenuItems>
                 </S.StoreDetailItem>
             </S.StoreDetailBox>
             <div>
-                <S.StoreEditLink onClick={() => navigate(`/stores/detail/${storeInfo._id}/edit`)}>
-                    정보 수정하기 &#62;
-                </S.StoreEditLink>
+                <S.StoreEditLink onClick={infoEditBtn}>정보 수정하기 &#62;</S.StoreEditLink>
             </div>
         </S.BottomDetailWrap>
     );
