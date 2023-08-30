@@ -141,18 +141,19 @@ export default function SearchResult() {
             }    
         return filteredSortedData;
     }, [stores, selectedType, selectedArea, selectedSort]);
-
+// 배열값을 그냥 변수처럼 넣어서 빈배열만 전달되었음.
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentPageItems = useMemo(() => {
         let pageItems = [];
         if (keyword && stores) {
-            pageItems = applySearchAndSort;
+          pageItems.push(...applySearchAndSort);
+        } else if (selectedType || selectedArea) {
+          pageItems.push(...applyFiltersAndSort);
+        } else {
+          pageItems.push(...stores);
         }
-        if (selectedType || selectedArea) {
-            pageItems = applyFiltersAndSort;
-        }
-        return pageItems.slice(startIndex, endIndex);
+        return pageItems.length >10 ? pageItems.slice(startIndex, endIndex) : pageItems
     },  [applySearchAndSort, applyFiltersAndSort, keyword, stores, selectedType, selectedArea, startIndex, endIndex]);
 
     let region;
@@ -177,10 +178,6 @@ export default function SearchResult() {
     // 가게 클릭 시 가게 상세페이지로 이동
     const [clickedStore, setClickedStore] = useState(null)
 
-    const handleItemClick = (e) => {
-        const clickedElement = e.currentTarget;
-        setClickedStore(clickedElement);
-    };
     useEffect(()=>{
         if(clickedStore){
             navigate(`/stores/detail/${clickedStore._id}`, {state : {storeId: clickedStore._id}})
@@ -201,7 +198,7 @@ export default function SearchResult() {
             </S.Nav>
             <S.ResultDiv>
                 <SortFilter setSelectedSort={setSelectedSort} />
-                <FilteredMap stores={currentPageItems} />
+                <FilteredMap currentPageItems={currentPageItems} />
                 <ResultNotice
                     selectedType={selectedType}
                     selectedArea={selectedArea}
@@ -211,7 +208,8 @@ export default function SearchResult() {
                     applyFiltersAndSort={applyFiltersAndSort}
                     applySearchAndSort={applySearchAndSort}
                 />
-                {(stores || keyword.trim() === '' || applyFiltersAndSort.length > 0) && (
+                {/* {(stores || keyword.trim() === '' || applyFiltersAndSort.length > 0) && ( */}
+                {(stores.length > 0) && (
                     <S.ResultStores>
                         <S.Result>
                             {keyword.trim() !== '' &&
@@ -223,7 +221,7 @@ export default function SearchResult() {
                                         keyword={keyword}
                                         linkTo={getLinkToPath(item, keyword, false)}
                                         // keywordMatch={checkKeywordMatch(item, keyword)}
-                                        onClick={() => handleItemClick(item._id)}
+                                        setClickedStore={setClickedStore}
                                     />
                                 ))}
                             {stores &&
@@ -238,7 +236,7 @@ export default function SearchResult() {
                                           item={item}
                                           index={index}
                                           linkTo={getLinkToPath(item, region, true)}
-                                          onClick={() => handleItemClick(item._id)}
+                                          setClickedStore={setClickedStore}
                                       />
                                   ))
                                 : null}
@@ -254,7 +252,7 @@ export default function SearchResult() {
                                             linkTo={getLinkToPath(item, '', true)}
                                             // keywordMatch={checkKeywordMatch(item, keyword)}
                                             stores={stores}
-                                            onClick={() => handleItemClick(item._id)}
+                                            setClickedStore={setClickedStore}
                                         />
                                     );
                                 } else if (selectedType || selectedCity || selectedArea) {
@@ -264,7 +262,7 @@ export default function SearchResult() {
                                             item={item}
                                             index={index}
                                             linkTo={getLinkToPath(item, region, true)}
-                                            onClick={() => handleItemClick(item._id)}
+                                            setClickedStore={setClickedStore}
                                         />
                                     );
                                 } else {

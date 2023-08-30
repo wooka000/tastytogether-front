@@ -2,24 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './style/SearchResultItem.style';
 
-const SearchResultItem = ({ item, index, linkTo, checkKeywordMatch, handleItemClick }) => {
+const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
     
-    if (!checkKeywordMatch) {
-        return null;
-    }
-
-    const handleClick = () => {
-        handleItemClick(item._id);
+    // if (!checkKeywordMatch) {
+    //     return null;
+    // }
+    const handleItemClick = (e) => {
+        const clickedElement = e.currentTarget;
+        setClickedStore(clickedElement);
     };
 
-    
     return(
         <Link 
             to={linkTo} 
             style={{ textDecoration: 'none', color: 'inherit' }} 
             onClick={handleItemClick}
         >
-            <S.ResultStore  onClick={handleClick}>
+            <S.ResultStore>
                 <S.StoreInfo>
                     <S.InfoLeft>
                         <img src={item.banners[0]} alt="" />

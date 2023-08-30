@@ -17,7 +17,7 @@ const ResultNotice = ({ selectedType, selectedCity, selectedArea, keyword, apply
   return (
     <S.ResultNotice>
       <S.Keyword>
-        {keyword.trim() !== '' && applySearchAndSort.length > 0 && (
+        {keyword.trim() !== '' && (
           <span>{`${keyword}에 대한 결과입니다.`}</span>
         )}
         {keyword.trim() === '' && applyFiltersAndSort.length > 0 && (

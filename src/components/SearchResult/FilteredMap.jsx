@@ -2,8 +2,10 @@
 import * as S from './style/FilteredMap.style'; 
 import React, { useEffect, useRef, useState } from 'react';
 
-const FilteredMap = ({ stores }) => {
-    console.log(stores)
+
+// currentPageItems 값 전달되는 것 확인! 렌더링이 안된다.
+const FilteredMap = ({ currentPageItems }) => {
+    console.log(currentPageItems)
     const kakaoMap = useRef([]);
     const setKakaoMap = useState(null)[1];
 
@@ -17,8 +19,8 @@ const FilteredMap = ({ stores }) => {
 
             const map = new window.kakao.maps.Map(mapContainer, mapOptions);
             
-            for (let i = 0; i < stores.length; i++) {
-                const store = stores[i];
+            for (let i = 0; i < currentPageItems.length; i++) {
+                const store = currentPageItems[i];
                 const position = new window.kakao.maps.LatLng(store.address.latitude, store.address.longitude);
                 const imageSrc =
                     "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -48,7 +50,7 @@ const FilteredMap = ({ stores }) => {
             // Kakako Maps API 스크립트 로드 완료 후 실행
             initMap();
         }
-    }, [stores]);
+    }, [currentPageItems]);
 
     return (
         <S.FilteredMap>
