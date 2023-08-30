@@ -109,6 +109,8 @@ export const StyledBoxImageWrapper = styled.div`
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    border-top-left-radius:5%;
+    border-top-right-radius:5%;
 `
 
 export const StyledBoxImage = styled.img`
@@ -120,8 +122,14 @@ export const StyledBoxImage = styled.img`
 export const PostInfo = styled.div`
     width: 100%;
     padding: 16px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.6);
+    /* background-color:#ff914d; */
     color: white;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
 `;
 
 export const PostInfoText = styled.p`
@@ -162,11 +170,8 @@ export const StyledBoxWrapper = styled.div`
     border-top-right-radius: 30px; // 추가
     background: #fff;
     gap: 40px;
-    padding-left: 45px;
     border-left-width: 40px;
-    padding-top: 30px;
-    padding: 20px;
-    padding-bottom: 0;
+    padding: 40px;
 `;
 export const StyledBox = styled.div`
     width: 260px;

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled ,{css} from 'styled-components';
 
 export const Container = styled.div`
-    min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
-    margin-top: 6%; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
+    min-height: 100vh;
+    margin-top: 6%;
 `;
 
 export const BoxContainer = styled.div`
@@ -14,10 +14,9 @@ export const BoxContainer = styled.div`
 `;
 
 export const Box = styled.div`
-    width: 1500px;
+    width: 700px;
     border: 1px solid #ff914d;
     background-color: white;
-    margin-bottom: 35px;
 `;
 
 export const Box1 = styled(Box)`
@@ -44,7 +43,7 @@ export const Box2 = styled(Box)`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 280px;
+    height: 350px;
     input[type='file'] {
         display: none;
     }
@@ -57,6 +56,10 @@ export const ImageUploadIcon = styled.div`
 `;
 export const Box3 = styled(Box)`
     height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     textarea {
         width: 95%;
         height: 90%;
@@ -64,11 +67,17 @@ export const Box3 = styled(Box)`
         resize: none;
         font-size: 20px;
         font-style: normal;
+        display:flex;
+        outline:none;
     }
 `;
 
 export const Box4 = styled(Box)`
     height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     textarea {
         width: 95%;
         height: 90%;
@@ -76,6 +85,7 @@ export const Box4 = styled(Box)`
         resize: none;
         font-size: 20px;
         font-style: normal;
+        outline:none;
     }
 `;
 export const Btn = styled.button`
@@ -84,20 +94,30 @@ export const Btn = styled.button`
     border: none;
 `;
 
-export const ButtonCancel = styled.button`
-    width: 720px;
+const buttonStyles = css`
+    width: 350px;
     height: 55px;
-    margin-right: 50px;
-    background-color: #d9d9d9;
     font-size: 20px;
     font-weight: 700;
     border: none;
+    transition: background-color 0.3s ease; 
 `;
+
+export const ButtonCancel = styled.button`
+    ${buttonStyles}
+    background-color: #ccc7c7;
+
+    &:active { 
+        background-color: #b0abab;
+    }
+`;
+
 export const ButtonSubmit = styled.button`
-    width: 720px;
-    height: 55px;
-    background-color: #ff914de5;
-    font-size: 20px;
-    font-weight: 700;
-    border: none;
+    ${buttonStyles}
+    background-color: #ff914d;
+    opacity: 90%;
+
+    &:active { 
+        background-color: #e57f42;
+    }
 `;

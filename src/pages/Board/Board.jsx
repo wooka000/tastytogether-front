@@ -3,6 +3,9 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import * as S from './style/Board.style';
 import { FiSearch } from 'react-icons/fi';
 import axios from '../../utils/axios';
+import {
+    FaMapMarkerAlt
+} from 'react-icons/fa';
 
 export default function Board() {
     const [text, setText] = useState('');
@@ -91,7 +94,7 @@ export default function Board() {
                                 <S.StyledBoxImage src={post.image} alt="Post" />
                             </S.StyledBoxImageWrapper>
                             <S.PostInfo>
-                                <S.PostInfoText>{post.region}</S.PostInfoText>
+                                <S.PostInfoText><FaMapMarkerAlt/>{post.region}</S.PostInfoText>
                                 <S.PostInfoText>{post.title}</S.PostInfoText>
                                 <S.PostInfoText>{post.meetDate}</S.PostInfoText>
                             </S.PostInfo>

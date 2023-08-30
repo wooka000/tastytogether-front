@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import * as S from './style/CreatePost.style';
 import { FaImage, FaRegCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import useAxios from '../../hooks/useAxios';
@@ -11,6 +11,7 @@ export default function CreatePost() {
     const [region, setRegion] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const navigate = useNavigate();
 
     const { authRequiredAxios } = useAxios('multipart/form-data');
 
@@ -38,7 +39,7 @@ export default function CreatePost() {
         try {
             await authRequiredAxios.post('/posts', formData);
             alert('게시글이 성공적으로 생성되었습니다!');
-            window.location.href = '/post';
+            navigate('/post');
         } catch (error) {
             alert('게시글 생성에 실패했습니다.');
             console.error(error);
