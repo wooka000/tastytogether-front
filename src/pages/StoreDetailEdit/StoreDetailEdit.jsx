@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 // import { useLocation } from 'react-router-dom';
 import * as S from './style/StoreDetailEdit.style';
 // import useAxios from '../../hooks/useAxios';
+import { regPhone, regHour, regMinute } from '../../utils/regList';
 
 export default function StoreDetailEdit() {
     // const { authRequiredAxios } = useAxios('application/json');
+    const [newPhone, setNewPhone] = useState('');
     const [newClosedDays, setNewClosedDays] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     // const location = useLocation();
-    const dayCheckList = ['월', '화', '수', '목', '금', '토','일', '연중무휴'];
+    const dayCheckList = ['월', '화', '수', '목', '금', '토', '일', '연중무휴'];
 
     // const storeId = location.state.storeId;
 
@@ -30,11 +32,17 @@ export default function StoreDetailEdit() {
             if (e.target.checked) {
                 setNewClosedDays([]);
             }
-        } else {
-            checkedDayHandler(value, e.target.checked);
         }
+        checkedDayHandler(value, e.target.checked);
     };
     console.log(newClosedDays);
+
+    // const handleChange = (e)=>{
+    //     const {name, value} = e.target
+    //     if(name=== 'newPhone'){
+    //         if(value)
+    //     }
+    // }
     return (
         <S.Container>
             <S.DetailEditForm>
@@ -43,7 +51,8 @@ export default function StoreDetailEdit() {
                     <S.InputBox
                         placeholder="가게의 전화번호를 입력하세요.(0000-0000-0000)"
                         isPhone={true}
-                        name="phone"
+                        name="newPhone"
+                        value={newPhone ?? ''}
                     />
                 </S.EditContentBox>
                 <S.EditContentBox>
