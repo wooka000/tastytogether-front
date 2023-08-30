@@ -3,13 +3,12 @@ import { useLocation } from 'react-router-dom';
 import * as S from './style/UserLogin.style';
 import axios from '../../utils/axios';
 import useAuth from '../../hooks/useAuth';
-// import { useNavigate } from 'react-router-dom';
-// import useAxios from '../../hooks/useAxios';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const navigate = useNavigate()
+    const navigate = useNavigate();
     const { setAuth, setIsLogin } = useAuth();
     const location = useLocation();
     const [errMsg, setErrMsg] = useState('');
@@ -33,48 +32,30 @@ export default function UserLogin() {
                 return { ...response.data };
             });
             setIsLogin(true);
-            // navigate('/', { replace: true });
+            if (location.state.from === '/users/signup') {
+                navigate('/');
+                return;
+            }
+            navigate(-1);
         } catch (err) {
             setErrMsg(err.response.data.message);
         }
     };
-
-    //axios test
-    // const { authRequiredAxios } = useAxios('application/json');
-    // const { authRequiredAxios: authRequiredAxiosForImage } = useAxios('multipart/form-data');
-
-    // const formData = new FormData();
-    // formData.append('email', 'hello');
-    // formData.append('name', 'Jin');
-
-    // const testAxiosForImage = async () => {
-    //     const response = await authRequiredAxiosForImage({
-    //         method: 'post',
-    //         url: 'auth/user',
-    //         data: { formData },
-    //     });
-    //     console.log(response);
-    // };
-
-    // const testAxios = async () => {
-    //     const response = await authRequiredAxios({ method: 'get', url: 'auth/user' });
-    //     console.log(response);
-    // };
-
+    console.log(location?.state);
     return (
         <S.Container>
             <S.LoginBox>
                 <S.Logo
                     src="https://tasty-together.s3.ap-northeast-2.amazonaws.com/main/default-profile-image.png"
                     alt="logo"
-                ></S.Logo>
-
+                />
                 <h1>Login</h1>
                 <S.Form onSubmit={login}>
                     <ul>
                         <li>
                             <input
                                 name="email"
+                                type="text"
                                 onChange={(e) => {
                                     setEmail(e.target.value);
                                 }}
@@ -85,6 +66,7 @@ export default function UserLogin() {
                         <li>
                             <input
                                 name="password"
+                                type="password"
                                 placeholder="비밀번호"
                                 onChange={(e) => {
                                     setPassword(e.target.value);
@@ -95,12 +77,8 @@ export default function UserLogin() {
                     </ul>
                     <button type="submit">로그인</button>
                 </S.Form>
-                <S.LinkToSignUp to="/users/signup" replace={true}>
-                    회원가입
-                </S.LinkToSignUp>
+                <S.LinkToSignUp to="/users/signup">회원가입 페이지로 이동</S.LinkToSignUp>
                 <S.ErrorMsg>{errMsg}</S.ErrorMsg>
-                {/* <button onClick={testAxios}>JSON LoginRequiredAxios 테스트</button>
-                <button onClick={testAxiosForImage}>MultiForm LoginRequiredAxios 테스트</button> */}
             </S.LoginBox>
         </S.Container>
     );
