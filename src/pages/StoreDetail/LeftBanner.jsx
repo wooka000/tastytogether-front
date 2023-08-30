@@ -1,31 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+// import React from 'react';
 import * as S from './style/LeftBanner.style';
+import { useNavigate } from 'react-router-dom';
+import KakaoMap from './KakaoMap';
+import axios from '../../utils/axios';
 
-export default function StoreDetail() {
+export default function LeftBanner({ storeName, storeAddress }) {
+    const navigate = useNavigate();
+    const { latitude, longitude, city, state } = storeAddress;
+    const [board, setBoard] = useState([]);
+    const keyword = `${city} ${state}`;
+
+    useEffect(() => {
+        const getPost = async () => {
+            const res = await axios.get(`regionSearch?value=${keyword}`);
+            const data = res.data;
+            setBoard(data[0]);
+        };
+        getPost();
+    }, []);
     return (
         <S.LeftBannerWrapper>
             <S.MiniMap>
-                <S.MapImage>카카오주소이미지</S.MapImage>
-                <S.MapInfoTitle>오레노라멘 본점</S.MapInfoTitle>
+                <S.MapImage>
+                    <KakaoMap
+                        storeName={storeName && storeName}
+                        latitude={latitude}
+                        longitude={longitude}
+                    ></KakaoMap>
+                </S.MapImage>
+                <S.MapInfoTitle>{storeName}</S.MapInfoTitle>
                 <S.Navi isMap={true}>
                     <S.NaviText isMap={true}>맛집으로 길찾기 하고 싶다면?</S.NaviText>
-                    <S.NaviBtn href="/">Go</S.NaviBtn>
+                    <S.NaviBtn
+                        onClick={() =>
+                            window.open(`https://map.kakao.com/link/to/${storeName},${latitude}
+,${longitude}`)
+                        }
+                    >
+                        Go
+                    </S.NaviBtn>
                 </S.Navi>
             </S.MiniMap>
             <S.MatePost>
-                <S.MatePostTitle>8월 11일 오레노라멘 가실 분 구합니다!</S.MatePostTitle>
+                <S.MatePostTitle>{board && board.title}</S.MatePostTitle>
                 <S.TitleLine></S.TitleLine>
-                <S.MatePostCotent>
-                    안녕하세요 ~ 8.18일에 저녁7시에
-                    <br />
-                    명동칼국수 맛집가서 같이 식사하실분구합니다. <br />
-                    제가 여자여서 같은 동성친구랑 맛집탐방하고 싶습니다. 같이 만나서 메뉴도 많이
-                    시키고 많이많이 먹을수 있는 분
-                    구합니다ㄹ라ㅏ랄라ㅏ라라ㅏ랄라ㅏ라라라라ㅏ라라ㅏ랄라라라ㅏ라라ㅏ라라ㅏㄹ라ㅏ라라라라라라ㅏㄹㄹ라라라ㅏㄹ
-                </S.MatePostCotent>
+                <S.MatePostCotent>{board && board.content}</S.MatePostCotent>
                 <S.Navi>
                     <S.NaviText>위의 메이트와 약속을 잡고 싶다면?</S.NaviText>
-                    <S.NaviBtn href="/">Go</S.NaviBtn>
+                    <S.NaviBtn onClick={() => navigate(`/post/${board._id}`)}>Go</S.NaviBtn>
                 </S.Navi>
             </S.MatePost>
         </S.LeftBannerWrapper>
