@@ -1,60 +1,49 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import * as S from './style/StoreDetailEdit.style';
-import useAxios from '../../hooks/useAxios';
+// import useAxios from '../../hooks/useAxios';
 
 export default function StoreDetailEdit() {
-    const { authRequiredAxios } = useAxios('application/json');
-    const [newPhone, setNewPhone] = useState('');
-    const [newMenuItems, setNewMenuItmes] = useState([]);
-    const [newPriceRange, setNewPriceRange] = useState('');
-    const [newParkingInfo, setNewParkingInfo] = useState('');
-    const [newBusinessHours, setNewBusinessHours] = useState('');
+    // const { authRequiredAxios } = useAxios('application/json');
     const [newClosedDays, setNewClosedDays] = useState('');
-    const location = useLocation();
-    const dayCheckList = ['월', '화', '수', '목', '금', '토', '연중무휴'];
-    const storeId = location.state.storeId;
+    const [isChecked, setIsChecked] = useState(false);
+    // const location = useLocation();
+    const dayCheckList = ['월', '화', '수', '목', '금', '토','일', '연중무휴'];
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name === 'file') {
-            if (count > 7) {
-                return;
-            }
-            setCount((prev) => prev + 1);
-            files[0] && setPhotos((list) => [...list, files[0]]);
+    // const storeId = location.state.storeId;
+
+    const checkedDayHandler = (value, isChecked) => {
+        if (isChecked) {
+            setNewClosedDays((prev) => [...prev, value]);
             return;
-        } else if (name === 'grade') {
-            setGrade(value);
-        } else if (name === 'content') {
-            setContent(value);
         }
+        if (!isChecked && newClosedDays.includes(value)) {
+            setNewClosedDays(newClosedDays.filter((day) => day !== value));
+            return;
+        }
+        return;
     };
 
-    const handleSubmit = async () => {
-        try {
-            const response = await authRequiredAxios({
-                method: 'post',
-                url: `stores/${storeId}`,
-                data: {},
-            });
-            console.log(response);
-        } catch (error) {
-            alert('가게 수정에 실패했습니다.');
-            console.error(error);
+    const checkHandler = (e, value) => {
+        setIsChecked(!isChecked);
+        if (value === '연중무휴') {
+            if (e.target.checked) {
+                setNewClosedDays([]);
+            }
+        } else {
+            checkedDayHandler(value, e.target.checked);
         }
     };
-
+    console.log(newClosedDays);
     return (
         <S.Container>
             <S.DetailEditForm>
                 <S.EditContentBox>
                     <S.EditTitle>전화번호</S.EditTitle>
                     <S.InputBox
-                        placeholder="02-0000-0000"
+                        placeholder="가게의 전화번호를 입력하세요.(0000-0000-0000)"
                         isPhone={true}
                         name="phone"
-                        value={phone ?? ''}
                     />
                 </S.EditContentBox>
                 <S.EditContentBox>
@@ -67,7 +56,6 @@ export default function StoreDetailEdit() {
                                 name="priceRange"
                                 type="radio"
                                 value="1만원대"
-                                onChange={handleChange}
                             ></S.RadioInput>
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
@@ -78,7 +66,6 @@ export default function StoreDetailEdit() {
                                 name="priceRange"
                                 type="radio"
                                 value="2만원대"
-                                onChange={handleChange}
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
@@ -89,7 +76,6 @@ export default function StoreDetailEdit() {
                                 name="priceRange"
                                 type="radio"
                                 value="3만원대"
-                                onChange={handleChange}
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
@@ -100,19 +86,12 @@ export default function StoreDetailEdit() {
                                 name="priceRange"
                                 type="radio"
                                 value="4만원대"
-                                onChange={handleChange}
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="radio5">
                             기타
-                            <S.RadioInput
-                                id="radio5"
-                                name="priceRange"
-                                type="radio"
-                                value="기타"
-                                onChange={handleChange}
-                            />
+                            <S.RadioInput id="radio5" name="priceRange" type="radio" value="기타" />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                     </div>
@@ -141,110 +120,39 @@ export default function StoreDetailEdit() {
                     <S.EditTitle>영업시간</S.EditTitle>
                     <div>
                         <S.InputLabel htmlFor="openHour">
-                            <S.TimeInput id="openHour" name="openHour" value={openHour ?? ''} />시
+                            오전
+                            <S.TimeInput id="openHour" name="openHour" type="number" />시
                         </S.InputLabel>
                         <S.InputLabel htmlFor="openMinutes">
-                            <S.TimeInput
-                                id="openMinutes"
-                                name="openMinutes"
-                                value={openMinutes ?? ''}
-                            />
-                            분 ~
+                            <S.TimeInput id="openMinutes" name="openMinutes" type="number" />분 ~
                         </S.InputLabel>
                         <S.InputLabel htmlFor="closeHour">
-                            <S.TimeInput id="closeHour" name="closeHour" value={closeHour ?? ''} />
-                            시
+                            오후
+                            <S.TimeInput id="closeHour" name="closeHour" type="number" />시
                         </S.InputLabel>
                         <S.InputLabel htmlFor="closeMinutes">
-                            <S.TimeInput
-                                id="closeMinutes"
-                                name="closeMinutes"
-                                value={closeMinutes ?? ''}
-                            />
-                            분
+                            <S.TimeInput id="closeMinutes" name="closeMinutes" type="number" />분
                         </S.InputLabel>
                     </div>
                 </S.EditContentBox>
                 <S.EditContentBox>
                     <S.EditTitle>휴무일</S.EditTitle>
                     <div>
-                        {dayCheckList.map((el) => {
+                        {dayCheckList.map((el, idx) => {
                             return (
-                                <S.InputLabel htmlFor="monday">
+                                <S.InputLabel htmlFor={el} key={idx}>
                                     <S.ClosedDayInput
-                                        id="monday"
+                                        id={el}
                                         name="closedDays"
-                                        value="월"
+                                        checked={newClosedDays.includes(el)}
+                                        onChange={(e) => checkHandler(e, el)}
                                         type="checkbox"
                                     />
-                                    <S.ClosedDayDesign></S.ClosedDayDesign>월
+                                    <S.ClosedDayDesign></S.ClosedDayDesign>
+                                    {el}
                                 </S.InputLabel>
                             );
                         })}
-
-                        <S.InputLabel htmlFor="tuesday">
-                            <S.ClosedDayInput
-                                id="tuesday"
-                                name="closedDays"
-                                value="화"
-                                type="checkbox"
-                            />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>화
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="wednesday">
-                            <S.ClosedDayInput
-                                id="wednesday"
-                                name="closedDays"
-                                value="수"
-                                type="checkbox"
-                            />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>수
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="thursday">
-                            <S.ClosedDayInput
-                                id="thursday"
-                                name="closedDays"
-                                value="목"
-                                type="checkbox"
-                            />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>목
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="friday">
-                            <S.ClosedDayInput
-                                id="friday"
-                                name="closedDays"
-                                value="금"
-                                type="checkbox"
-                            />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>금
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="saturday">
-                            <S.ClosedDayInput
-                                id="saturday"
-                                name="closedDays"
-                                value="토"
-                                type="checkbox"
-                            />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>토
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="sunday">
-                            <S.ClosedDayInput
-                                id="sunday"
-                                name="closedDays"
-                                value="일"
-                                type="checkbox"
-                            />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>일
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="allDay">
-                            <S.ClosedDayInput
-                                id="allDay"
-                                name="closedDays"
-                                value="연중무휴"
-                                type="checkbox"
-                            />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>연중무휴
-                        </S.InputLabel>
                     </div>
                 </S.EditContentBox>
                 <S.EditContentBox isSmallGap={true}>
@@ -296,9 +204,7 @@ export default function StoreDetailEdit() {
                 </S.EditContentBox>
                 <S.DividerLine></S.DividerLine>
                 <S.EditFormBtns>
-                    <S.EditFormBtn isOrange={true} onClick={handleSubmit}>
-                        수정하기
-                    </S.EditFormBtn>
+                    <S.EditFormBtn isOrange={true}>수정하기</S.EditFormBtn>
                     <S.EditFormBtn>취소하기</S.EditFormBtn>
                 </S.EditFormBtns>
             </S.DetailEditForm>

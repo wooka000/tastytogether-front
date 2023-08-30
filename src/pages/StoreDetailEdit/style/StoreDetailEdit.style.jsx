@@ -97,6 +97,11 @@ export const TimeInput = styled.input`
     text-align: center;
     font-size: 15px;
     color: #ff9c5f;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
     &:focus {
         outline: none;
     }

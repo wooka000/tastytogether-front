@@ -46,7 +46,7 @@ export default function BottomDetail({ storeInfo }) {
                     <S.StoreDetailTitle>영업시간</S.StoreDetailTitle>
                     <S.StoreDetailContent>
                         {businessHours &&
-                            `${businessHours[0]}:${businessHours[1]}~${businessHours[2]}:${businessHours[3]}`}
+                            `오전 ${businessHours[0]}:${businessHours[1]}~ 오후 ${businessHours[2]}:${businessHours[3]}`}
                     </S.StoreDetailContent>
                 </S.StoreDetailItem>
                 <S.StoreDetailItem>
