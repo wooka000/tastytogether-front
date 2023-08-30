@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { useNavigate, useLocation } from 'react-router-dom';
+import * as S from './style/UserSignUp.style';
 import axios from '../../utils/axios';
 
 export default function UserSignUp() {
     const navigate = useNavigate();
+    const location = useLocation();
 
     //Input
     const [email, setEmail] = useState('');
@@ -12,6 +13,8 @@ export default function UserSignUp() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [name, setName] = useState('');
     const [nickname, setNickname] = useState('');
+
+    const [errMsg, setErrMsg] = useState('');
 
     //Regex
     const EMAIL_REGEX =
@@ -46,6 +49,8 @@ export default function UserSignUp() {
     //Check duplicate check
     const [emailCheck, setEmailCheck] = useState(false);
     const [nicknameCheck, setNicknameCheck] = useState(false);
+    const [emailCheckResult, setEmailCheckResult] = useState();
+    const [nicknameCheckResult, setNicknameCheckResult] = useState();
 
     const DuplicateCheckButton = ({ item, value }) => {
         const duplicateCheck = async (e) => {
@@ -59,38 +64,38 @@ export default function UserSignUp() {
                         data: { [item]: value },
                     });
 
-                    alert(response.data.message);
                     item === 'email'
-                        ? setEmailCheck((prev) => !prev)
-                        : setNicknameCheck((prev) => !prev);
+                        ? setEmailCheckResult(response.data.message)
+                        : setNicknameCheckResult(response.data.message);
+
+                    item === 'email' ? setEmailCheck(true) : setNicknameCheck(true);
                 } catch (err) {
-                    alert(err.response.data.message);
+                    item === 'email'
+                        ? setEmailCheckResult(err.response.data.message)
+                        : setNicknameCheckResult(err.response.data.message);
                 }
             } else {
-                item === 'email' ? alert(ERROR_EMAIL) : alert(ERROR_NICKNAME);
+                item === 'email'
+                    ? setEmailCheckResult(ERROR_EMAIL)
+                    : setNicknameCheckResult(ERROR_NICKNAME);
             }
         };
         return (
-            <button
-                type="button"
-                name={item}
-                onClick={duplicateCheck}
-                disabled={item === 'email' ? emailCheck : nicknameCheck}
-            >
+            <button type="button" name={item} onClick={duplicateCheck}>
                 중복 확인
             </button>
         );
     };
 
     const signUpHandler = async () => {
-        const response = await axios({
+        await axios({
             method: 'post',
             url: '/auth/signup',
             headers: { 'Content-Type': 'application/json' },
             data: { email, password, name, nickname },
         });
-        alert(response.data.message);
-        navigate('/users/login', { state: { email }, replace: true });
+
+        navigate('/users/login', { state: { email, from: location.pathname } });
     };
 
     const signUp = async (e) => {
@@ -98,141 +103,145 @@ export default function UserSignUp() {
         e.stopPropagation();
         try {
             !isValidEmail
-                ? alert(ERROR_EMAIL)
+                ? setErrMsg(ERROR_EMAIL)
                 : !emailCheck
-                ? alert(ERROR_EMAILCHECK)
+                ? setErrMsg(ERROR_EMAILCHECK)
                 : !isValidPassword
-                ? alert(ERROR_PASSWORD)
+                ? setErrMsg(ERROR_PASSWORD)
                 : password !== passwordCheck
-                ? alert(ERROR_PASSWORDCHECK)
+                ? setErrMsg(ERROR_PASSWORDCHECK)
                 : !isValidName
-                ? alert(ERROR_NAME)
+                ? setErrMsg(ERROR_NAME)
                 : !isValidNickname
-                ? alert(ERROR_NICKNAME)
+                ? setErrMsg(ERROR_NICKNAME)
                 : !nicknameCheck
-                ? alert(ERROR_NICKNAMECHECK)
+                ? setErrMsg(ERROR_NICKNAMECHECK)
                 : signUpHandler();
         } catch (err) {
-            alert(err.response.data.message);
+            setErrMsg(err.response.data.message);
         }
     };
 
     return (
-        <Container>
-            <div>
-                <h2>tasty Together</h2>
+        <S.Container>
+            <S.SignUpBox>
+                <S.Logo
+                    src="https://tasty-together.s3.ap-northeast-2.amazonaws.com/main/default-profile-image.png"
+                    alt="logo"
+                />
                 <h1>Sign Up</h1>
-                <form onSubmit={signUp}>
+                <S.Form onSubmit={signUp}>
                     <ul>
                         <li>
-                            <section>
-                                <label htmlFor="email">
-                                    이메일(ID)
-                                    <input
-                                        id="email"
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        value={email}
-                                        disabled={emailCheck}
-                                    />
-                                </label>
-                                <div>
-                                    {email.length > 0 && !isValidEmail && (
-                                        <IsValid>{ERROR_EMAIL}</IsValid>
-                                    )}
-                                </div>
-                                <DuplicateCheckButton item="email" value={email} />
-                            </section>
-                        </li>
-                        <li>
-                            <section>
-                                <label htmlFor="password">
-                                    비밀번호
-                                    <input
-                                        id="password"
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        value={password}
-                                    />
-                                </label>
-                                <div>
-                                    {password.length > 0 && !isValidPassword && (
-                                        <IsValid>{ERROR_PASSWORD}</IsValid>
-                                    )}
-                                </div>
-                            </section>
-                        </li>
-                        <li>
-                            <section>
-                                <label htmlFor="passwordCheck">
-                                    비밀번호 확인
-                                    <input
-                                        id="passwordCheck"
-                                        onChange={(e) => setPasswordCheck(e.target.value)}
-                                        value={passwordCheck}
-                                    />
-                                </label>
+                            <label htmlFor="email"> 이메일(ID) </label>
 
-                                <div>
-                                    {password.length > 0 &&
-                                        passwordCheck.length > 0 &&
-                                        password !== passwordCheck && (
-                                            <IsValid>{ERROR_PASSWORDCHECK}</IsValid>
-                                        )}
-                                </div>
-                            </section>
+                            <input
+                                id="email"
+                                type="text"
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    setEmailCheckResult('');
+                                    setEmailCheck(false);
+                                }}
+                                value={email}
+                            />
+
+                            <div>
+                                {(email.length > 0 && !isValidEmail && (
+                                    <S.IsValid>{ERROR_EMAIL}</S.IsValid>
+                                )) || (
+                                    <S.EmailDuplicateCheckResult emailCheck={emailCheck}>
+                                        {emailCheckResult}
+                                    </S.EmailDuplicateCheckResult>
+                                )}
+                            </div>
+
+                            <DuplicateCheckButton item="email" value={email} />
                         </li>
                         <li>
-                            <label htmlFor="name">
-                                이름
-                                <input
-                                    id="name"
-                                    onChange={(e) => setName(e.target.value)}
-                                    value={name}
-                                />
-                            </label>
+                            <label htmlFor="password"> 비밀번호 </label>
+
+                            <input
+                                id="password"
+                                type="password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={password}
+                            />
+
                             <div>
-                                {name.length > 0 && !isValidName && <IsValid>{ERROR_NAME}</IsValid>}
+                                {password.length > 0 && !isValidPassword && (
+                                    <S.IsValid>{ERROR_PASSWORD}</S.IsValid>
+                                )}
                             </div>
                         </li>
                         <li>
-                            <section>
-                                <label htmlFor="nickname">
-                                    닉네임
-                                    <input
-                                        id="nickname"
-                                        onChange={(e) => setNickname(e.target.value)}
-                                        value={nickname}
-                                        disabled={nicknameCheck}
-                                    />
-                                </label>
-                                <div>
-                                    {nickname.length > 0 && !isValidNickname && (
-                                        <IsValid>{ERROR_NICKNAME}</IsValid>
+                            <label htmlFor="passwordCheck"> 비밀번호 확인 </label>
+
+                            <input
+                                id="passwordCheck"
+                                type="password"
+                                onChange={(e) => setPasswordCheck(e.target.value)}
+                                value={passwordCheck}
+                            />
+
+                            <div>
+                                {password.length > 0 &&
+                                    passwordCheck.length > 0 &&
+                                    password !== passwordCheck && (
+                                        <S.IsValid>{ERROR_PASSWORDCHECK}</S.IsValid>
                                     )}
-                                </div>
-                                <DuplicateCheckButton item="nickname" value={nickname} />
-                            </section>
+                            </div>
+                        </li>
+                        <li>
+                            <label htmlFor="name"> 이름</label>
+
+                            <input
+                                id="name"
+                                type="text"
+                                onChange={(e) => setName(e.target.value)}
+                                value={name}
+                            />
+
+                            <div>
+                                {name.length > 0 && !isValidName && (
+                                    <S.IsValid>{ERROR_NAME}</S.IsValid>
+                                )}
+                            </div>
+                        </li>
+                        <li>
+                            <label htmlFor="nickname">닉네임</label>
+                            <input
+                                id="nickname"
+                                type="text"
+                                onChange={(e) => {
+                                    setNickname(e.target.value);
+                                    setNicknameCheckResult('');
+                                    setNicknameCheck(false);
+                                }}
+                                value={nickname}
+                            />
+                            <div>
+                                {(nickname.length > 0 && !isValidNickname && (
+                                    <S.IsValid nicknameCheckResult={nicknameCheckResult}>
+                                        {ERROR_NICKNAME}
+                                    </S.IsValid>
+                                )) || (
+                                    <S.NicknameDuplicateCheckResult nicknameCheck={nicknameCheck}>
+                                        {nicknameCheckResult}
+                                    </S.NicknameDuplicateCheckResult>
+                                )}
+                            </div>
+
+                            <DuplicateCheckButton item="nickname" value={nickname} />
                         </li>
                     </ul>
-                    <button type="submit">회원가입</button>
-                </form>
-                <Link to="/users/login" replace={true}>
+                    <S.Button type="submit">회원가입</S.Button>
+                </S.Form>
+                <S.LinkToLogin to="/users/login" state={{ from: '/users/signup' }}>
                     로그인 페이지로 이동
-                </Link>
-            </div>
-        </Container>
+                </S.LinkToLogin>
+                <S.ErrorMsg>{errMsg}</S.ErrorMsg>
+            </S.SignUpBox>
+        </S.Container>
     );
 }
-
-const Container = styled.div`
-    min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
-    margin-top: 100px; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
-const IsValid = styled.span`
-    color: red;
-    font-size: 10px;
-`;
