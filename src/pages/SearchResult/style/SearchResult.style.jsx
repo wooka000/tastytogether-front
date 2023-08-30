@@ -96,11 +96,6 @@ export const MyFilterContent = styled.div`
     }
 `
 
-export const FilteredMap = styled.div`
-    width: 985px;
-    height: 400px;
-    border: 1px solid #f0f0f0;
-`
 
 export const ResultStores = styled.div``
 export const Pagination = styled.div``
