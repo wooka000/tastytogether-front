@@ -44,9 +44,13 @@ export default function PostDetail() {
             const response = await authRequiredAxios.post(`/${id}/comments`, {
                 content: commentContent,
             });
+            const newComment = {
+                id: response.data._id, 
+                ...response.data
+            };
             setPost((prevPost) => ({
                 ...prevPost,
-                comments: [...prevPost.comments, response.data],
+                comments: [...prevPost.comments, newComment],
             }));
             setCommentContent('');
         } catch (error) {

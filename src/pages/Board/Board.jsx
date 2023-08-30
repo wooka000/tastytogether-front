@@ -23,10 +23,11 @@ export default function Board() {
         try {
             let response;
 
-            if (searchText && searchText.length >= 2) {
+            if (searchText) {
                 response = await axios.get(
                     `/regionSearch?value=${searchText}`,
                 );
+                console.log(response.data)
                 setPosts(response.data || []);
                 setCurrentPage(1);
                 setTotalPages(1);
