@@ -141,12 +141,13 @@ export const TableLine = styled.div`
 `
 
 export const RegisterButton = styled.div`
-    width: 1440px;
     display: flex;
     justify-content: center;
     align-self: center;
     height: 150px;
     margin-top: 100px;
+    border:none;
+    background-color: #fff;
     button{
         width: 400px;
         height: 90px;

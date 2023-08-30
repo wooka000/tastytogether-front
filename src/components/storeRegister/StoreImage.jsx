@@ -35,7 +35,11 @@ const StoreImage = ({ setStoreInfo }) => {
           setUploadedImages(newUploadedImages);
 
           // 업로드 후 storeInfo 업데이트
-          setStoreInfo(newUploadedImages);
+          setStoreInfo((prevInfo) => ({
+            ...prevInfo,
+            street: prevInfo.street || '',
+            images: uploadedImages,
+          }));
         };
       } else {
         alert(`${file.name} 파일은 이미 업로드되었습니다.`);
@@ -54,12 +58,12 @@ const StoreImage = ({ setStoreInfo }) => {
 
     const newUploadedImages = [...uploadedImages];
     newUploadedImages.splice(index, 1);
-    setUploadedImages(newUploadedImages);
-
-    // 이미지 삭제 후 storeInfo 업데이트
-    setStoreInfo(newUploadedImages);
-  };
-  
+    setStoreInfo((prevInfo)=>({
+      ...prevInfo,
+      images: uploadedImages,
+    }))
+    
+ };
   return (
     <>
       <S.TableLine>
@@ -107,4 +111,3 @@ StoreImage.propTypes = {
   setStoreInfo: PropTypes.func.isRequired,
 };
 export default StoreImage;
-

@@ -89,7 +89,7 @@ function MenuModalButton({ setStoreInfo }){
                 />
             </S.Menu>
         </div>
-            <button id="menu_modal_button" onClick={showModal}>메뉴작성</button>
+            <S.MenuButton onClick={showModal}>메뉴작성</S.MenuButton>
             {modalOpen && <MenuModalPage setStoreInfo={setStoreInfo} setModalOpen={setModalOpen} setUpdatedMenus={setUpdatedMenus} />}
         </div>
     </S.TableLine>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as S from './style/MenuModalButton.style'
+import * as S from './style/TypeModalButton.style'
 import TypeModalPage from './TypeModalPage';
 import PropTypes from 'prop-types';
 
@@ -35,7 +35,7 @@ function TypeModalButton({ setStoreInfo }) {
                         readOnly
                         required
                 />
-                <button id="Type_modal_button" onClick={showModal}>업종선택</button>
+                <S.TypeButton onClick={showModal}>업종선택</S.TypeButton>
                 {modalOpen && <TypeModalPage setModalOpen={setModalOpen} setCategory={handleCategoryChange}  />}
             </div>
         </S.TableLine>
