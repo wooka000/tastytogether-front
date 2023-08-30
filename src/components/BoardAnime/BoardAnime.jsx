@@ -8,7 +8,7 @@ export default function BoardAnime() {
     const navigate = useNavigate();
     useEffect(() => {
         async function featchData() {
-            const res = await axios.get('http://localhost:8080/posts/?countperpage=10&pageno=2');
+            const res = await axios.get('http://localhost:8080/posts/?countperpage=10&pageno=1');
             const data = await res.data;
             setBoards(data.data);
         }
