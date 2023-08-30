@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router-dom';
 export default function UserLogin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
     const { setAuth, setIsLogin } = useAuth();
-    const location = useLocation();
     const [errMsg, setErrMsg] = useState('');
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const login = async (e) => {
         e.preventDefault();
@@ -32,9 +32,8 @@ export default function UserLogin() {
                 return { ...response.data };
             });
             setIsLogin(true);
-            if (location.state.from === '/users/signup') {
-                navigate('/');
-                return;
+            if (location?.state?.from) {
+                return navigate('/');
             }
             navigate(-1);
         } catch (err) {
