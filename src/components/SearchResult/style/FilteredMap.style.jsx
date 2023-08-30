@@ -1,21 +1,11 @@
 import styled from 'styled-components';
 
-export const MapContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-        #map{
-            width: 700px;
-            height: 360px;
-        }
-        button{
-            z-index: 999;
-        }
+export const FilteredMap = styled.div`
+    width: 985px;
+    height: 400px;
+    border: 1px solid #f0f0f0;
 `
-export const AddressInput = styled.input`
-    display: none;
-`
-
-export const Map = styled.div``;
-
-export const MapMarker = styled.div``
+export const Map = styled.div`
+    width: 100%;
+    height: 350px;
+`;
