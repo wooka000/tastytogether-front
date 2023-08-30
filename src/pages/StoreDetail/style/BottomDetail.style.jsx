@@ -26,6 +26,7 @@ export const StoreEditLink = styled.a`
     color: #c0c0c0;
     font-size: 12px;
     font-weight: 700;
+    cursor: pointer;
 `;
 
 export const Addresses = styled.div`
@@ -93,7 +94,7 @@ export const StoreDetailTitle = styled.p`
 `;
 
 export const StoreDetailContent = styled.p`
-    line-height: 15px;
+    line-height: 16px;
     color: #100f0f;
     font-size: 13px;
     font-weight: 700;
@@ -110,7 +111,7 @@ export const MenuItem = styled.div`
 `;
 
 export const MenuDividerLine = styled.div`
-    margin-top: 2px;
+    margin-top: 3px;
     width: 212px;
     height: 1px;
     background: #d9d9d9;

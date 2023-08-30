@@ -1,41 +1,98 @@
-import React from 'react';
+import React, { useState } from 'react';
+// import { useLocation } from 'react-router-dom';
 import * as S from './style/StoreDetailEdit.style';
+// import useAxios from '../../hooks/useAxios';
 
 export default function StoreDetailEdit() {
+    // const { authRequiredAxios } = useAxios('application/json');
+    const [newClosedDays, setNewClosedDays] = useState('');
+    const [isChecked, setIsChecked] = useState(false);
+    // const location = useLocation();
+    const dayCheckList = ['월', '화', '수', '목', '금', '토','일', '연중무휴'];
+
+    // const storeId = location.state.storeId;
+
+    const checkedDayHandler = (value, isChecked) => {
+        if (isChecked) {
+            setNewClosedDays((prev) => [...prev, value]);
+            return;
+        }
+        if (!isChecked && newClosedDays.includes(value)) {
+            setNewClosedDays(newClosedDays.filter((day) => day !== value));
+            return;
+        }
+        return;
+    };
+
+    const checkHandler = (e, value) => {
+        setIsChecked(!isChecked);
+        if (value === '연중무휴') {
+            if (e.target.checked) {
+                setNewClosedDays([]);
+            }
+        } else {
+            checkedDayHandler(value, e.target.checked);
+        }
+    };
+    console.log(newClosedDays);
     return (
         <S.Container>
             <S.DetailEditForm>
                 <S.EditContentBox>
                     <S.EditTitle>전화번호</S.EditTitle>
-                    <S.InputBox placeholder="02-0000-0000" isPhone={true} />
+                    <S.InputBox
+                        placeholder="가게의 전화번호를 입력하세요.(0000-0000-0000)"
+                        isPhone={true}
+                        name="phone"
+                    />
                 </S.EditContentBox>
                 <S.EditContentBox>
                     <S.EditTitle>가격대</S.EditTitle>
                     <div>
                         <S.InputLabel htmlFor="radio1">
                             1만원대
-                            <S.RadioInput id="radio1" name="priceInfo" type="radio"></S.RadioInput>
+                            <S.RadioInput
+                                id="radio1"
+                                name="priceRange"
+                                type="radio"
+                                value="1만원대"
+                            ></S.RadioInput>
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="radio2">
                             2만원대
-                            <S.RadioInput id="radio2" name="priceInfo" type="radio" />
+                            <S.RadioInput
+                                id="radio2"
+                                name="priceRange"
+                                type="radio"
+                                value="2만원대"
+                            />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="radio3">
                             3만원대
-                            <S.RadioInput id="radio3" name="priceInfo" type="radio" />
+                            <S.RadioInput
+                                id="radio3"
+                                name="priceRange"
+                                type="radio"
+                                value="3만원대"
+                            />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="radio4">
                             4만원대
-                            <S.RadioInput id="radio4" name="priceInfo" type="radio" />
+                            <S.RadioInput
+                                id="radio4"
+                                name="priceRange"
+                                type="radio"
+                                value="4만원대"
+                            />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="radio5">
                             기타
-                            <S.RadioInput id="radio5" name="priceInfo" type="radio" />
-                            <S.InputBox placeholder="가격대를 입력해주세요." isPhone={false} />
+                            <S.RadioInput id="radio5" name="priceRange" type="radio" value="기타" />
+                            <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                     </div>
                 </S.EditContentBox>
@@ -44,17 +101,17 @@ export default function StoreDetailEdit() {
                     <div>
                         <S.InputLabel htmlFor="freePark">
                             무료주차 가능
-                            <S.RadioInput id="freePark" name="parkInfo" type="radio" />
+                            <S.RadioInput id="freePark" name="parkingInfo" type="radio" />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="paidPark">
                             유료주차 가능
-                            <S.RadioInput id="paidPark" name="parkInfo" type="radio" />
+                            <S.RadioInput id="paidPark" name="parkingInfo" type="radio" />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="nonePark">
                             주차 불가
-                            <S.RadioInput id="nonePark" name="parkInfo" type="radio" />
+                            <S.RadioInput id="nonePark" name="parkingInfo" type="radio" />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                     </div>
@@ -63,54 +120,39 @@ export default function StoreDetailEdit() {
                     <S.EditTitle>영업시간</S.EditTitle>
                     <div>
                         <S.InputLabel htmlFor="openHour">
-                            <S.TimeInput id="openHour" />시
+                            오전
+                            <S.TimeInput id="openHour" name="openHour" type="number" />시
                         </S.InputLabel>
                         <S.InputLabel htmlFor="openMinutes">
-                            <S.TimeInput id="openMinutes" />분 ~
+                            <S.TimeInput id="openMinutes" name="openMinutes" type="number" />분 ~
                         </S.InputLabel>
                         <S.InputLabel htmlFor="closeHour">
-                            <S.TimeInput id="closeHour" />시
+                            오후
+                            <S.TimeInput id="closeHour" name="closeHour" type="number" />시
                         </S.InputLabel>
                         <S.InputLabel htmlFor="closeMinutes">
-                            <S.TimeInput id="closeMinutes" />분
+                            <S.TimeInput id="closeMinutes" name="closeMinutes" type="number" />분
                         </S.InputLabel>
                     </div>
                 </S.EditContentBox>
                 <S.EditContentBox>
                     <S.EditTitle>휴무일</S.EditTitle>
                     <div>
-                        <S.InputLabel htmlFor="monday">
-                            <S.ClosedDayInput id="monday" name="closedDays" type="checkbox" />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>월
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="tuesday">
-                            <S.ClosedDayInput id="tuesday" name="closedDays" type="checkbox" />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>화
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="wednesday">
-                            <S.ClosedDayInput id="wednesday" name="closedDays" type="checkbox" />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>수
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="thursday">
-                            <S.ClosedDayInput id="thursday" name="closedDays" type="checkbox" />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>목
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="friday">
-                            <S.ClosedDayInput id="friday" name="closedDays" type="checkbox" />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>금
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="saturday">
-                            <S.ClosedDayInput id="saturday" name="closedDays" type="checkbox" />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>토
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="sunday">
-                            <S.ClosedDayInput id="sunday" name="closedDays" type="checkbox" />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>일
-                        </S.InputLabel>
-                        <S.InputLabel htmlFor="allDay">
-                            <S.ClosedDayInput id="allDay" name="closedDays" type="checkbox" />
-                            <S.ClosedDayDesign></S.ClosedDayDesign>연중무휴
-                        </S.InputLabel>
+                        {dayCheckList.map((el, idx) => {
+                            return (
+                                <S.InputLabel htmlFor={el} key={idx}>
+                                    <S.ClosedDayInput
+                                        id={el}
+                                        name="closedDays"
+                                        checked={newClosedDays.includes(el)}
+                                        onChange={(e) => checkHandler(e, el)}
+                                        type="checkbox"
+                                    />
+                                    <S.ClosedDayDesign></S.ClosedDayDesign>
+                                    {el}
+                                </S.InputLabel>
+                            );
+                        })}
                     </div>
                 </S.EditContentBox>
                 <S.EditContentBox isSmallGap={true}>
