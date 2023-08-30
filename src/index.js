@@ -50,7 +50,7 @@ const router = createBrowserRouter([
                 ),
             }, // 화경
             { path: '/post/update', element: <PostUpdate /> }, // 화경
-            { path: '/post/:id', element: <PostDetail /> }, // 화경
+            { path: '/post/:id', element:  <RequireLogin><PostDetail /></RequireLogin>}, // 화경
             { path: '/stores/register', element: <StoreRegister /> }, // 혜지
             { path: '/stores/search', element: <SearchResult /> }, // 혜지
         ],

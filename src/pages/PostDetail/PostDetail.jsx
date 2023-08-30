@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FaRegCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaMapMarkerAlt, FaRegPlusSquare } from 'react-icons/fa';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
 
 export default function PostDetail() {
     const { id } = useParams();
     const [post, setPost] = useState(null);
+    const { authRequiredAxios } = useAxios('application/json');
 
     const fetchPostDetail = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/posts/${id}`);
+            const response = await authRequiredAxios.get(`/posts/${id}`);
             setPost(response.data);
         } catch (error) {
             console.error('Error fetching post details:', error);
@@ -19,9 +20,9 @@ export default function PostDetail() {
 
     const fetchPostDelete = async () => {
         try {
-            await axios.delete(`http://localhost:8080/posts/${id}`);
+            await authRequiredAxios.delete(`/posts/${id}`);
             alert('게시글이 성공적으로 삭제되었습니다.');
-            window.location.href = "/post"; // 리다이렉트
+            window.location.href = '/post';
         } catch (error) {
             console.error('Error deleting post:', error);
             alert('게시글을 삭제하는데 실패했습니다.');
@@ -93,6 +94,36 @@ export default function PostDetail() {
                         </ContentBox>
                     </ThreeIcon>
                 </IconBox>
+                <CommentBox>
+                    <CommnetList>
+                        <CommentProfile>
+                            <ProfileBox>
+                                <ProfileImg
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhh2bLh0jS7KurCdefiatsnywVphpcpW-t9g&usqp=CAU"
+                                    alt="프로필이미지"
+                                />
+                            </ProfileBox>
+                            <div>
+                                <NickName>nickname</NickName>
+                                <CommentTime>createdAt</CommentTime>
+                            </div>
+                        </CommentProfile>
+                        <CommentContent>
+                            <span>
+                                하하하 저도 가고싶은데 제가 오늘은 저녁 9시만 되는데 괜찮으실까요?
+                                정말배고파아아앙 완죠니 배고프다앙아아아아아아아아아아아아아아아
+                            </span>
+                        </CommentContent>
+                    </CommnetList>
+                </CommentBox>
+                <AddComment>
+                    <CommentAdd>
+                        <CommentRegister>
+                            <FaRegPlusSquare />
+                            등록하기
+                        </CommentRegister>
+                    </CommentAdd>
+                </AddComment>
             </DetailPost>
         </Container>
     );
@@ -108,7 +139,7 @@ const DetailPost = styled.div`
     width: 1000px;
     height: 1100px;
     background-color: #fff;
-    border: 1px solid #ff9c5f;
+    border: 2px solid #ff9c5f;
     margin: auto;
 `;
 const PostHeader = styled.div``;
@@ -203,4 +234,75 @@ const UserBox = styled.div`
     > span {
         padding-right: 10px;
     }
+`;
+
+const CommentBox = styled.div`
+    width: auto;
+    height: 350px;
+    display: flex;
+`;
+const AddComment = styled.div`
+    width: auto;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+`;
+const ProfileImg = styled.img`
+    width: 47px;
+    height: 47px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+const ProfileBox = styled.div`
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    overflow: hidden;
+    margin-right: 20px;
+`;
+const CommentProfile = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 20px;
+`;
+const CommentTime = styled.div`
+    font-size: 15px;
+`;
+const CommentContent = styled.div`
+    width: auto;
+    padding: 5px;
+    margin-left: 50px;
+    margin-right: 50px;
+`;
+const CommnetList = styled.div`
+    width: 998px;
+    height: 125px;
+    border-bottom: 2px solid #ff9c5f;
+`;
+const NickName = styled.div`
+    font-size: 18px;
+`;
+const CommentRegister = styled.button`
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 10px;
+    color: #f36d1a;
+`;
+
+const CommentAdd = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    width: 850px;
+    height: 100px;
+    border-radius: 10px;
+    border: 2px solid #ff9c5f;
 `;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import * as S from './style/Board.style';
 import { FiSearch } from 'react-icons/fi';
-import axios from 'axios';
+import axios from '../../utils/axios';
 
 export default function Board() {
     const [text, setText] = useState('');
@@ -22,14 +22,14 @@ export default function Board() {
 
             if (searchText && searchText.length >= 2) {
                 response = await axios.get(
-                    `http://localhost:8080/regionSearch?value=${searchText}`,
+                    `/regionSearch?value=${searchText}`,
                 );
                 setPosts(response.data || []);
                 setCurrentPage(1);
                 setTotalPages(1);
             } else {
                 response = await axios.get(
-                    `http://localhost:8080/posts/?countperpage=${countperpage}&pageno=${pageNo}`,
+                    `/posts/?countperpage=${countperpage}&pageno=${pageNo}`,
                 );
                 if (response.data) {
                     setPosts(response.data.data);
