@@ -1,307 +1,282 @@
-// import baseURL from '../../utils/axios'
-import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import * as S from './style/SearchResult.style'
+import axios from '../../utils/axios';
+import React, { useState, useMemo, useEffect } from 'react';
+import * as S from './style/SearchResult.style';
 import TypeFilter from '../../components/SearchResult/TypeFilter';
 import RegionFilter from '../../components/SearchResult/RegionFilter';
 import SortFilter from '../../components/SearchResult/SortFilter';
-import Social from '../../components/SearchResult/Social';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ResultNotice from '../../components/SearchResult/ResultNotice';
 import SearchResultItem from '../../components/SearchResult/SearchResultItem';
 import FilteredMap from '../../components/SearchResult/FilteredMap';
-import axios from '../../utils/axios';
 
 export default function SearchResult() {
-    
-    const location = useLocation();
     const navigate = useNavigate();
-    // 입력한 검색키워드, 필터타입 변수 선언
+    const location = useLocation();
     const keyword = location.state?.keyword || '';
-    const [ loading, setLoading ] = useState(false);
-    // 검색결과 받아오기
-    const [ searchResults, setSearchResults ] = useState([]);
-    // 필터결과 받아오기
-    const [ filteredData, setFilteredData ] = useState([]);
-    const [ selectedType, setSelectedType ] = useState('');
-    const [ selectedCity, setSelectedCity ] = useState('');
-    const [ selectedArea, setSelectedArea ] = useState('');
-    const [ selectedSort, setSelectedSort ] = useState('');
 
-    // 검색 및 필터에 따른 지도가져오기
-    const [info, setInfo] = useState([]);
-    const [markers, setMarkers] = useState([]);
-
-    // 페이지 상태저장(한 페이지당 10개)
+    const [selectedType, setSelectedType] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+    const [selectedArea, setSelectedArea] = useState('');
+    const [selectedSort, setSelectedSort] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+    // 검색 결과 데이터 배열
+    // const [storeInfo, setStoreInfo] = useState({
+    //     _id: '',
+    //     name: '',
+    //     address: {
+    //         city: '',
+    //         state: '',
+    //         street: '',
+    //         fullAddress: '',
+    //         zipCode: '',
+    //         latitude: '',
+    //         longitude: '',
+    //     },
+    //     menuItems: [],
+    //     type: '',
+    //     phone: '',
+    //     priceRange: '',
+    //     parkingInfo: '',
+    //     businessHours: [],
+    //     closedDays: [],
+    //     banners: [],
+    //     reviews: [],
+    //     starRating: 0,
+    //     storeLikes:[],
+    //     reviews:[]
+    // });
+    const [stores, setStores]=useState([]);
+
+    useEffect(() => {
+        const getData = async () => {
+            const res = await axios.get(`http://localhost:8080/stores/search?keyword=칼국수`);
+            const data = await res.data;
+            setStores(data);
+        };
+        getData();
+    }, []);
+    stores && console.log(stores);
 
 
-// storeInfo 초기값 설정    
-  // fetchData 함수와 storeInfo 상태(state)
-  // 받아온 storeInfo를 각 검색결과에 주입
-    const [storeInfo, setStoreInfo] = useState({
-        name: "",
-        address: {
-            city: "",
-            state: "",
-            street: "",
-            fullAddress: "",
-            zipCode: "",
-            latitude: "",
-            longitude: "",
-        },
-        menuItems: [],
-        type: "",
-        phone: "",
-        priceRange: "",
-        parkingInfo: "",
-        businessHours: [],
-        closedDays: [],
-        banners: [],
-        starRating: null,
-        viewCount: null,
-        reviews: [],
-        storeLikes:[]
-    });
-    
-  const fetchData = async () => {
-      try {
-          setLoading(true);
-  
-          let response;
-          let responseData;
-          if (keyword) {
-              response = await axios.get(`/stores/search?keyword=${keyword}`);
-              responseData = response.data;
-              setSearchResults(responseData);
-              navigate(`/stores/search?keyword=${keyword}`);
-          } else {
-              response = await axios.get(
-                  `/stores/filter?type=${selectedType}&region=${selectedCity}/${selectedArea}`
-              );
-              responseData = response.data;
-              setFilteredData(responseData);
-              navigate(
-                  `/stores/filter?type=${selectedType}&region=${selectedCity}/${selectedArea}`
-              );
-          }
-          // responseData 사용
-          if (responseData && responseData.data) {
-            const { name, address, type, phone, menuItems, priceRange,
-                    parkingInfo, businessHours, closedDays, banners,
-                    starRating, viewCount,reviews , storeLikes } = responseData.data;
-              
-            console.log("API Response:", responseData);
-            
-            // storeInfo 업데이트
-            setStoreInfo({
-            name,
-            address,
-            type,
-            phone,
-            menuItems,
-            priceRange,
-            parkingInfo,
-            businessHours,
-            closedDays,
-            banners,
-            starRating,
-            viewCount ,
-            reviews ,
-            storeLikes 
-            });
-          }
-            setLoading(false);
-      } catch (error) {
-       console.error(error);
-       setLoading(false);
-      }
-  };
+ // item.name이나 item.type, item.city 등에 검색 키워드가 포함되어 있는지 확인
+//  실행되면 에러발생
+    // const checkKeywordMatch = (stores) => {
+    //     const searchKeyword = keyword.toLowerCase();
+    //     for(let store of stores){
+    //         if( 
+    //             (store.name && store.name.toLowerCase().includes(searchKeyword)) ||
+    //             (store.type && store.type.toLowerCase().includes(searchKeyword)) ||
+    //             (store.address &&
+    //             store.address.city &&
+    //             store.address.city.toLowerCase().includes(searchKeyword))
+    //         ){return true;}
+    //     }
+    //     return false
+    // };
 
-    // 검색어 검색조건(아래 로직에 적용하는 함수)
-    const checkKeywordMatch = (storeInfo) => {
-        const SearchKeyword = keyword.toLowerCase();
-      
-        // item.name이나 item.type, item.city 등에 검색 키워드가 포함되어 있는지 확인
-        return (
-            storeInfo.name.toLowerCase().includes(SearchKeyword) ||
-            storeInfo.type.toLowerCase().includes(SearchKeyword) ||
-            storeInfo.city.toLowerCase().includes(SearchKeyword)
-        );
-      };
-
-
-    // 검색 + 정렬
+    // 검색 + 정렬된 데이터
     const applySearchAndSort = useMemo(() => {
-        return searchResults
-            .filter(item => {
-                const keywordMatch = checkKeywordMatch(item, keyword);
-                return keywordMatch;
-            })
-            .sort((a, b) => a.name.localeCompare(b.name));
-    }, [searchResults, keyword]);
-
-    // 필터 + 정렬
+        let searchSortedItems = [];
+        
+            for(let store of stores){
+                if (store) {
+                    searchSortedItems.push(store);
+                }
+                if (selectedSort === '평점순') {
+                    searchSortedItems = searchSortedItems.filter((item) => item.starRating !== undefined);
+                    searchSortedItems.sort((a, b) => (b.starRating || 0) - (a.starRating || 0));
+                } else if (selectedSort === '리뷰순') {
+                    searchSortedItems = searchSortedItems.filter(
+                        (item) => item.storeReviewCount !== undefined,
+                    );
+                    searchSortedItems.sort((a, b) => (b.storeReviewCount || 0) - (a.storeReviewCount || 0));
+                } else if (selectedSort === '찜한순') {
+                    searchSortedItems = searchSortedItems.filter(
+                        (item) => item.storeLikeCount !== undefined,
+                    );
+                    searchSortedItems.sort((a, b) => (b.storeLikeCount || 0) - (a.storeLikeCount || 0));
+                } else {
+                    // 기본적으로 이름 순서로 정렬
+                    searchSortedItems = searchSortedItems.filter((item) => item.name !== undefined);
+                    searchSortedItems.sort((a, b) => a.name.localeCompare(b.name));
+                }
+                return searchSortedItems;
+            }
+        }, [stores]);
+    // 필터+ 정렬된 데이터
     const applyFiltersAndSort = useMemo(() => {
-        let filterdSortedData = [...filteredData];
-        
-        if (selectedType) {
-            filterdSortedData = filterdSortedData.filter(item => item.type === selectedType);
-        }
-        if (selectedCity && selectedArea) {
-            filterdSortedData = filterdSortedData.filter(item => item.state === selectedArea && item.city === selectedCity);
-        }
-        if (selectedType && selectedCity && selectedArea) {
-            filterdSortedData = filterdSortedData.filter(item => item.type === selectedType && item.state === selectedArea && item.city === selectedCity);
-        }
-        // 필터가 지정되지 않으면 기존 데이터 유지
-        if (!selectedType && !selectedCity && !selectedArea) {
-            filterdSortedData = [...filteredData]; 
-        }
-        
-        if (selectedSort === '평점순') {
-            filterdSortedData.sort((a, b) => b.rating - a.rating);
-        } else if (selectedSort === '리뷰순') {
-            filterdSortedData.sort((a, b) => b.reviews.length - a.reviews.length);
-        } else if (selectedSort === '찜한순') {
-            filterdSortedData.sort((a, b) => b.likes.length - a.likes.length);
-        } else { //기본적으로 이름 순서로 정렬
-            filterdSortedData.sort((a, b) => a.name.localeCompare(b.name));
-        }
-        return filterdSortedData;
-    }, [filteredData, selectedType,  selectedCity, selectedArea, selectedSort]);
+        let filteredData = [...stores];
 
-    useEffect(() => {
-        fetchData();
-    }, [selectedType, selectedCity, selectedArea, selectedSort, keyword, currentPage]);
+        // 필터링
+        filteredData = filteredData.filter((item)=>{
+            if(selectedType && item.type !== selectedType){
+                return false
+            }
+            if (
+                selectedCity &&
+                selectedArea &&
+                (item.address.state !== selectedArea || item.address.city !== selectedCity)
+              ) {
+                return false;
+              }
+            return true;
+        });
+        // 정렬
+        let filteredSortedData;
+            if (selectedSort === '평점순') {
+                filteredSortedData = filteredData.filter((item) => item.starRating !== undefined);
+                filteredSortedData.sort((a, b) => (b.starRating || 0) - (a.starRating || 0));
+            } else if (selectedSort === '리뷰순') {
+                filteredSortedData = filteredData.filter((item) => item.storeReviewCount !== undefined);
+                filteredSortedData.sort((a, b) => (b.storeReviewCount || 0) - (a.storeReviewCount || 0));
+            } else if (selectedSort === '찜한순') {
+                filteredSortedData = filteredData.filter((item) => item.storeLikeCount !== undefined);
+                filteredSortedData.sort((a, b) => (b.storeLikeCount || 0) - (a.storeLikeCount || 0));
+            } else {
+                // 기본적으로 이름 순서로 정렬
+                filteredSortedData = filteredData.filter((item) => item.name !== undefined);
+                filteredSortedData.sort((a, b) => a.name.localeCompare(b.name));
+            }    
+        return filteredSortedData;
+    }, [stores, selectedType, selectedArea, selectedSort]);
 
-    useEffect(() => {
-        if (keyword) {
-            fetchData();
-        }
-    }, [keyword]);
-  
-    // 현재 페이지에 해당하는 아이템들만 가져오기
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentPageItems = applyFiltersAndSort.slice(startIndex, endIndex);
+    const currentPageItems = useMemo(() => {
+        let pageItems = [];
+        if (keyword && stores) {
+            pageItems = applySearchAndSort;
+        }
+        if (selectedType || selectedArea) {
+            pageItems = applyFiltersAndSort;
+        }
+        return pageItems.slice(startIndex, endIndex);
+    },  [applySearchAndSort, applyFiltersAndSort, keyword, stores, selectedType, selectedArea, startIndex, endIndex]);
 
-    // 검색&필터 적용시 링크
-    const getLinkToPath = (storeInfo, keyword, isFilter) => {
+    let region;
+    const getLinkToPath = (selectedCity, selectedState, keyword, isFilter) => {
         if (isFilter) {
+            region = `${selectedCity}/${selectedState}`;
             return {
                 pathname: `/stores/filter`,
                 state: {
                     type: selectedType,
-                    region: storeInfo.city/storeInfo.state
-                }
+                    region: region,
+                },
             };
         } else {
             return {
                 pathname: `/stores/search`,
-                state: { keyword: keyword }
+                state: { keyword: keyword },
             };
         }
     };
-
+    const handleItemClick = (storeInfo_id) => {
+        navigate(`/stores/detail/${storeInfo_id}`, { state: { storeInfo_id } });
+    }
     return(
         <S.Container>
-            <S.Search>
-                <S.Nav>
-                    <Social />
-                    <TypeFilter setSelectedType={setSelectedType} />
-                    <RegionFilter 
-                        selectedCity={selectedCity} 
-                        selectedArea={selectedArea} 
-                        setSelectedCity={setSelectedCity} 
-                        setSelectedArea={setSelectedArea} 
-                    />
-                </S.Nav>
-                <S.ResultDiv>
-                    <SortFilter setSelectedSort={setSelectedSort} />
-                    {/* 지도 - 1페이지당 나타나는 아이템들을 지도 위에 매핑 */}
-                    {currentPageItems.map((item, index) => (
-                        <FilteredMap
-                            key={index}
-                            latitude={item.address.latitude}
-                            longitude={item.address.longitude}
-                            name={item.name}
-                            markers={markers}
-                            info={info}
-                            setInfo={setInfo}
-                            storeInfo={storeInfo}
-                            setMarkers={setMarkers}
-                        />
-                        ))}
-
-                    {loading && <p>검색중</p>}
-                    
-                    <ResultNotice
-                        selectedType={selectedType}
-                        selectedArea={selectedArea}
-                        selectedCity={selectedCity}
-                        keyword={keyword}
-                        searchResults={searchResults}
-                        applyFiltersAndSort={applyFiltersAndSort}
-                    />
-                    {(searchResults.length > 0 || keyword.trim() === '' || applyFiltersAndSort.length > 0) && (
-                        <S.ResultStores>
-                            <S.Result>
-                                {/* 검색 결과 아이템들 */}
-                                {keyword.trim() !== '' && applySearchAndSort.map((item, index) => (
+            <S.Nav>
+                <TypeFilter setSelectedType={setSelectedType} />
+                <RegionFilter
+                    selectedCity={selectedCity}
+                    selectedArea={selectedArea}
+                    setSelectedCity={setSelectedCity}
+                    setSelectedArea={setSelectedArea}
+                />
+            </S.Nav>
+            <S.ResultDiv>
+                <SortFilter setSelectedSort={setSelectedSort} />
+                <FilteredMap stores={currentPageItems} />
+                <ResultNotice
+                    selectedType={selectedType}
+                    selectedArea={selectedArea}
+                    selectedCity={selectedCity}
+                    keyword={keyword}
+                    stores={stores}
+                    applyFiltersAndSort={applyFiltersAndSort}
+                    applySearchAndSort={applySearchAndSort}
+                />
+                {(stores || keyword.trim() === '' || applyFiltersAndSort.length > 0) && (
+                    <S.ResultStores>
+                        <S.Result>
+                            {keyword.trim() !== '' &&
+                                applySearchAndSort.map((item, index) => (
                                     <SearchResultItem
-                                        key={item.id}
+                                        key={index}
                                         item={item}
                                         index={index}
                                         keyword={keyword}
                                         linkTo={getLinkToPath(item, keyword, false)}
-                                        keywordMatch={checkKeywordMatch(item, keyword)}
-                                        storeInfo={storeInfo}
-
+                                        // keywordMatch={checkKeywordMatch(item, keyword)}
+                                        onClick={() => handleItemClick(item._id)}
                                     />
                                 ))}
+                            {stores &&
+                                stores.map((store) => {
+                                    return <div key={store._id}>{store.name}</div>;
+                                })}
 
-                                {/* 필터 결과 아이템들 */}
-                                {selectedType || (selectedCity && selectedArea) || selectedSort ? (
-                                    applyFiltersAndSort.map((item, index) => (
+                            {selectedType || (selectedCity && selectedArea) || selectedSort
+                                ? applyFiltersAndSort.map((item, index) => (
+                                      <FilterResultItem
+                                          key={index}
+                                          item={item}
+                                          index={index}
+                                          linkTo={getLinkToPath(item, region, true)}
+                                          onClick={() => handleItemClick(item._id)}
+                                      />
+                                  ))
+                                : null}
+
+                            {currentPageItems.map((item, index) => {
+                                if (keyword.trim() !== '') {
+                                    return (
                                         <SearchResultItem
-                                            key={item.id}
+                                            key={index}
                                             item={item}
                                             index={index}
                                             keyword={keyword}
-                                            keywordMatch={checkKeywordMatch(item, keyword)}
-                                            storeInfo={storeInfo}
+                                            linkTo={getLinkToPath(item, '', true)}
+                                            // keywordMatch={checkKeywordMatch(item, keyword)}
+                                            stores={stores}
+                                            onClick={() => handleItemClick(item._id)}
                                         />
-                                    ))
-                                ) : null}
-
-                                {/* 페이지별 결과 아이템들 */}
-                                {currentPageItems.map((item, index) => (
-                                    <SearchResultItem
-                                        key={item.id}
-                                        item={item}
-                                        index={index}
-                                        keyword={keyword}
-                                        linkTo={getLinkToPath(item, '', true)}
-                                        keywordMatch={checkKeywordMatch(item, keyword)}
-                                        storeInfo={storeInfo}
-                                    />
-                                ))}
-                            </S.Result>
-                            {/* 페이지 네비게이션 */}
-                            <S.Pagination>
-                                <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+                                    );
+                                } else if (selectedType || selectedCity || selectedArea) {
+                                    return (
+                                        <FilterResultItem
+                                            key={index}
+                                            item={item}
+                                            index={index}
+                                            linkTo={getLinkToPath(item, region, true)}
+                                            onClick={() => handleItemClick(item._id)}
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })}
+                        </S.Result>
+                        <S.Pagination>
+                            <button
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            >
                                 이전 페이지
-                                </button>
-                                <span>현재 페이지: {currentPage}</span>
-                                <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPageItems.length < itemsPerPage}>
+                            </button>
+                            <span>현재 페이지: {currentPage}</span>
+                            <button
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPageItems.length < itemsPerPage}
+                            >
                                 다음 페이지
-                                </button>
-                            </S.Pagination>
-                        </S.ResultStores>
-                    )}
-                </S.ResultDiv>
-            </S.Search>
+                            </button>
+                        </S.Pagination>
+                    </S.ResultStores>
+                )}
+            </S.ResultDiv>
         </S.Container>
-    )
+    );
 }
