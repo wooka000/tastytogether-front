@@ -14,7 +14,7 @@ export default function BottomDetail({ storeInfo }) {
             navigate(`/users/login`);
             return;
         }
-        navigate(`/stores/detail/${storeInfo._id}/edit`);
+        navigate(`/stores/detail/${storeInfo._id}/edit`, { state: { storeId: storeInfo._id } });
         return;
     };
     return (
@@ -70,7 +70,6 @@ export default function BottomDetail({ storeInfo }) {
                                     </>
                                 );
                             })}
-                       
                     </S.MenuItems>
                 </S.StoreDetailItem>
             </S.StoreDetailBox>
