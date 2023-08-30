@@ -1,25 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // import { useLocation } from 'react-router-dom';
 import * as S from './style/StoreDetailEdit.style';
 // import useAxios from '../../hooks/useAxios';
-// import { regPhone, regHour, regMinute } from '../../utils/regList';
+import { isValidPhoneNumber } from '../../utils/regList';
+// import { isValidPhoneNumber, isValidHour, isvalidMinute } from '../../utils/regList';
 
 export default function StoreDetailEdit() {
     // const { authRequiredAxios } = useAxios('application/json');
-    // const [newPhone, setNewPhone] = useState('');
+    const [newPhone, setNewPhone] = useState('');
+    const [newPriceRange, setNewPriceRange] = useState('');
     const [newClosedDays, setNewClosedDays] = useState('');
+    const [newParkingInfo, setNewParkingInfo] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     // const location = useLocation();
     const dayCheckList = ['월', '화', '수', '목', '금', '토', '일', '연중무휴'];
 
     // const storeId = location.state.storeId;
 
-    // const handleChange = (e)=>{
-    //     const {name, value} = e.target
-    //     if(name=== 'newPhone'){
-    //         if(value)
-    //     }
-    // }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'newPhone') {
+            setNewPhone(value);
+        }
+        if (name === 'newPriceRange') {
+            setNewPriceRange(value);
+        }
+        if (name === 'newParkingInfo') {
+            setNewParkingInfo(value);
+        }
+    };
+
     const checkedDayHandler = (value, isChecked) => {
         if (isChecked) {
             setNewClosedDays((prev) => [...prev, value]);
@@ -46,10 +56,18 @@ export default function StoreDetailEdit() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!newClosedDays || !newPhone || !newPriceRange || !newParkingInfo) {
+            alert('입력하지 않은 값이 존재합니다.');
+            return;
+        }
         const sortedDayList = newClosedDays.sort(
             (a, b) => dayCheckList.indexOf(a) - dayCheckList.indexOf(b),
         );
         setNewClosedDays(sortedDayList);
+        if (!isValidPhoneNumber(newPhone)) {
+            alert('전화번호 형식이 일치하지 않습니다.');
+            return;
+        }
     };
 
     return (
@@ -62,6 +80,7 @@ export default function StoreDetailEdit() {
                         isPhone={true}
                         name="newPhone"
                         value={newPhone ?? ''}
+                        onChange={handleChange}
                     />
                 </S.EditContentBox>
                 <S.EditContentBox>
@@ -71,9 +90,10 @@ export default function StoreDetailEdit() {
                             1만원대
                             <S.RadioInput
                                 id="radio1"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="1만원대"
+                                onChange={handleChange}
                             ></S.RadioInput>
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
@@ -81,9 +101,10 @@ export default function StoreDetailEdit() {
                             2만원대
                             <S.RadioInput
                                 id="radio2"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="2만원대"
+                                onChange={handleChange}
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
@@ -91,9 +112,10 @@ export default function StoreDetailEdit() {
                             3만원대
                             <S.RadioInput
                                 id="radio3"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="3만원대"
+                                onChange={handleChange}
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
@@ -101,15 +123,22 @@ export default function StoreDetailEdit() {
                             4만원대
                             <S.RadioInput
                                 id="radio4"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="4만원대"
+                                onChange={handleChange}
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="radio5">
                             기타
-                            <S.RadioInput id="radio5" name="priceRange" type="radio" value="기타" />
+                            <S.RadioInput
+                                id="radio5"
+                                name="newPriceRange"
+                                type="radio"
+                                value="기타"
+                                onChange={handleChange}
+                            />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                     </div>
@@ -119,17 +148,35 @@ export default function StoreDetailEdit() {
                     <div>
                         <S.InputLabel htmlFor="freePark">
                             무료주차 가능
-                            <S.RadioInput id="freePark" name="parkingInfo" type="radio" />
+                            <S.RadioInput
+                                id="freePark"
+                                name="newParkingInfo"
+                                type="radio"
+                                value="무료주차 가능"
+                                onChange={handleChange}
+                            />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="paidPark">
                             유료주차 가능
-                            <S.RadioInput id="paidPark" name="parkingInfo" type="radio" />
+                            <S.RadioInput
+                                id="paidPark"
+                                name="newParkingInfo"
+                                type="radio"
+                                value="유료주차 가능"
+                                onChange={handleChange}
+                            />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                         <S.InputLabel htmlFor="nonePark">
                             주차 불가
-                            <S.RadioInput id="nonePark" name="parkingInfo" type="radio" />
+                            <S.RadioInput
+                                id="nonePark"
+                                name="newParkingInfo"
+                                type="radio"
+                                value="주차 불가"
+                                onChange={handleChange}
+                            />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
                     </div>
@@ -204,17 +251,17 @@ export default function StoreDetailEdit() {
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" />원
+                                    <S.ChartInput type="number" placeholder="-" />원
                                 </S.ChartContent>
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" />원
+                                    <S.ChartInput type="number" placeholder="-" />원
                                 </S.ChartContent>
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" />원
+                                    <S.ChartInput type="number" placeholder="-" />원
                                 </S.ChartContent>
                             </tr>
                         </S.MenuNameChart>
