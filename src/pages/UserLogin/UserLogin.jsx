@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
+import * as S from './style/UserLogin.style';
 import axios from '../../utils/axios';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-// import useAxios from '../../hooks/useAxios';
 
 export default function UserLogin() {
     const [email, setEmail] = useState('');
@@ -12,6 +11,7 @@ export default function UserLogin() {
     const navigate = useNavigate();
     const { setAuth, setIsLogin } = useAuth();
     const location = useLocation();
+    const [errMsg, setErrMsg] = useState('');
 
     const login = async (e) => {
         e.preventDefault();
@@ -32,83 +32,54 @@ export default function UserLogin() {
                 return { ...response.data };
             });
             setIsLogin(true);
-            navigate('/', { replace: true });
+            if (location.state.from === '/users/signup') {
+                navigate('/');
+                return;
+            }
+            navigate(-1);
         } catch (err) {
-            alert(err.response.data.message);
+            setErrMsg(err.response.data.message);
         }
     };
-
-    //axios test
-    // const { authRequiredAxios } = useAxios('application/json');
-    // const { authRequiredAxios: authRequiredAxiosForImage } = useAxios('multipart/form-data');
-
-    // const formData = new FormData();
-    // formData.append('email', 'hello');
-    // formData.append('name', 'Jin');
-
-    // const testAxiosForImage = async () => {
-    //     const response = await authRequiredAxiosForImage({
-    //         method: 'post',
-    //         url: 'auth/user',
-    //         data: { formData },
-    //     });
-    //     console.log(response);
-    // };
-
-    // const testAxios = async () => {
-    //     const response = await authRequiredAxios({ method: 'get', url: 'auth/user' });
-    //     console.log(response);
-    // };
-
+    console.log(location?.state);
     return (
-        <Container>
-            <h2>tasty Together</h2>
-            <h1>Login</h1>
-            <Form onSubmit={login}>
-                <ul>
-                    <li>
-                        <input
-                            name="email"
-                            onChange={(e) => {
-                                setEmail(e.target.value);
-                            }}
-                            placeholder={location.state?.email}
-                            value={email}
-                        />
-                    </li>
-                    <li>
-                        <input
-                            name="password"
-                            onChange={(e) => {
-                                setPassword(e.target.value);
-                            }}
-                            value={password}
-                        />
-                    </li>
-                </ul>
-                <button type="submit">로그인</button>
-            </Form>
-            <Link to="/users/signup" replace={true}>
-                회원가입 페이지로 이동
-            </Link>
-            {/* <button onClick={testAxios}>JSON LoginRequiredAxios 테스트</button>
-            <button onClick={testAxiosForImage}>MultiForm LoginRequiredAxios 테스트</button> */}
-        </Container>
+        <S.Container>
+            <S.LoginBox>
+                <S.Logo
+                    src="https://tasty-together.s3.ap-northeast-2.amazonaws.com/main/default-profile-image.png"
+                    alt="logo"
+                />
+                <h1>Login</h1>
+                <S.Form onSubmit={login}>
+                    <ul>
+                        <li>
+                            <input
+                                name="email"
+                                type="text"
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                                placeholder={location.state?.email || '이메일(ID)'}
+                                value={email}
+                            />
+                        </li>
+                        <li>
+                            <input
+                                name="password"
+                                type="password"
+                                placeholder="비밀번호"
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                value={password}
+                            />
+                        </li>
+                    </ul>
+                    <button type="submit">로그인</button>
+                </S.Form>
+                <S.LinkToSignUp to="/users/signup">회원가입 페이지로 이동</S.LinkToSignUp>
+                <S.ErrorMsg>{errMsg}</S.ErrorMsg>
+            </S.LoginBox>
+        </S.Container>
     );
 }
-
-const Container = styled.div`
-    min-height: 100vh; // 페이지 높이를 100vh로 설정하여 스크롤을 내려야 footer가 보이게 설정
-    margin-top: 100px; // 헤더의 포지션이 fixed여서 margin-top 값을 Header 높이 만큼 설정
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
-const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
