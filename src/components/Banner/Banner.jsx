@@ -16,7 +16,7 @@ export default function Banner() {
         e.preventDefault();
         navigate('/stores/search', { state: { keyword: text } });
     };
-    useEffect(() => {
+    useEffect(async () => {
         try {
             const getBanner = async () => {
                 const res = await authRequiredAxios({ method: 'get', url: '/banner' });
