@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import * as S from './style/Banner.style';
-import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
 
 export default function Banner() {
+    const { authRequiredAxios } = useAxios('application/json');
     const [text, setText] = useState('');
     const [photos, setPhotos] = useState();
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function Banner() {
     useEffect(() => {
         try {
             const getBanner = async () => {
-                const res = await axios.get('http://localhost:8080/banner');
+                const res = await authRequiredAxios({ method: 'get', url: '/banner' });
                 const data = await res.data.bannerImages;
                 setPhotos(data);
             };

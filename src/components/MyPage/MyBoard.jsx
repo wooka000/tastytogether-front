@@ -23,11 +23,11 @@ export default function MyBoard() {
             {boards &&
                 boards.map((board) => {
                     return (
-                        <S.Box key={board.id}>
-                            <S.Img src={board.photo} />
+                        <S.Box key={board._id}>
+                            <S.Img src={board.image[0]} />
                             <S.Text>
-                                <S.Date>{board.date}</S.Date>
-                                <S.Area>{board.area}</S.Area>
+                                <S.Date>{board.createdAt.split('T')[0]}</S.Date>
+                                <S.Area>{board.region}</S.Area>
                                 <S.Title>{board.title}</S.Title>
                                 <S.Content>{board.content}</S.Content>
                             </S.Text>
