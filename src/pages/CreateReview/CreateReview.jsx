@@ -39,7 +39,6 @@ export default function CreateReview() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!grade) {
             alert('평점 아이콘을 눌러주세요!');
             return;
@@ -49,7 +48,6 @@ export default function CreateReview() {
         formData.append('content', content);
         photos.forEach((photo) => formData.append('photos', photo));
         try {
-            console.log(storeId);
             const res = await authRequiredAxios({
                 method: 'post',
                 url: `/review/${storeId}`,
@@ -58,16 +56,17 @@ export default function CreateReview() {
             const status = res.status;
             if (status == 201) {
                 navigate(`/stores/detail/${storeId}`);
-            } else {
-                console.log(res);
             }
         } catch (err) {
             console.error(err);
         }
     };
 
-    const handleRemove = (e) => {
-        console.log(e.target);
+    const handleRemove = (index) => {
+        const deletedPhotos = [...photos];
+        deletedPhotos.splice(index, 1);
+        setPhotos([...deletedPhotos]);
+        setCount((prev) => prev - 1);
     };
 
     return (
@@ -137,7 +136,10 @@ export default function CreateReview() {
                                             alt="prev"
                                             data-key={index}
                                         />
-                                        <S.RemoveBtn type="button" onClick={handleRemove}>
+                                        <S.RemoveBtn
+                                            type="button"
+                                            onClick={() => handleRemove(index)}
+                                        >
                                             x
                                         </S.RemoveBtn>
                                     </S.Preview>
