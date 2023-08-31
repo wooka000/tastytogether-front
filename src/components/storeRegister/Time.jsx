@@ -17,7 +17,7 @@ const Time = ({ setStoreInfo }) => {
 
     const isValidHour = (hour) => {
         const numericHour = Number(hour);
-        return numericHour >= 0 && numericHour <= 23;
+        return numericHour >= 0 && numericHour <= 12;
     };
 
     const isValidMinute = (minute) => {

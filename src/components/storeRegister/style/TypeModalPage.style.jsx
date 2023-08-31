@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TypeModal = styled.form`
+export const TypeModal = styled.div`
     width: 850px;
     height: 700px;
     z-index: 999;

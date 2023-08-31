@@ -73,23 +73,24 @@ export const Menu = styled.div`
         font-size: 25px;
         text-align: center;
     }
-
-    #menu_modal_button{
-        width: 107px;
-        height: 52px;
-        border-radius: 5px;
-        border: none;
-        background-color: lightgray;
-        font-size: 18px;
-        color: white;
-        margin-left: 20px;
-        right: 20px;
-        &:hover{
-            background-color: #FF9C5F;
-        }
-        &:active {
-            filter: brightness(70%);
-          }
+`
+export const MenuButton = styled.div`
+    width: 107px;
+    height: 52px;
+    border-radius: 5px;
+    border: none;
+    background-color: lightgray;
+    font-size: 18px;
+    color: white;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 20px;
+    &:hover{
+        background-color: #FF9C5F;
     }
-
+    &:active {
+        filter: brightness(70%);
+    }
 `

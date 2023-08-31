@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import * as S from './style/StoreRegister.style'
 import DaumPost from '../../components/storeRegister/DaumPost'; 
 import TypeModalButton from '../../components/storeRegister/TypeModalButton';
@@ -11,44 +9,26 @@ import Time from '../../components/storeRegister/Time';
 import BreakDay from '../../components/storeRegister/BreakDay';
 import MenuModalButton from '../../components/storeRegister/MenuModalButton';
 import StoreImage from '../../components/storeRegister/StoreImage';
-import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
+
 
 export default function StoreRegister () {
-    
-    // const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     initMypageView();
-    // }, []);
-
-    // function initMypageView() {
-    //     const token = sessionStorage.getItem('token');
-
-    //     if (token === null) {
-    //         alert('로그인이 필요한 페이지입니다.');
-    //         // navigate를 사용하여 로그인 페이지로 이동
-    //         navigate('/users/login');
-    //         return;
-    //     }
-    // }
+    const { authRequiredAxios } = useAxios('multipart/form-data');
 
     const [storeInfo, setStoreInfo] = useState({
         banners: [],
         name: "",
         address: {
-            street: "",
             city: "",
             state: "",
+            street: "",
             fullAddress: "",
             zipCode: "",
             latitude: "",
             longitude: "",
         },
-        menuItems: [
-            { name: "", price: "" },
-            { name: "", price: "" },
-            { name: "", price: "" },
-        ],
+        menuItems: [],
         type: "",
         phone: "",
         priceRange: "",
@@ -57,26 +37,66 @@ export default function StoreRegister () {
         closedDays: [],
     });
 
-    const handleSaveStore = (e) => {
-        e.preventDefault();
-        handleSubmit(storeInfo);
-    }
+        const {
+            banners,
+            name,
+            address,
+            menuItems,
+            type,
+            phone,
+            priceRange,
+            parkingInfo,
+            businessHours,
+            closedDays,
+        } = storeInfo;
 
-    const handleSubmit = (updatedStoreInfo) => { 
-        axios.post('http://localhost:8080/stores', updatedStoreInfo)
-            .then(response => {
-                console.log(response.data)
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('type', type);
+        formData.append('phone', phone);
+        formData.append('priceRange', priceRange);
+        formData.append('parkingInfo', parkingInfo);
+
+        banners && banners.forEach((banner, index) => {
+            formData.append(`banners[${index}]`, banner);
+        });
+        menuItems && menuItems.forEach((menuItem, index) => {
+            formData.append(`menuItems[${index}][name]`, menuItem.name);
+            formData.append(`menuItems[${index}][price]`, menuItem.price);
+        });
+        businessHours && businessHours.forEach((hour, index) => {
+            formData.append(`businessHours[${index}]`, hour);
+        });
+        closedDays && closedDays.forEach((day, index) => {
+            formData.append(`closedDays[${index}]`, day);
+        });
+
+        formData.append('address[street]', address.street);
+        formData.append('address[city]', address.city);
+        formData.append('address[state]', address.state);
+        formData.append('address[fullAddress]', address.fullAddress);
+        formData.append('address[zipCode]', address.zipCode);
+        formData.append('address[latitude]', address.latitude);
+        formData.append('address[longitude]', address.longitude);
+
+        formData.forEach(function(value, key) {
+            console.log(key + ': ' + value);
+            });
+        const handleSaveStore = async () =>{
+            const response = await authRequiredAxios({
+                method: 'post',
+                url: '/stores',
+                data: formData,
             })
-            .catch(error => {
-                console.error(error)
-            })
-    };
+            console.log(response);
+        }
+
 
     return(
         <S.Container>
             <S.Article>
-                <S.RegisterForm  onSubmit={handleSaveStore}>
-                    <DaumPost setStoreInfo={setStoreInfo} />
+                <S.RegisterForm>
+                    <DaumPost setStoreInfo={setStoreInfo}  />
                     <TypeModalButton setStoreInfo={setStoreInfo} /> 
                     <PhoneNumber setStoreInfo={setStoreInfo} />
                     <PriceAverage setStoreInfo={setStoreInfo} />
@@ -86,7 +106,7 @@ export default function StoreRegister () {
                     <MenuModalButton setStoreInfo={setStoreInfo} />
                     <StoreImage setStoreInfo={setStoreInfo} />
                     <S.RegisterButton>
-                        <button type="submit" onClick={handleSaveStore}>새로운 업체 등록하기</button>
+                        <button type="button" onClick={handleSaveStore}>새로운 업체 등록하기</button>
                     </S.RegisterButton>
                 </S.RegisterForm>
             </S.Article>

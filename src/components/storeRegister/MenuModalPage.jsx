@@ -37,18 +37,27 @@ function MenuModalPage({ setModalOpen, setUpdatedMenus, setStoreInfo }){
     };
 
     const handleMenuRegister = () => {
-
+        
         const updateMenus=[
             { name: menu[0].name, price: menu[0].price},
             { name: menu[1].name, price: menu[1].price},
             { name: menu[2].name, price: menu[2].price}
         ];
-        setUpdatedMenus(updateMenus);
-        setStoreInfo(prevInfo => ({
-            ...prevInfo,
-            menuItems: [...updateMenus]
-        }));
-        closeModal();
+
+        if (
+            (updateMenus[0].name.trim() !== '' && updateMenus[0].price.trim() !== '') ||
+            (updateMenus[1].name.trim() !== '' && updateMenus[1].price.trim() !== '') ||
+            (updateMenus[2].name.trim() !== '' && updateMenus[2].price.trim() !== '')
+        ) {
+            setUpdatedMenus(updateMenus);
+            setStoreInfo(prevInfo => ({
+                ...prevInfo,
+                menuItems: [...updateMenus]
+            }));
+            closeModal();
+        } else {
+            console.log('메뉴를 순서대로 적어주세요');
+        }
     }
 
     return(
@@ -64,9 +73,9 @@ function MenuModalPage({ setModalOpen, setUpdatedMenus, setStoreInfo }){
                         <p id="item_price">가격</p>
                     </div>
                     <div className="menu_line">
-                        <input id="name1" className="menu" type="text" onChange={(e) => handleMenuChange(0, 'name', e.target.value)} value={menu[0].name} />
+                        <input id="name1" className="menu" type="text" onChange={(e) => handleMenuChange(0, 'name', e.target.value)} value={menu[0].name} required />
                         <div>
-                            <input id="price1" className="price" type="number" onChange={(e) => handleMenuChange(0, 'price', e.target.value)} value={menu[0].price} />
+                            <input id="price1" className="price" type="number" onChange={(e) => handleMenuChange(0, 'price', e.target.value)} value={menu[0].price} required />
                             <p>원</p>
                         </div>
                     </div>
@@ -91,6 +100,7 @@ function MenuModalPage({ setModalOpen, setUpdatedMenus, setStoreInfo }){
                 <button type="button" className="close_button" onClick={closeModal}>x</button>
             </div>
         </S.MenuModal>
+
     )
 }
 
