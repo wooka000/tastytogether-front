@@ -226,7 +226,7 @@ export default function StoreDetailEdit() {
                 </S.EditContentBox>
                 <S.EditContentBox>
                     <S.EditTitle>가격대</S.EditTitle>
-                    <div>
+                    <S.SelectBox>
                         <S.InputLabel htmlFor="radio1">
                             1만원대
                             <S.RadioInput
@@ -282,11 +282,11 @@ export default function StoreDetailEdit() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                    </div>
+                    </S.SelectBox>
                 </S.EditContentBox>
                 <S.EditContentBox>
                     <S.EditTitle>주차</S.EditTitle>
-                    <div>
+                    <S.SelectBox>
                         <S.InputLabel htmlFor="freepark">
                             무료주차 가능
                             <S.RadioInput
@@ -320,11 +320,11 @@ export default function StoreDetailEdit() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                    </div>
+                    </S.SelectBox>
                 </S.EditContentBox>
                 <S.EditContentBox isSmallGap={true}>
                     <S.EditTitle>영업시간</S.EditTitle>
-                    <div>
+                    <S.SelectBox>
                         <S.InputLabel htmlFor="openHour">
                             오전
                             <S.TimeInput
@@ -367,11 +367,11 @@ export default function StoreDetailEdit() {
                             />
                             분
                         </S.InputLabel>
-                    </div>
+                    </S.SelectBox>
                 </S.EditContentBox>
                 <S.EditContentBox>
                     <S.EditTitle>휴무일</S.EditTitle>
-                    <div>
+                    <S.SelectBox>
                         {dayCheckList.map((el, idx) => {
                             return (
                                 <S.InputLabel htmlFor={el} key={idx}>
@@ -387,7 +387,7 @@ export default function StoreDetailEdit() {
                                 </S.InputLabel>
                             );
                         })}
-                    </div>
+                    </S.SelectBox>
                 </S.EditContentBox>
                 <S.EditContentBox isSmallGap={true}>
                     <S.EditTitle>대표 메뉴</S.EditTitle>
