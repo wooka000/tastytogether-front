@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import * as S from './style/StoreImage.style';
 
-const StoreImage = ({ setStoreInfo }) => {
+export default function StoreImage ({ setBanners }) {
   const [imageSrcs, setImageSrcs] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -35,7 +35,7 @@ const StoreImage = ({ setStoreInfo }) => {
           setUploadedImages(newUploadedImages);
 
           // 업로드 후 storeInfo 업데이트
-          setStoreInfo((prevInfo) => ({
+          setBanners((prevInfo) => ({
             ...prevInfo,
             street: prevInfo.street || '',
             images: uploadedImages,
@@ -58,7 +58,7 @@ const StoreImage = ({ setStoreInfo }) => {
 
     const newUploadedImages = [...uploadedImages];
     newUploadedImages.splice(index, 1);
-    setStoreInfo((prevInfo)=>({
+    setBanners((prevInfo)=>({
       ...prevInfo,
       images: uploadedImages,
     }))
@@ -106,7 +106,3 @@ const StoreImage = ({ setStoreInfo }) => {
     </>
   );
 };
-StoreImage.propTypes = {
-  setStoreInfo: PropTypes.func.isRequired,
-};
-export default StoreImage;

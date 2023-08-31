@@ -6,7 +6,7 @@ import CheckInfo from './CheckInfo';
 import MyContext from './MyContext';
 import axios from 'axios';
 
-function DaumPost({ setStoreInfo }) {
+export default function DaumPost({ setStoreInfo }) {
     const [addressObj, setAddressObj] = useState({
         street: '',
         fullAddress: '',
@@ -214,4 +214,3 @@ DaumPost.propTypes = {
     setStoreInfo: PropTypes.func.isRequired,
 };
 
-export default DaumPost;
