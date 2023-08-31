@@ -105,6 +105,10 @@ export const TimeInput = styled.input`
     &:focus {
         outline: none;
     }
+    &::placeholder {
+        color: #989797;
+        font-size: 15px;
+    }
 `;
 
 export const ClosedDayDesign = styled.div`

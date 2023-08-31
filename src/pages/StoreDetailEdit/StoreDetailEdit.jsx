@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 // import { useLocation } from 'react-router-dom';
 import * as S from './style/StoreDetailEdit.style';
 // import useAxios from '../../hooks/useAxios';
-import { isValidPhoneNumber } from '../../utils/regList';
-// import { isValidPhoneNumber, isValidHour, isvalidMinute } from '../../utils/regList';
+import { isValidPhoneNumber, isValidHour, isvalidMinute } from '../../utils/regList';
 
 export default function StoreDetailEdit() {
     // const { authRequiredAxios } = useAxios('application/json');
@@ -12,13 +11,16 @@ export default function StoreDetailEdit() {
     const [newClosedDays, setNewClosedDays] = useState('');
     const [newParkingInfo, setNewParkingInfo] = useState('');
     const [isChecked, setIsChecked] = useState(false);
+    const [newBusinessHours, setNewBusinessHours] = useState(['', '', '', '']);
+    const [newMenuItems, setNewMenuItems] = useState([]);
     // const location = useLocation();
+
     const dayCheckList = ['월', '화', '수', '목', '금', '토', '일', '연중무휴'];
 
     // const storeId = location.state.storeId;
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, id } = e.target;
         if (name === 'newPhone') {
             setNewPhone(value);
         }
@@ -27,6 +29,40 @@ export default function StoreDetailEdit() {
         }
         if (name === 'newParkingInfo') {
             setNewParkingInfo(value);
+        }
+        if (name === 'newBusinessHours') {
+            if (id === 'openHour') {
+                setNewBusinessHours((prevHours) => [
+                    value,
+                    prevHours[1],
+                    prevHours[2],
+                    prevHours[3],
+                ]);
+            } else if (id === 'openMinutes') {
+                setNewBusinessHours((prevHours) => [
+                    prevHours[0],
+                    value,
+                    prevHours[2],
+                    prevHours[3],
+                ]);
+            } else if (id === 'closeHour') {
+                setNewBusinessHours((prevHours) => [
+                    prevHours[0],
+                    prevHours[1],
+                    value,
+                    prevHours[3],
+                ]);
+            } else if (id === 'closeMinutes') {
+                setNewBusinessHours((prevHours) => [
+                    prevHours[0],
+                    prevHours[1],
+                    prevHours[2],
+                    value,
+                ]);
+            }
+        }
+        if (name === 'newMenuItems') {
+            
         }
     };
 
@@ -54,20 +90,38 @@ export default function StoreDetailEdit() {
         checkedDayHandler(value, e.target.checked);
     };
 
+    const isFullMenuItems = newMenuItems.filter((el) => el.name !== '' && el.price !== '');
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!newClosedDays || !newPhone || !newPriceRange || !newParkingInfo) {
+        if (
+            !newClosedDays ||
+            !newPhone ||
+            !newPriceRange ||
+            !newParkingInfo ||
+            newBusinessHours.includes('') ||
+            isFullMenuItems.length !== 3
+        ) {
             alert('입력하지 않은 값이 존재합니다.');
             return;
         }
-        const sortedDayList = newClosedDays.sort(
-            (a, b) => dayCheckList.indexOf(a) - dayCheckList.indexOf(b),
-        );
-        setNewClosedDays(sortedDayList);
         if (!isValidPhoneNumber(newPhone)) {
             alert('전화번호 형식이 일치하지 않습니다.');
             return;
         }
+        if (!isValidHour(newBusinessHours[0], newBusinessHours[2])) {
+            alert('시간 형식에 맞게 작성해주세요.');
+            return;
+        }
+        if (!isvalidMinute(newBusinessHours[1], newBusinessHours[3])) {
+            alert('분 형식에 맞게 작성해주세요.');
+            return;
+        }
+
+        const sortedDayList = newClosedDays.sort(
+            (a, b) => dayCheckList.indexOf(a) - dayCheckList.indexOf(b),
+        );
+        setNewClosedDays(sortedDayList);
+        console.log(newBusinessHours);
     };
 
     return (
@@ -186,17 +240,45 @@ export default function StoreDetailEdit() {
                     <div>
                         <S.InputLabel htmlFor="openHour">
                             오전
-                            <S.TimeInput id="openHour" name="openHour" type="number" />시
+                            <S.TimeInput
+                                id="openHour"
+                                name="newBusinessHours"
+                                placeholder="00"
+                                type="number"
+                                onChange={handleChange}
+                            />
+                            시
                         </S.InputLabel>
                         <S.InputLabel htmlFor="openMinutes">
-                            <S.TimeInput id="openMinutes" name="openMinutes" type="number" />분 ~
+                            <S.TimeInput
+                                id="openMinutes"
+                                name="newBusinessHours"
+                                placeholder="00"
+                                type="number"
+                                onChange={handleChange}
+                            />
+                            분 ~
                         </S.InputLabel>
                         <S.InputLabel htmlFor="closeHour">
                             오후
-                            <S.TimeInput id="closeHour" name="closeHour" type="number" />시
+                            <S.TimeInput
+                                id="closeHour"
+                                name="newBusinessHours"
+                                placeholder="00"
+                                type="number"
+                                onChange={handleChange}
+                            />
+                            시
                         </S.InputLabel>
                         <S.InputLabel htmlFor="closeMinutes">
-                            <S.TimeInput id="closeMinutes" name="closeMinutes" type="number" />분
+                            <S.TimeInput
+                                id="closeMinutes"
+                                name="newBusinessHours"
+                                placeholder="00"
+                                type="number"
+                                onChange={handleChange}
+                            />
+                            분
                         </S.InputLabel>
                     </div>
                 </S.EditContentBox>
@@ -231,17 +313,17 @@ export default function StoreDetailEdit() {
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" />
+                                    <S.ChartInput type="text" placeholder="-" id="menu1" name="newMenuItems" />
                                 </S.ChartContent>
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" />
+                                    <S.ChartInput type="text" placeholder="-" id="menu2"name="newMenuItems" />
                                 </S.ChartContent>
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" />
+                                    <S.ChartInput type="text" placeholder="-" id="menu3" name="newMenuItems" />
                                 </S.ChartContent>
                             </tr>
                         </S.MenuNameChart>
@@ -251,17 +333,35 @@ export default function StoreDetailEdit() {
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="number" placeholder="-" />원
+                                    <S.ChartInput
+                                        type="number"
+                                        placeholder="-"
+                                        name="newMenuItems"
+                                        id="price1"
+                                    />
+                                    원
                                 </S.ChartContent>
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="number" placeholder="-" />원
+                                    <S.ChartInput
+                                        type="number"
+                                        placeholder="-"
+                                        name="newMenuItems"
+                                        id="price2"
+                                    />
+                                    원
                                 </S.ChartContent>
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="number" placeholder="-" />원
+                                    <S.ChartInput
+                                        type="number"
+                                        placeholder="-"
+                                        name="newMenuItems"
+                                        id="price3"
+                                    />
+                                    원
                                 </S.ChartContent>
                             </tr>
                         </S.MenuNameChart>
