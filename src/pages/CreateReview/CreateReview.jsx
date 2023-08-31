@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import * as S from './style/CreateReview.style';
 import { AiOutlinePlus } from 'react-icons/ai';
 import useAxios from '../../hooks/useAxios';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function CreateReview() {
     const [grade, setGrade] = useState('');
     const [content, setContent] = useState('');
     const [photos, setPhotos] = useState([]);
     const [count, setCount] = useState(0);
-
     const { authRequiredAxios } = useAxios('multipart/form-data');
+    const location = useLocation();
+    const storeId = location.state ? location.state.storeId : null;
+    const navigate = useNavigate();
+
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === 'file') {
@@ -43,15 +47,20 @@ export default function CreateReview() {
         const formData = new FormData();
         formData.append('grade', grade);
         formData.append('content', content);
-        formData.append('photos', photos);
-
+        photos.forEach((photo) => formData.append('photos', photo));
         try {
-            const response = await authRequiredAxios({
+            console.log(storeId);
+            const res = await authRequiredAxios({
                 method: 'post',
-                url: '/review/64ec9f355385494e68f4730f',
+                url: `/review/${storeId}`,
                 data: formData,
             });
-            console.log(response);
+            const status = res.status;
+            if (status == 201) {
+                navigate(`/stores/detail/${storeId}`);
+            } else {
+                console.log(res);
+            }
         } catch (err) {
             console.error(err);
         }

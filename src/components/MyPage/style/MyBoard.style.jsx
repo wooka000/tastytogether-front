@@ -67,8 +67,8 @@ export const Text = styled.div`
 export const Title = styled.p`
     font-weight: bold;
     margin-bottom: 5px;
-    font-size: 15px;
-    color: var(--color-accent);
+    font-size: 16px;
+    color: yellow;
     text-align: center;
 
     width: 100%;
@@ -91,7 +91,7 @@ export const Area = styled.p`
 `;
 
 export const Content = styled.p`
-    font-size: 14px;
+    font-size: 15px;
 
     width: 100%;
     text-overflow: ellipsis;
