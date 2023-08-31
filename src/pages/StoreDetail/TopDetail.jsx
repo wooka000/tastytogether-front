@@ -40,7 +40,7 @@ export default function TopDetail({
             navigate(`/users/login`);
             return;
         }
-        navigate(`/review/${storeInfo._id}`, { state: { name: storeInfo.name } });
+        navigate(`/review/${storeInfo._id}`, { state: { storeId: storeInfo._id } });
         return;
     };
     const clickMateBtn = async () => {

@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
-// import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as S from './style/StoreDetailEdit.style';
-// import useAxios from '../../hooks/useAxios';
+import useAxios from '../../hooks/useAxios';
 import { isValidPhoneNumber, isValidHour, isvalidMinute } from '../../utils/regList';
 
 export default function StoreDetailEdit() {
-    // const { authRequiredAxios } = useAxios('application/json');
+    const { authRequiredAxios } = useAxios('application/json');
+    const location = useLocation();
+    const navigate = useNavigate();
     const [newPhone, setNewPhone] = useState('');
     const [newPriceRange, setNewPriceRange] = useState('');
     const [newClosedDays, setNewClosedDays] = useState('');
     const [newParkingInfo, setNewParkingInfo] = useState('');
     const [isChecked, setIsChecked] = useState(false);
     const [newBusinessHours, setNewBusinessHours] = useState(['', '', '', '']);
-    const [newMenuItems, setNewMenuItems] = useState([]);
-    // const location = useLocation();
+    const [newMenuItems, setNewMenuItems] = useState([
+        { name: '', price: '' },
+        { name: '', price: '' },
+        { name: '', price: '' },
+    ]);
+    const storeId = location.state.storeId;
 
     const dayCheckList = ['월', '화', '수', '목', '금', '토', '일', '연중무휴'];
-
-    // const storeId = location.state.storeId;
 
     const handleChange = (e) => {
         const { name, value, id } = e.target;
@@ -61,8 +65,14 @@ export default function StoreDetailEdit() {
                 ]);
             }
         }
-        if (name === 'newMenuItems') {
-            
+        if (/^(name|price)/i.test(name)) {
+            const index = /\d/.exec(name)[0] - 1;
+            const property = /[a-z]+/i.exec(name)[0];
+            setNewMenuItems((prev) => {
+                const newMenuItems = [...prev];
+                newMenuItems[index][property] = value;
+                return newMenuItems;
+            });
         }
     };
 
@@ -90,8 +100,8 @@ export default function StoreDetailEdit() {
         checkedDayHandler(value, e.target.checked);
     };
 
-    const isFullMenuItems = newMenuItems.filter((el) => el.name !== '' && el.price !== '');
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        const isFullMenuItems = newMenuItems.filter((el) => el.name !== '' && el.price !== '');
         e.preventDefault();
         if (
             !newClosedDays ||
@@ -121,7 +131,23 @@ export default function StoreDetailEdit() {
             (a, b) => dayCheckList.indexOf(a) - dayCheckList.indexOf(b),
         );
         setNewClosedDays(sortedDayList);
-        console.log(newBusinessHours);
+
+        const response = await authRequiredAxios({
+            method: 'patch',
+            url: `/stores/${storeId}`,
+            data: {
+                newPhone,
+                newMenuItems,
+                newPriceRange,
+                newParkingInfo,
+                newBusinessHours,
+                newClosedDays,
+            },
+        });
+        if (response.status === 200) {
+            alert('가게 정보 수정이 완료되었습니다.');
+            navigate(`/stores/detail/${storeId}`);
+        }
     };
 
     return (
@@ -313,17 +339,32 @@ export default function StoreDetailEdit() {
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" id="menu1" name="newMenuItems" />
+                                    <S.ChartInput
+                                        type="text"
+                                        placeholder="-"
+                                        name="name1"
+                                        onChange={handleChange}
+                                    />
                                 </S.ChartContent>
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" id="menu2"name="newMenuItems" />
+                                    <S.ChartInput
+                                        type="text"
+                                        placeholder="-"
+                                        name="name2"
+                                        onChange={handleChange}
+                                    />
                                 </S.ChartContent>
                             </tr>
                             <tr>
                                 <S.ChartContent>
-                                    <S.ChartInput type="text" placeholder="-" id="menu3" name="newMenuItems" />
+                                    <S.ChartInput
+                                        type="text"
+                                        placeholder="-"
+                                        name="name3"
+                                        onChange={handleChange}
+                                    />
                                 </S.ChartContent>
                             </tr>
                         </S.MenuNameChart>
@@ -336,8 +377,8 @@ export default function StoreDetailEdit() {
                                     <S.ChartInput
                                         type="number"
                                         placeholder="-"
-                                        name="newMenuItems"
-                                        id="price1"
+                                        name="price1"
+                                        onChange={handleChange}
                                     />
                                     원
                                 </S.ChartContent>
@@ -347,8 +388,8 @@ export default function StoreDetailEdit() {
                                     <S.ChartInput
                                         type="number"
                                         placeholder="-"
-                                        name="newMenuItems"
-                                        id="price2"
+                                        name="price2"
+                                        onChange={handleChange}
                                     />
                                     원
                                 </S.ChartContent>
@@ -358,8 +399,8 @@ export default function StoreDetailEdit() {
                                     <S.ChartInput
                                         type="number"
                                         placeholder="-"
-                                        name="newMenuItems"
-                                        id="price3"
+                                        name="price3"
+                                        onChange={handleChange}
                                     />
                                     원
                                 </S.ChartContent>
