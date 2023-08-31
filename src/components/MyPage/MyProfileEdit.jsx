@@ -13,7 +13,7 @@ export default function MyProfileEdit({ setModalOpen, user }) {
     const { auth, setAuth } = useAuth();
     const [name, setName] = useState(user.name);
     const [nickname, setNickname] = useState(user.nickname);
-    const [profileText, setProfileText] = useState(user.profileText);
+    const [profileText, setProfileText] = useState('');
     const [profileImage, setProfileImage] = useState(user.profileImage);
     const [coverImage, setCoverImage] = useState(user.coverImage);
     const [file, setFile] = useState();
@@ -87,17 +87,10 @@ export default function MyProfileEdit({ setModalOpen, user }) {
                     <S.CancellBtn onClick={handleCancel}>X</S.CancellBtn>
                 </S.ModalHeader>
                 <S.PreviewImgs>
-                    {file && (
-                        <S.PreviewImg src={URL.createObjectURL(file)} alt="preview-profile-image" />
-                    )}
-                    {!file && <S.PreviewImg src={profileImage} alt="preview-profile-image" />}
-                    {fileBg && (
-                        <S.PreviewImg
-                            src={URL.createObjectURL(fileBg)}
-                            alt="preview-profile-image"
-                        />
-                    )}
-                    {!fileBg && <S.PreviewImg src={coverImage} alt="preview-profile-image" />}
+                    {file && <S.PreviewImg src={URL.createObjectURL(file)} alt="프로필사진" />}
+                    {!file && <S.PreviewImg src={profileImage} alt="프로필사진" />}
+                    {fileBg && <S.PreviewImg src={URL.createObjectURL(fileBg)} alt="배경사진" />}
+                    {!fileBg && <S.PreviewImg src={coverImage} alt="배경사진" />}
                 </S.PreviewImgs>
                 <S.Form onSubmit={handleSubmit}>
                     <S.FieldFile>
@@ -137,8 +130,6 @@ export default function MyProfileEdit({ setModalOpen, user }) {
                             name="nickname"
                             value={nickname}
                         />
-                        <S.CheckText>이미 존재하는 닉네임입니다</S.CheckText>
-                        <S.CheckBtn type="button">중복 확인</S.CheckBtn>
                     </S.Field>
                     <S.Field>
                         <S.Label htmlFor="description">한줄소개</S.Label>
