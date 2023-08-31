@@ -24,6 +24,7 @@ export default function StoreDetail() {
             setStoreLikeCount(data.storeLikeCount);
             setStoreReviewCount(data.storeReviewCount);
             setStoreReview(data.storeInfo.reviews);
+            console.log(data);
         };
         getData();
     }, []);
@@ -41,7 +42,7 @@ export default function StoreDetail() {
                         setStoreLikeCount={setStoreLikeCount}
                     ></TopDetail>
                     <BottomDetail storeInfo={storeInfo}></BottomDetail>
-                    <Reviews></Reviews>
+                    <Reviews reviews={storeReview}></Reviews>
                 </S.Main>
                 {storeInfo.address && (
                     <LeftBanner
