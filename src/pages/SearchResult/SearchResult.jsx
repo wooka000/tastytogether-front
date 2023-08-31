@@ -6,6 +6,7 @@ import RegionFilter from '../../components/SearchResult/RegionFilter';
 import SortFilter from '../../components/SearchResult/SortFilter';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ResultNotice from '../../components/SearchResult/ResultNotice';
+import FilterResultItem from '../../components/SearchResult/FilterResultItem';
 import SearchResultItem from '../../components/SearchResult/SearchResultItem';
 import FilteredMap from '../../components/SearchResult/FilteredMap';
 
@@ -13,13 +14,39 @@ export default function SearchResult() {
     const navigate = useNavigate();
     const location = useLocation();
     const keyword = location.state?.keyword || '';
-    console.log(keyword)
+console.log(keyword)
     const [selectedType, setSelectedType] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
     const [selectedSort, setSelectedSort] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+    // 검색 결과 데이터 배열
+    // const [storeInfo, setStoreInfo] = useState({
+    //     _id: '',
+    //     name: '',
+    //     address: {
+    //         city: '',
+    //         state: '',
+    //         street: '',
+    //         fullAddress: '',
+    //         zipCode: '',
+    //         latitude: '',
+    //         longitude: '',
+    //     },
+    //     menuItems: [],
+    //     type: '',
+    //     phone: '',
+    //     priceRange: '',
+    //     parkingInfo: '',
+    //     businessHours: [],
+    //     closedDays: [],
+    //     banners: [],
+    //     reviews: [],
+    //     starRating: 0,
+    //     storeLikes:[],
+    //     reviews:[]
+    // });
     const [stores, setStores]=useState([]);
 
     useEffect(() => {
@@ -77,7 +104,6 @@ export default function SearchResult() {
                 }
             }
             return searchSortedItems;
-
         }, [stores]);
     // 필터+ 정렬된 데이터
     const applyFiltersAndSort = useMemo(() => {
@@ -115,13 +141,13 @@ export default function SearchResult() {
             }    
         return filteredSortedData;
     }, [stores, selectedType, selectedArea, selectedSort]);
-// 배열값을 그냥 변수처럼 넣어서 빈배열만 전달되었음.
+
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentPageItems = useMemo(() => {
         let pageItems = [];
         if (keyword && stores) {
-          pageItems.push(...applySearchAndSort);
+            pageItems.push(...applySearchAndSort);
         } else if (selectedType || selectedArea) {
           pageItems.push(...applyFiltersAndSort);
         } else {
@@ -129,7 +155,6 @@ export default function SearchResult() {
         }
         return pageItems.length >10 ? pageItems.slice(startIndex, endIndex) : pageItems
     },  [ applyFiltersAndSort, keyword, stores, selectedType, selectedArea, startIndex, endIndex]);
-
     let region;
     const getLinkToPath = (selectedCity, selectedState, keyword, isFilter) => {
         if (isFilter) {
@@ -148,7 +173,6 @@ export default function SearchResult() {
             };
         }
     };
-
     // 가게 클릭 시 가게 상세페이지로 이동
     const [clickedStore, setClickedStore] = useState(null)
 
@@ -159,34 +183,34 @@ export default function SearchResult() {
     }, [clickedStore]);
  
 
-    return (
+    return(
         <S.Container>
-            <S.Nav>
-                <TypeFilter setSelectedType={setSelectedType} />
-                <RegionFilter
-                    selectedCity={selectedCity}
-                    selectedArea={selectedArea}
-                    setSelectedCity={setSelectedCity}
-                    setSelectedArea={setSelectedArea}
-                />
-            </S.Nav>
-            <S.ResultDiv>
-                <SortFilter setSelectedSort={setSelectedSort} />
-                <FilteredMap currentPageItems={currentPageItems} />
-                <ResultNotice
-                    selectedType={selectedType}
-                    selectedArea={selectedArea}
-                    selectedCity={selectedCity}
-                    keyword={keyword}
-                    stores={stores}
-                    applyFiltersAndSort={applyFiltersAndSort}
-                    applySearchAndSort={applySearchAndSort}
-                />
-                {/* {(stores || keyword.trim() === '' || applyFiltersAndSort.length > 0) && ( */}
-                {(stores.length > 0) && (
-                    <S.ResultStores>
-                        <S.Result>
-                            {keyword.trim() !== '' &&
+            <S.Search>
+                <S.Nav>
+                    <TypeFilter setSelectedType={setSelectedType} />
+                    <RegionFilter 
+                        selectedCity={selectedCity} 
+                        selectedArea={selectedArea} 
+                        setSelectedCity={setSelectedCity} 
+                        setSelectedArea={setSelectedArea} 
+                    />
+                </S.Nav>
+                <S.ResultDiv>
+                    <SortFilter setSelectedSort={setSelectedSort} />
+                    <FilteredMap currentPageItems={currentPageItems} />                    
+                    <ResultNotice
+                        selectedType={selectedType}
+                        selectedArea={selectedArea}
+                        selectedCity={selectedCity}
+                        keyword={keyword}
+                        applyFiltersAndSort={applyFiltersAndSort}
+                        applySearchAndSort={applySearchAndSort}
+
+                    />
+                        <S.ResultStores>
+                            <S.Result>
+                                {/* 검색 결과 아이템들 */}
+                                {keyword.trim() !== '' && 
                                 applySearchAndSort.map((item, index) => (
                                     <SearchResultItem
                                         key={index}
@@ -194,60 +218,54 @@ export default function SearchResult() {
                                         index={index}
                                         keyword={keyword}
                                         linkTo={getLinkToPath(item, keyword, false)}
-                                        // keywordMatch={checkKeywordMatch(item, keyword)}
                                         setClickedStore={setClickedStore}
                                     />
                                 ))}
-                            {stores &&
-                                stores.map((store) => {
-                                    return <div key={store._id}>{store.name}</div>;
-                                })}
 
-                            {selectedType || (selectedCity && selectedArea) || selectedSort
-                                ? applyFiltersAndSort.map((item, index) => (
-                                      <FilterResultItem
-                                          key={index}
-                                          item={item}
-                                          index={index}
-                                          linkTo={getLinkToPath(item, region, true)}
-                                          setClickedStore={setClickedStore}
-                                      />
-                                  ))
-                                : null}
+                                {/* 필터 결과 아이템들 */}
+                                {selectedType || (selectedCity && selectedArea) || selectedSort ? (applyFiltersAndSort.map((item, index) => (
+                                    <FilterResultItem
+                                        key={index}
+                                        item={item}
+                                        index={index}
+                                        linkTo={getLinkToPath(item, true)}
+                                        setClickedStore={setClickedStore}
+                                    />
+                                ))) : null}
 
-                            {currentPageItems.map((item, index) => {
-                                if (keyword.trim() !== '') {
-                                    return (
+                                {/* 페이지별 결과 아이템들 */}
+                                {currentPageItems.map((item, index) => {
+                                    if (keyword.trim() !== '') {
+                                        // 검색 결과인 경우
+                                        return (
                                         <SearchResultItem
                                             key={index}
                                             item={item}
                                             index={index}
                                             keyword={keyword}
-                                            linkTo={getLinkToPath(item, '', true)}
-                                            stores={stores}
+                                            linkTo={getLinkToPath(item, keyword, false)}
                                             setClickedStore={setClickedStore}
-                                        />
-                                    );
-                                } else if (selectedType || selectedCity || selectedArea) {
-                                    return (
+                                            />
+                                        );
+                                    }else if(selectedType || selectedCity || selectedArea) {
+                                        // 필터 결과인 경우
+                                        return (
                                         <FilterResultItem
                                             key={index}
                                             item={item}
                                             index={index}
-                                            linkTo={getLinkToPath(item, region, true)}
+                                            linkTo={getLinkToPath(item, true)}
                                             setClickedStore={setClickedStore}
                                         />
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
-                        </S.Result>
-                        <S.Pagination>
-                            <button
-                                onClick={() => setCurrentPage(currentPage - 1)}
-                                disabled={currentPage === 1}
-                            >
+                                        );
+                                    } else {
+                                        return null; // 추가적인 조건이 없는 경우 null 반환 (렌더링하지 않음)
+                                      }
+                                    })}
+                                </S.Result>
+                            {/* 페이지 네비게이션 */}
+                            <S.Pagination>
+                                <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
                                 이전 페이지
                             </button>
                             <span>현재 페이지: {currentPage}</span>
@@ -259,8 +277,9 @@ export default function SearchResult() {
                             </button>
                         </S.Pagination>
                     </S.ResultStores>
-                )}
+                
             </S.ResultDiv>
+            </S.Search>
         </S.Container>
     );
 }
