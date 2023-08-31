@@ -8,7 +8,7 @@ const useAxios = (contentType) => {
     const { auth } = useAuth();
     // axios Instance
     const authRequiredAxios = axios.create({
-        baseURL: 'http://localhost:8080',
+        baseURL: 'http://34.22.80.41/api',
         headers: {
             'Content-Type': contentType,
             Authorization: `Bearer ${auth.accessToken} `,
