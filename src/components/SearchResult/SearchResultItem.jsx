@@ -58,4 +58,4 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
         </Link>
     )
 }
-export default SearchResultItem;
+export default SearchResultItem; 
