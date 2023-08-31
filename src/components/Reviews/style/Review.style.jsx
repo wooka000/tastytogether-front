@@ -9,7 +9,7 @@ export const Item = styled.li`
     height: 100%;
     padding: 30px 20px;
     position: relative;
-
+    border-radius: 10px;
     &:nth-last-of-type(1) {
         border-bottom: none;
     }
@@ -139,6 +139,7 @@ export const Photo = styled.img`
     height: 100px;
     transition: all 250ms ease-out;
     margin: 5px 8px;
+    border-radius: 10px;
     &:hover {
         filter: brightness(110%);
     }

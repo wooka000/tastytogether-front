@@ -24,7 +24,6 @@ export default function StoreDetail() {
             setStoreLikeCount(data.storeLikeCount);
             setStoreReviewCount(data.storeReviewCount);
             setStoreReview(data.storeInfo.reviews);
-            console.log(data);
         };
         getData();
     }, []);
