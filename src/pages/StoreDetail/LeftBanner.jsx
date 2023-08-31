@@ -42,15 +42,30 @@ export default function LeftBanner({ storeName, storeAddress }) {
                     </S.NaviBtn>
                 </S.Navi>
             </S.MiniMap>
-            <S.MatePost>
-                <S.MatePostTitle>{board && board.title}</S.MatePostTitle>
-                <S.TitleLine></S.TitleLine>
-                <S.MatePostCotent>{board && board.content}</S.MatePostCotent>
-                <S.Navi>
-                    <S.NaviText>위의 메이트와 약속을 잡고 싶다면?</S.NaviText>
-                    <S.NaviBtn onClick={() => navigate(`/post/${board._id}`)}>Go</S.NaviBtn>
-                </S.Navi>
-            </S.MatePost>
+            {board && (
+                <S.MatePost>
+                    <S.MatePostTitle>{board && board.title}</S.MatePostTitle>
+                    <S.TitleLine></S.TitleLine>
+                    <S.MatePostCotent>{board && board.content}</S.MatePostCotent>
+                    <S.Navi>
+                        <S.NaviText>위의 메이트와 약속을 잡고 싶다면?</S.NaviText>
+                        <S.NaviBtn onClick={() => navigate(`/post/${board._id}`)}>Go</S.NaviBtn>
+                    </S.Navi>
+                </S.MatePost>
+            )}
+            {!board && (
+                <S.MatePost>
+                    <S.NonePostContent>
+                        해당되는 지역의
+                        <br /> 메이트 게시글이 없습니다.☹︎
+                    </S.NonePostContent>
+                    <S.TitleLine isNone={true}></S.TitleLine>
+                    <S.Navi>
+                        <S.NaviText>위의 메이트와 약속을 잡고 싶다면?</S.NaviText>
+                        <S.NaviBtn onClick={() => navigate(`/post/create`)}>Go</S.NaviBtn>
+                    </S.Navi>
+                </S.MatePost>
+            )}
         </S.LeftBannerWrapper>
     );
 }
