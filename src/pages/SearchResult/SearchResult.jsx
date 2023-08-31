@@ -14,7 +14,9 @@ export default function SearchResult() {
     const navigate = useNavigate();
     const location = useLocation();
     const keyword = location.state?.keyword || '';
-console.log(keyword)
+
+    console.log(keyword)
+
     const [selectedType, setSelectedType] = useState('기본');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
@@ -23,32 +25,6 @@ console.log(keyword)
     const [prevKeyword, setPrevKeyword] = useState('');
 
     const itemsPerPage = 10;
-    // 검색 결과 데이터 배열
-    // const [storeInfo, setStoreInfo] = useState({
-    //     _id: '',
-    //     name: '',
-    //     address: {
-    //         city: '',
-    //         state: '',
-    //         street: '',
-    //         fullAddress: '',
-    //         zipCode: '',
-    //         latitude: '',
-    //         longitude: '',
-    //     },
-    //     menuItems: [],
-    //     type: '',
-    //     phone: '',
-    //     priceRange: '',
-    //     parkingInfo: '',
-    //     businessHours: [],
-    //     closedDays: [],
-    //     banners: [],
-    //     reviews: [],
-    //     starRating: 0,
-    //     storeLikes:[],
-    //     reviews:[]
-    // });
     const [stores, setStores]=useState([]);
 
     useEffect(() => {
@@ -61,22 +37,6 @@ console.log(keyword)
     }, []);
     stores && console.log(stores);
 
-
- // item.name이나 item.type, item.city 등에 검색 키워드가 포함되어 있는지 확인
-//  실행되면 에러발생
-    // const checkKeywordMatch = (stores) => {
-    //     const searchKeyword = keyword.toLowerCase();
-    //     for(let store of stores){
-    //         if( 
-    //             (store.name && store.name.toLowerCase().includes(searchKeyword)) ||
-    //             (store.type && store.type.toLowerCase().includes(searchKeyword)) ||
-    //             (store.address &&
-    //             store.address.city &&
-    //             store.address.city.toLowerCase().includes(searchKeyword))
-    //         ){return true;}
-    //     }
-    //     return false
-    // };
 
     // 검색 + 정렬된 데이터
     const applySearchAndSort = useMemo(() => {
@@ -242,27 +202,28 @@ console.log(keyword)
                                 {currentPageItems.map((item, index) => {
                                     if (keyword.trim() !== '') {
                                         // 검색 결과인 경우
-                                        return (
-                                        <SearchResultItem
-                                            key={index}
-                                            item={item}
-                                            index={index}
-                                            keyword={keyword}
-                                            linkTo={getLinkToPath(item, keyword, false)}
-                                            setClickedStore={setClickedStore}
+                                        applySearchAndSort.map((item, index) => (
+                                            <SearchResultItem
+                                                key={index}
+                                                item={item}
+                                                index={index}
+                                                keyword={keyword}
+                                                linkTo={getLinkToPath(item, keyword, false)}
+                                                setClickedStore={setClickedStore}
                                             />
-                                        );
-                                    }else if(selectedType || selectedCity || selectedArea) {
+                                        ))
+                                    }else if(selectedType || (selectedCity && selectedArea) || selectedSort) {
                                         // 필터 결과인 경우
                                         return (
-                                        <FilterResultItem
-                                            key={index}
-                                            item={item}
-                                            index={index}
-                                            linkTo={getLinkToPath(item, true)}
-                                            setClickedStore={setClickedStore}
-                                        />
-                                        );
+                                            applyFiltersAndSort.map((item, index) => (
+                                                <FilterResultItem
+                                                    key={index}
+                                                    item={item}
+                                                    index={index}
+                                                    linkTo={getLinkToPath(item, true)}
+                                                    setClickedStore={setClickedStore}
+                                                />
+                                            )))
                                     } else {
                                         return null; // 추가적인 조건이 없는 경우 null 반환 (렌더링하지 않음)
                                       }

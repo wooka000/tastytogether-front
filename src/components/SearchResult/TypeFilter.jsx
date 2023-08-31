@@ -38,8 +38,8 @@ const TypeFilter = ({ setSelectedType }) => {
                     <S.TypeFilterSpan htmlFor="asia" value="아시안">아시안</S.TypeFilterSpan>
             </S.TypeLabel>
             <S.TypeLabel value="카페" onClick={handleTypeChange}>
-                    <S.TypeFilterRadio className="filter_radio" type="radio" id="cafe" name="store_type" />
-                    <S.TypeFilterSpan htmlFor="cafe" value="아시안">카페.디저트</S.TypeFilterSpan>
+                    <S.TypeFilterRadio className="filter_radio" type="radio" id="cafe" name="store_type" value="카페" />
+                    <S.TypeFilterSpan htmlFor="cafe" value="카페">카페.디저트</S.TypeFilterSpan>
             </S.TypeLabel>
         </S.TypeFilterContent>
     </S.TypeFilter>
