@@ -13,39 +13,13 @@ export default function SearchResult() {
     const navigate = useNavigate();
     const location = useLocation();
     const keyword = location.state?.keyword || '';
-
+    console.log(keyword)
     const [selectedType, setSelectedType] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
     const [selectedSort, setSelectedSort] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    // 검색 결과 데이터 배열
-    // const [storeInfo, setStoreInfo] = useState({
-    //     _id: '',
-    //     name: '',
-    //     address: {
-    //         city: '',
-    //         state: '',
-    //         street: '',
-    //         fullAddress: '',
-    //         zipCode: '',
-    //         latitude: '',
-    //         longitude: '',
-    //     },
-    //     menuItems: [],
-    //     type: '',
-    //     phone: '',
-    //     priceRange: '',
-    //     parkingInfo: '',
-    //     businessHours: [],
-    //     closedDays: [],
-    //     banners: [],
-    //     reviews: [],
-    //     starRating: 0,
-    //     storeLikes:[],
-    //     reviews:[]
-    // });
     const [stores, setStores]=useState([]);
 
     useEffect(() => {
@@ -101,8 +75,9 @@ export default function SearchResult() {
                     searchSortedItems = searchSortedItems.filter((item) => item.name !== undefined);
                     searchSortedItems.sort((a, b) => a.name.localeCompare(b.name));
                 }
-                return searchSortedItems;
             }
+            return searchSortedItems;
+
         }, [stores]);
     // 필터+ 정렬된 데이터
     const applyFiltersAndSort = useMemo(() => {
@@ -153,7 +128,7 @@ export default function SearchResult() {
           pageItems.push(...stores);
         }
         return pageItems.length >10 ? pageItems.slice(startIndex, endIndex) : pageItems
-    },  [applySearchAndSort, applyFiltersAndSort, keyword, stores, selectedType, selectedArea, startIndex, endIndex]);
+    },  [ applyFiltersAndSort, keyword, stores, selectedType, selectedArea, startIndex, endIndex]);
 
     let region;
     const getLinkToPath = (selectedCity, selectedState, keyword, isFilter) => {
@@ -249,7 +224,6 @@ export default function SearchResult() {
                                             index={index}
                                             keyword={keyword}
                                             linkTo={getLinkToPath(item, '', true)}
-                                            // keywordMatch={checkKeywordMatch(item, keyword)}
                                             stores={stores}
                                             setClickedStore={setClickedStore}
                                         />

@@ -26,28 +26,27 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
                     <S.InfoRight>
                         <S.StoreName>
                             <h3 className="name">{index+1}. {item.name}</h3>
-                            <h3 className="store_region">{item.city} {item.state}</h3>
+                            <h3 className="store_region">{item.address.city} {item.address.state}</h3>
                         </S.StoreName>
                         <div>
                             <S.StoreType>{item.type}</S.StoreType>
                         </div>
                         <S.StoreHash>
                             <p>#{item.parkingInfo}</p>
-                            <p>#{item.closedDays}</p>
-                            <p>#{item.PriceRange}</p>
+                            <p>#휴무일{item.closedDays}</p>
+                            <p>#{item.priceRange}</p>
                         </S.StoreHash>
                         <S.StoreEval>
                             <div>⭐</div>
                             <p>{item.starRating}</p>
                             <div>🤍</div>
-                            <p>{item.storeLikes}</p>
+                            <p>{item.storeLikes.length}</p>
                         </S.StoreEval>
                     </S.InfoRight>
                 </S.StoreInfo>
                 {item.reviews.length !== 0 ? (
-                    <S.StoreReview key={index}>
-                        <S.ReviewContent>{item.reviews[0].content}</S.ReviewContent>
-                        <S.ReviewId>by.{item.reviews[0].userId}</S.ReviewId>
+                    <S.StoreReview>
+                        <S.ReviewContent>{item.reviews[0]}</S.ReviewContent>
                     </S.StoreReview>
                 ) : (
                     <S.StoreReview>
