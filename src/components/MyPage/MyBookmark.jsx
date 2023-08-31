@@ -21,13 +21,13 @@ export default function MyBookmark() {
             {bookmarks &&
                 bookmarks.map((bookmark) => {
                     return (
-                        <S.Box key={bookmark.id}>
-                            <S.Img src={bookmark.photo} />
+                        <S.Box key={bookmark._id}>
+                            <S.Img src={bookmark.banners[0]} />
                             <S.Text>
-                                <S.Grade>⭐️{bookmark.grade}</S.Grade>
+                                <S.Grade>⭐️{bookmark.starRating}</S.Grade>
                                 <S.Name>{bookmark.name}</S.Name>
-                                <S.Category>#{bookmark.category}</S.Category>
-                                <S.Address>{bookmark.address}</S.Address>
+                                <S.Category>#{bookmark.type}</S.Category>
+                                <S.Address>{bookmark.address.street}</S.Address>
                             </S.Text>
                         </S.Box>
                     );
