@@ -2,7 +2,7 @@ import * as S from './style/FilterResultItem.style'
 import { React } from 'react';
 import { Link } from 'react-router-dom';
 
-const FilterResultItem = ({ item, index,  linkTo, setClickedStore }) => {
+const FilterResultItem = ({ item, index,  linkTo, setClickedStore, filterData }) => {
 
     const handleItemClick = (e) => {
         const clickedElement = e.currentTarget;
@@ -41,15 +41,6 @@ const FilterResultItem = ({ item, index,  linkTo, setClickedStore }) => {
                         </S.StoreEval>
                     </S.InfoRight>
                 </S.StoreInfo>
-                {/* {item.reviews.length !== 0 ? (
-                        <S.StoreReview Key={index}>
-                            <S.ReviewContent>{item.reviews[0]}</S.ReviewContent>
-                        </S.StoreReview>
-                ) : (
-                    <S.StoreReview>
-                            <S.ReviewContent>아직 첫 리뷰가 없습니다.</S.ReviewContent>
-                    </S.StoreReview>
-                )} */}
             </S.ResultStore>
         </Link>
     )
