@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as S from './style/MenuModalButton.style'
+import * as S from './style/TypeModalButton.style'
 import TypeModalPage from './TypeModalPage';
 import PropTypes from 'prop-types';
 
@@ -11,7 +11,7 @@ function TypeModalButton({ setStoreInfo }) {
         setModalOpen(true);
     };
     const handleCategoryChange = (category) => {
-        setSelectedCategory(category); // Update selectedCategory instead of setCategory
+        setSelectedCategory(category);
         setModalOpen(false);
         setStoreInfo(prevInfo => ({
             ...prevInfo,
@@ -22,7 +22,7 @@ function TypeModalButton({ setStoreInfo }) {
     return (
         <S.TableLine>
             <div className="table_title">
-                <span>업종</span>
+                <span>업종*</span>
             </div>
             <div className="table_content">
                 <input
@@ -35,7 +35,7 @@ function TypeModalButton({ setStoreInfo }) {
                         readOnly
                         required
                 />
-                <button id="Type_modal_button" onClick={showModal}>업종선택</button>
+                <S.TypeButton onClick={showModal}>업종선택</S.TypeButton>
                 {modalOpen && <TypeModalPage setModalOpen={setModalOpen} setCategory={handleCategoryChange}  />}
             </div>
         </S.TableLine>
