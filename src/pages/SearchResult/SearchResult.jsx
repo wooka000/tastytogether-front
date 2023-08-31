@@ -15,11 +15,13 @@ export default function SearchResult() {
     const location = useLocation();
     const keyword = location.state?.keyword || '';
 console.log(keyword)
-    const [selectedType, setSelectedType] = useState('');
+    const [selectedType, setSelectedType] = useState('기본');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
     const [selectedSort, setSelectedSort] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [prevKeyword, setPrevKeyword] = useState('');
+
     const itemsPerPage = 10;
     // 검색 결과 데이터 배열
     // const [storeInfo, setStoreInfo] = useState({
@@ -163,7 +165,8 @@ console.log(keyword)
                 pathname: `/stores/filter`,
                 state: {
                     type: selectedType,
-                    region: region,
+                    city: selectedCity,
+                    state: selectedState,
                 },
             };
         } else {
@@ -181,7 +184,7 @@ console.log(keyword)
             navigate(`/stores/detail/${clickedStore._id}`, {state : {storeId: clickedStore._id}})
         }
     }, [clickedStore]);
- 
+
 
     return(
         <S.Container>
@@ -202,6 +205,8 @@ console.log(keyword)
                         selectedType={selectedType}
                         selectedArea={selectedArea}
                         selectedCity={selectedCity}
+                        prevKeyword={prevKeyword}
+                        setPrevKeyword={setPrevKeyword}
                         keyword={keyword}
                         applyFiltersAndSort={applyFiltersAndSort}
                         applySearchAndSort={applySearchAndSort}
