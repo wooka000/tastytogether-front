@@ -8,6 +8,7 @@ export const Item = styled.li`
     width: 590px;
     height: 100%;
     padding: 30px 20px;
+    position: relative;
 
     &:nth-last-of-type(1) {
         border-bottom: none;
@@ -73,7 +74,7 @@ export const Btns = styled.div`
 `;
 
 export const EditBtn = styled.button`
-    font-size: 13px;
+    font-size: 15px;
     background-color: transparent;
     border: none;
     outline: none;
@@ -88,7 +89,10 @@ export const EditBtn = styled.button`
 `;
 
 export const DeleteBtn = styled.button`
-    font-size: 13px;
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+    font-size: 15px;
     background-color: transparent;
     outline: none;
     padding: 5px;
