@@ -16,25 +16,21 @@ export default function Board() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchPosts(currentPage, text);
-    }, [countperpage, currentPage, text]);
+        fetchPosts(currentPage);
+    }, [countperpage, currentPage]);
 
     const fetchPosts = async (pageNo = 1, searchText = '') => {
         try {
             let response;
 
             if (searchText) {
-                response = await axios.get(
-                    `/regionSearch?value=${searchText}`,
-                );
-                console.log(response.data)
+                response = await axios.get(`/regionSearch?value=${searchText}`);
+                console.log(response.data);
                 setPosts(response.data || []);
                 setCurrentPage(1);
                 setTotalPages(1);
             } else {
-                response = await axios.get(
-                    `/posts/?countperpage=${countperpage}&pageno=${pageNo}`,
-                );
+                response = await axios.get(`/posts/?countperpage=${countperpage}&pageno=${pageNo}`);
                 if (response.data) {
                     setPosts(response.data.data);
                     setCurrentPage(response.data.currentPage);
@@ -58,7 +54,7 @@ export default function Board() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setCurrentPage(1);
+        fetchPosts(1, text);
     };
 
     const handlePostClick = (postId) => {
@@ -87,6 +83,7 @@ export default function Board() {
                         value={text}
                         onChange={handleChange}
                     />
+                  <S.SearchButton type="submit">검색</S.SearchButton>
                 </S.SearchForm>
                 <S.StyledBoxWrapper>
                     {posts?.map((post) => (

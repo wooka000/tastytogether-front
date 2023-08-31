@@ -70,7 +70,7 @@ export const SearchForm = styled.form`
     display: flex;
     margin-left: 300px;
     align-self: flex-start;
-    border-radius: 30px;
+    border-radius: 0px;
     background-color: transparent;
     width: 1550px;
     text-align: center;
@@ -109,9 +109,9 @@ export const StyledBoxImageWrapper = styled.div`
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    border-top-left-radius:5%;
-    border-top-right-radius:5%;
-`
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
+`;
 
 export const StyledBoxImage = styled.img`
     width: 100%;
@@ -181,4 +181,18 @@ export const StyledBox = styled.div`
 export const pageBtn = styled.div`
     border: none;
     width: 30px;
+`;
+export const SearchButton = styled.button`
+    font-size: 20px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background-color: #ff914d;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    &:hover {
+        background-color: #ff7335;
+    }
 `;
