@@ -6,9 +6,11 @@ export default function Reviews({ reviews }) {
     return (
         <S.ReviewItems>
             {reviews &&
-                reviews.map((review) => {
-                    return <Review key={review._id} review={review} />;
-                })}
+                reviews
+                    .map((review) => {
+                        return <Review key={review._id} review={review} />;
+                    })
+                    .reverse()}
         </S.ReviewItems>
     );
 }
