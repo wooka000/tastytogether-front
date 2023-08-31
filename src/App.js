@@ -4,6 +4,7 @@ import Footer from './components/Footer/Footer';
 import { useLocation } from 'react-router-dom';
 import MainHeader from './components/MainHeader/MainHeader';
 import { AuthContextProvider } from './context/AuthContextProvider';
+import KeepLogin from './components/KeepLogin/KeepLogin';
 
 function App() {
     const location = useLocation();
@@ -13,11 +14,13 @@ function App() {
     return (
         <>
             <AuthContextProvider>
-                {!isUserPage && (isMain ? <MainHeader /> : <Header />)}
+                <KeepLogin>
+                    {!isUserPage && (isMain ? <MainHeader /> : <Header />)}
 
-                <Outlet />
+                    <Outlet />
 
-                {!isUserPage && <Footer />}
+                    {!isUserPage && <Footer />}
+                </KeepLogin>
             </AuthContextProvider>
         </>
     );
