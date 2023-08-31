@@ -5,12 +5,15 @@ export const Item = styled.li`
     flex-direction: column;
     background-color: white;
     border-bottom: 1px solid lightgray;
-    width: 550px;
+    width: 590px;
     height: 100%;
-    padding: 30px 0px;
+    padding: 30px 20px;
 
     &:nth-last-of-type(1) {
         border-bottom: none;
+    }
+    &:hover {
+        background-color: whitesmoke;
     }
 `;
 
@@ -43,9 +46,8 @@ export const InfoRight = styled.div`
     flex-direction: column;
     align-items: flex-start;
     position: relative;
-    background-color: whitesmoke;
+    background-color: transparent;
     border-radius: 10px;
-    padding: 20px;
     width: 100%;
     height: 100%;
 `;
@@ -104,8 +106,8 @@ export const Grade = styled.div`
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0px;
+    right: 5px;
 `;
 
 export const GradeImg = styled.img`
@@ -121,19 +123,18 @@ export const GradeText = styled.span`
 `;
 
 export const Photos = styled.div`
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
     margin-top: 30px;
 `;
 
 export const Photo = styled.img`
     width: 120px;
     height: 100px;
-    border-radius: 10px;
     transition: all 250ms ease-out;
-    margin: 5px 0;
+    margin: 5px 8px;
     &:hover {
         filter: brightness(110%);
     }
