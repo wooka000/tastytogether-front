@@ -14,11 +14,11 @@ export default function StoreDetail() {
     const [storeReview, setStoreReview] = useState([]);
     // const location = useLocation();
     // const storeId = location.state.storeId;
-    const id = '64ed7f5be345728ff438f3da';
+    const storeId = '64ed7f5be345728ff438f3da';
 
     useEffect(() => {
         const getData = async () => {
-            const res = await axios.get(`/stores/${id}`);
+            const res = await axios.get(`/stores/${storeId}`);
             const data = res.data;
             setStoreInfo(data.storeInfo);
             setStoreLikeCount(data.storeLikeCount);
@@ -27,7 +27,7 @@ export default function StoreDetail() {
         };
         getData();
     }, []);
-    
+
     return (
         <>
             <S.Container>
