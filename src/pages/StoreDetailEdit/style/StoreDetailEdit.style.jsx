@@ -96,6 +96,12 @@ export const TimeInput = styled.input`
     margin-top: -6px;
     text-align: center;
     font-size: 15px;
+    color: #ff9c5f;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
     &:focus {
         outline: none;
     }

@@ -1,29 +1,54 @@
-// import React, { useEffect, useState } from 'react';
-import React from 'react';
-// import axios from 'axios';
+// import React, { useEffect, useState, useLocation } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style/StoreDetail.style';
 import TopDetail from './TopDetail';
 import BottomDetail from './BottomDetail';
 import LeftBanner from './LeftBanner';
+import Reviews from '../../components/Reviews/Reviews';
+import axios from '../../utils/axios';
 
 export default function StoreDetail() {
-    // const [storeInfo, setStoreInfo] = useState({});
-    // useEffect(() => {
-    //     getStoreInfo();
-    // }, []);
+    const [storeInfo, setStoreInfo] = useState({});
+    const [storeReviewCount, setStoreReviewCount] = useState(0);
+    const [storeLikeCount, setStoreLikeCount] = useState(0);
+    const [storeReview, setStoreReview] = useState([]);
+    // const location = useLocation();
+    // const storeId = location.state.storeId;
+    const id = '64ed7f5be345728ff438f3da';
 
-    // const getStoreInfo = async () => {
-    //     const res = await axios.get(`https://localhost:8080/stores/${storeId}`);
-    // };
-
+    useEffect(() => {
+        const getData = async () => {
+            const res = await axios.get(`/stores/${id}`);
+            const data = res.data;
+            setStoreInfo(data.storeInfo);
+            setStoreLikeCount(data.storeLikeCount);
+            setStoreReviewCount(data.storeReviewCount);
+            setStoreReview(data.storeInfo.reviews);
+        };
+        getData();
+    }, []);
+    
     return (
         <>
             <S.Container>
                 <S.Main>
-                    <TopDetail></TopDetail>
-                    <BottomDetail></BottomDetail>
+                    <TopDetail
+                        storeInfo={storeInfo}
+                        setStoreInfo={setStoreInfo}
+                        storeLikeCount={storeLikeCount}
+                        storeReviewCount={storeReviewCount}
+                        storeReview={storeReview}
+                        setStoreLikeCount={setStoreLikeCount}
+                    ></TopDetail>
+                    <BottomDetail storeInfo={storeInfo}></BottomDetail>
+                    <Reviews></Reviews>
                 </S.Main>
-                <LeftBanner></LeftBanner>
+                {storeInfo.address && (
+                    <LeftBanner
+                        storeName={storeInfo.name}
+                        storeAddress={storeInfo.address}
+                    ></LeftBanner>
+                )}
             </S.Container>
         </>
     );
