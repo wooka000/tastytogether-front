@@ -32,6 +32,9 @@ export default function UserLogin() {
                 return { ...response.data };
             });
             setIsLogin(true);
+
+            localStorage.setItem('accessToken', response.data.accessToken);
+
             if (location?.state?.from) {
                 return navigate('/');
             }
