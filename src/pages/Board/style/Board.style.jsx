@@ -8,6 +8,7 @@ export const MainWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 200px;
 `;
 
 export const FindText = styled.div`
@@ -66,20 +67,27 @@ export const BannerBox = styled.div`
     }
 `;
 export const SearchForm = styled.form`
+    display: flex;
     margin-left: 300px;
     align-self: flex-start;
-    border-radius: 30px;
-    background-color: #ffff;
-    width: 250px;
+    border-radius: 0px;
+    background-color: transparent;
+    width: 1550px;
+    text-align: center;
+    margin: 0 auto;
     height: 50px;
     margin-top: 20px;
+    padding-left: 10px;
 `;
 export const SubmitBtn = styled.button`
     border: none;
     outline: none;
     font-size: 24px;
-    background-color: transparent;
+    background-color: white;
     color: grey;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding: 0px 15px;
 `;
 export const SearchInput = styled.input`
     font-size: 20px;
@@ -87,8 +95,12 @@ export const SearchInput = styled.input`
     width: 70%;
     border: none;
     outline: none;
-    background-color: transparent;
+    background-color: white;
+    width: 300px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
     &::placeholder {
+        text-indent: 50px;
         font-weight: bold;
     }
 `;
@@ -97,19 +109,27 @@ export const StyledBoxImageWrapper = styled.div`
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    border-top-left-radius: 5%;
+    border-top-right-radius: 5%;
 `;
 
 export const StyledBoxImage = styled.img`
     width: 100%;
-    height: auto;
+    height: 180px;
     transition: transform 0.3s ease-out;
 `;
 
 export const PostInfo = styled.div`
     width: 100%;
     padding: 16px;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.6);
+    /* background-color:#ff914d; */
     color: white;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    border-bottom-left-radius: 5%;
+    border-bottom-right-radius: 5%;
 `;
 
 export const PostInfoText = styled.p`
@@ -120,7 +140,11 @@ export const PostInfoText = styled.p`
 export const Pagination = styled.div`
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    background-color: white; // 추가
+    width: 1550px; // 추가
+    border-bottom-right-radius: 30px; // 추가
+    border-bottom-left-radius: 30px; // 추가
+    padding-bottom: 20px; // 추가
 `;
 
 export const PageNumber = styled.div`
@@ -130,23 +154,45 @@ export const PageNumber = styled.div`
     color: ${({ selected }) => (selected ? '#FFF' : '#000')};
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
 `;
 
 export const StyledBoxWrapper = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 1550px;
-    height: 600px;
-    margin: 30px 90px 206px;
-    border-radius: 30px;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: row;
     flex-wrap: wrap;
+    width: 1550px;
+    height: 700px;
+    margin: 30px 90px 0px;
+    border-top-left-radius: 30px; // 추가
+    border-top-right-radius: 30px; // 추가
+    background: #fff;
+    gap: 40px;
+    border-left-width: 40px;
+    padding: 40px;
 `;
 export const StyledBox = styled.div`
     width: 260px;
     height: 40%;
     border-radius: 30px;
+`;
+export const pageBtn = styled.div`
+    border: none;
+    width: 30px;
+`;
+export const SearchButton = styled.button`
+    font-size: 20px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background-color: #ff914d;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    &:hover {
+        background-color: #ff7335;
+    }
 `;
