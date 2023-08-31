@@ -44,7 +44,7 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
                         </S.StoreEval>
                     </S.InfoRight>
                 </S.StoreInfo>
-                {item.reviews.length !== 0 ? (
+                {/* {item.reviews.length !== 0 ? (
                     <S.StoreReview>
                         <S.ReviewContent>{item.reviews[0]}</S.ReviewContent>
                     </S.StoreReview>
@@ -52,7 +52,7 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
                     <S.StoreReview>
                         <S.ReviewContent>아직 첫 리뷰가 없습니다.</S.ReviewContent>
                     </S.StoreReview>
-                )}
+                )} */}
             </S.ResultStore>
             
         </Link>

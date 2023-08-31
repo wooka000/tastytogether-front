@@ -31,7 +31,6 @@ export const InfoLeft = styled.div`
         &:hover{
             cursor: pointer;
         }
-    }
 `
 export const InfoRight = styled.div`
     flex:1;

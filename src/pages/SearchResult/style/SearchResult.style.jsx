@@ -30,3 +30,4 @@ export const ResultDiv = styled.div`
 export const ResultStores = styled.div``;
 export const Pagination = styled.div``;
 export const Result = styled.div``;
+export const Search = styled.div``;
