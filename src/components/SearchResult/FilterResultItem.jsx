@@ -3,19 +3,20 @@ import { Link } from 'react-router-dom';
 import * as S from './style/SearchResultItem.style'
 
 
-const FilterResultItem = ({ item, index,  linkTo, handleItemClick }) => {
+const FilterResultItem = ({ item, index,  linkTo, setClickedStore }) => {
 
-    const handleClick = () => {
-        handleItemClick(item._id);
+    const handleItemClick = (e) => {
+        const clickedElement = e.currentTarget;
+        setClickedStore(clickedElement);
     };
-
+    
     return (
         <Link 
             to={linkTo}
             style={{ textDecoration: 'none', color: 'inherit' }}
             onClick={handleItemClick}
         >
-            <S.ResultStore onClick={handleClick}>
+            <S.ResultStore>
                 <S.StoreInfo>
                     <S.InfoLeft>
                         <img src={item.banners[0]} alt="" />
@@ -23,7 +24,7 @@ const FilterResultItem = ({ item, index,  linkTo, handleItemClick }) => {
                     <S.InfoRight>
                         <S.StoreName>
                             <h3 className="name">{index+1}. {item.name}</h3>
-                            <h3 className="store_region">{item.city} {item.state}</h3>
+                            <h3 className="store_region">{item.address.city} {item.address.state}</h3>
                         </S.StoreName>
                         <div>
                             <S.StoreType>{item.type}</S.StoreType>
@@ -31,7 +32,7 @@ const FilterResultItem = ({ item, index,  linkTo, handleItemClick }) => {
                         <S.StoreHash>
                             <p>#{item.parkingInfo}</p>
                             <p>#{item.closedDays}</p>
-                            <p>#{item.PriceRange}</p>
+                            <p>#{item.priceRange}</p>
                         </S.StoreHash>
                         <S.StoreEval>
                             <div>⭐</div>
@@ -43,8 +44,7 @@ const FilterResultItem = ({ item, index,  linkTo, handleItemClick }) => {
                 </S.StoreInfo>
                 {item.reviews.length !== 0 ? (
                         <S.StoreReview Key={index}>
-                            <S.ReviewContent>{item.reviews[0].content}</S.ReviewContent>
-                            <S.ReviewId>by.{item.reviews[0].userId}</S.ReviewId>
+                            <S.ReviewContent>{item.reviews[0]}</S.ReviewContent>
                         </S.StoreReview>
                 ) : (
                     <S.StoreReview>

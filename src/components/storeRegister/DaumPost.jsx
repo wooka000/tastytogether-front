@@ -25,7 +25,8 @@ function DaumPost({ setStoreInfo }){
   const open = useDaumPostcodePopup(postcodeScriptUrl);
     
   const handleComplete = (data) => {
-    const { roadAddress: street, jibunAddress: fullAddress, sido: city, sigungu: state, zipcode, buildingName: name, latitude, longitude} = data;      console.log(data)
+    const { roadAddress: street, jibunAddress: fullAddress, sido: city, sigungu: state, zonecode:zipcode, buildingName: name, latitude, longitude} = data;      
+    console.log(data)
 
       //조건 판단 완료 후 지역 주소 및 상세주소 state 수정
       setAddressObj({
