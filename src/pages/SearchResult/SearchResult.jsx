@@ -6,6 +6,7 @@ import RegionFilter from '../../components/SearchResult/RegionFilter';
 import SortFilter from '../../components/SearchResult/SortFilter';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ResultNotice from '../../components/SearchResult/ResultNotice';
+import FilterResultItem from '../../components/SearchResult/FilterResultItem';
 import SearchResultItem from '../../components/SearchResult/SearchResultItem';
 import FilteredMap from '../../components/SearchResult/FilteredMap';
 
@@ -13,12 +14,16 @@ export default function SearchResult() {
     const navigate = useNavigate();
     const location = useLocation();
     const keyword = location.state?.keyword || '';
+
     console.log(keyword)
-    const [selectedType, setSelectedType] = useState('');
+
+    const [selectedType, setSelectedType] = useState('기본');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
     const [selectedSort, setSelectedSort] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [prevKeyword, setPrevKeyword] = useState('');
+
     const itemsPerPage = 10;
     const [stores, setStores]=useState([]);
 
@@ -32,22 +37,6 @@ export default function SearchResult() {
     }, []);
     stores && console.log(stores);
 
-
- // item.name이나 item.type, item.city 등에 검색 키워드가 포함되어 있는지 확인
-//  실행되면 에러발생
-    // const checkKeywordMatch = (stores) => {
-    //     const searchKeyword = keyword.toLowerCase();
-    //     for(let store of stores){
-    //         if( 
-    //             (store.name && store.name.toLowerCase().includes(searchKeyword)) ||
-    //             (store.type && store.type.toLowerCase().includes(searchKeyword)) ||
-    //             (store.address &&
-    //             store.address.city &&
-    //             store.address.city.toLowerCase().includes(searchKeyword))
-    //         ){return true;}
-    //     }
-    //     return false
-    // };
 
     // 검색 + 정렬된 데이터
     const applySearchAndSort = useMemo(() => {
@@ -77,7 +66,6 @@ export default function SearchResult() {
                 }
             }
             return searchSortedItems;
-
         }, [stores]);
     // 필터+ 정렬된 데이터
     const applyFiltersAndSort = useMemo(() => {
@@ -115,13 +103,13 @@ export default function SearchResult() {
             }    
         return filteredSortedData;
     }, [stores, selectedType, selectedArea, selectedSort]);
-// 배열값을 그냥 변수처럼 넣어서 빈배열만 전달되었음.
+
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentPageItems = useMemo(() => {
         let pageItems = [];
         if (keyword && stores) {
-          pageItems.push(...applySearchAndSort);
+            pageItems.push(...applySearchAndSort);
         } else if (selectedType || selectedArea) {
           pageItems.push(...applyFiltersAndSort);
         } else {
@@ -129,7 +117,6 @@ export default function SearchResult() {
         }
         return pageItems.length >10 ? pageItems.slice(startIndex, endIndex) : pageItems
     },  [ applyFiltersAndSort, keyword, stores, selectedType, selectedArea, startIndex, endIndex]);
-
     let region;
     const getLinkToPath = (selectedCity, selectedState, keyword, isFilter) => {
         if (isFilter) {
@@ -138,7 +125,8 @@ export default function SearchResult() {
                 pathname: `/stores/filter`,
                 state: {
                     type: selectedType,
-                    region: region,
+                    city: selectedCity,
+                    state: selectedState,
                 },
             };
         } else {
@@ -148,7 +136,6 @@ export default function SearchResult() {
             };
         }
     };
-
     // 가게 클릭 시 가게 상세페이지로 이동
     const [clickedStore, setClickedStore] = useState(null)
 
@@ -157,36 +144,38 @@ export default function SearchResult() {
             navigate(`/stores/detail/${clickedStore._id}`, {state : {storeId: clickedStore._id}})
         }
     }, [clickedStore]);
- 
 
-    return (
+
+    return(
         <S.Container>
-            <S.Nav>
-                <TypeFilter setSelectedType={setSelectedType} />
-                <RegionFilter
-                    selectedCity={selectedCity}
-                    selectedArea={selectedArea}
-                    setSelectedCity={setSelectedCity}
-                    setSelectedArea={setSelectedArea}
-                />
-            </S.Nav>
-            <S.ResultDiv>
-                <SortFilter setSelectedSort={setSelectedSort} />
-                <FilteredMap currentPageItems={currentPageItems} />
-                <ResultNotice
-                    selectedType={selectedType}
-                    selectedArea={selectedArea}
-                    selectedCity={selectedCity}
-                    keyword={keyword}
-                    stores={stores}
-                    applyFiltersAndSort={applyFiltersAndSort}
-                    applySearchAndSort={applySearchAndSort}
-                />
-                {/* {(stores || keyword.trim() === '' || applyFiltersAndSort.length > 0) && ( */}
-                {(stores.length > 0) && (
-                    <S.ResultStores>
-                        <S.Result>
-                            {keyword.trim() !== '' &&
+            <S.Search>
+                <S.Nav>
+                    <TypeFilter setSelectedType={setSelectedType} />
+                    <RegionFilter 
+                        selectedCity={selectedCity} 
+                        selectedArea={selectedArea} 
+                        setSelectedCity={setSelectedCity} 
+                        setSelectedArea={setSelectedArea} 
+                    />
+                </S.Nav>
+                <S.ResultDiv>
+                    <SortFilter setSelectedSort={setSelectedSort} />
+                    <FilteredMap currentPageItems={currentPageItems} />                    
+                    <ResultNotice
+                        selectedType={selectedType}
+                        selectedArea={selectedArea}
+                        selectedCity={selectedCity}
+                        prevKeyword={prevKeyword}
+                        setPrevKeyword={setPrevKeyword}
+                        keyword={keyword}
+                        applyFiltersAndSort={applyFiltersAndSort}
+                        applySearchAndSort={applySearchAndSort}
+
+                    />
+                        <S.ResultStores>
+                            <S.Result>
+                                {/* 검색 결과 아이템들 */}
+                                {keyword.trim() !== '' && 
                                 applySearchAndSort.map((item, index) => (
                                     <SearchResultItem
                                         key={index}
@@ -194,60 +183,55 @@ export default function SearchResult() {
                                         index={index}
                                         keyword={keyword}
                                         linkTo={getLinkToPath(item, keyword, false)}
-                                        // keywordMatch={checkKeywordMatch(item, keyword)}
                                         setClickedStore={setClickedStore}
                                     />
                                 ))}
-                            {stores &&
-                                stores.map((store) => {
-                                    return <div key={store._id}>{store.name}</div>;
-                                })}
 
-                            {selectedType || (selectedCity && selectedArea) || selectedSort
-                                ? applyFiltersAndSort.map((item, index) => (
-                                      <FilterResultItem
-                                          key={index}
-                                          item={item}
-                                          index={index}
-                                          linkTo={getLinkToPath(item, region, true)}
-                                          setClickedStore={setClickedStore}
-                                      />
-                                  ))
-                                : null}
+                                {/* 필터 결과 아이템들 */}
+                                {selectedType || (selectedCity && selectedArea) || selectedSort ? (applyFiltersAndSort.map((item, index) => (
+                                    <FilterResultItem
+                                        key={index}
+                                        item={item}
+                                        index={index}
+                                        linkTo={getLinkToPath(item, true)}
+                                        setClickedStore={setClickedStore}
+                                    />
+                                ))) : null}
 
-                            {currentPageItems.map((item, index) => {
-                                if (keyword.trim() !== '') {
-                                    return (
-                                        <SearchResultItem
-                                            key={index}
-                                            item={item}
-                                            index={index}
-                                            keyword={keyword}
-                                            linkTo={getLinkToPath(item, '', true)}
-                                            stores={stores}
-                                            setClickedStore={setClickedStore}
-                                        />
-                                    );
-                                } else if (selectedType || selectedCity || selectedArea) {
-                                    return (
-                                        <FilterResultItem
-                                            key={index}
-                                            item={item}
-                                            index={index}
-                                            linkTo={getLinkToPath(item, region, true)}
-                                            setClickedStore={setClickedStore}
-                                        />
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
-                        </S.Result>
-                        <S.Pagination>
-                            <button
-                                onClick={() => setCurrentPage(currentPage - 1)}
-                                disabled={currentPage === 1}
-                            >
+                                {/* 페이지별 결과 아이템들 */}
+                                {currentPageItems.map((item, index) => {
+                                    if (keyword.trim() !== '') {
+                                        // 검색 결과인 경우
+                                        applySearchAndSort.map((item, index) => (
+                                            <SearchResultItem
+                                                key={index}
+                                                item={item}
+                                                index={index}
+                                                keyword={keyword}
+                                                linkTo={getLinkToPath(item, keyword, false)}
+                                                setClickedStore={setClickedStore}
+                                            />
+                                        ))
+                                    }else if(selectedType || (selectedCity && selectedArea) || selectedSort) {
+                                        // 필터 결과인 경우
+                                        return (
+                                            applyFiltersAndSort.map((item, index) => (
+                                                <FilterResultItem
+                                                    key={index}
+                                                    item={item}
+                                                    index={index}
+                                                    linkTo={getLinkToPath(item, true)}
+                                                    setClickedStore={setClickedStore}
+                                                />
+                                            )))
+                                    } else {
+                                        return null; // 추가적인 조건이 없는 경우 null 반환 (렌더링하지 않음)
+                                      }
+                                    })}
+                                </S.Result>
+                            {/* 페이지 네비게이션 */}
+                            <S.Pagination>
+                                <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
                                 이전 페이지
                             </button>
                             <span>현재 페이지: {currentPage}</span>
@@ -259,8 +243,9 @@ export default function SearchResult() {
                             </button>
                         </S.Pagination>
                     </S.ResultStores>
-                )}
+                
             </S.ResultDiv>
+            </S.Search>
         </S.Container>
     );
 }
