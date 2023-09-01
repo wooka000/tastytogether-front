@@ -143,10 +143,8 @@ export default function DaumPost({
         <MyContext.Provider value={address}>
             <CheckInfo isAddressRegistered={isAddressRegistered} />
             <S.TableLine>
-                <div className="table_title">
-                    <span>맛집주소*</span>
-                </div>
-                <div className="table_content">
+                <S.Name>맛집주소*</S.Name>
+                <S.Content>
                     <input
                         id="address"
                         className="input"
@@ -154,29 +152,59 @@ export default function DaumPost({
                         placeholder="등록하려는 맛집이 중복되는지 맛집이름을 확인하세요."
                         value={address.name ? address.street : address.fullAddress}
                         onChange={handleSaveStoreInfo}
+                        style={{
+                            width: '500px',
+                            height: '30px',
+                            fontSize: '16px',
+                            borderRadius: '10px',
+                            border: '1px solid gray',
+                            padding: '10px 15px',
+                            color: 'gray',
+                        }}
                         readOnly
                         required
                     />
-                    <button type="button" onClick={handleClick}>
+                    <button
+                        type="button"
+                        onClick={handleClick}
+                        style={{
+                            width: '100px',
+                            fontSize: '16px',
+                            borderRadius: '10px',
+                            border: 'none',
+                            padding: '5px 15px',
+                            marginLeft: '10px',
+                            background: 'var(--color-accent)',
+                            color: 'white',
+                            fontWeight: 'bold',
+                        }}
+                    >
                         주소찾기
                     </button>
-                </div>
+                </S.Content>
             </S.TableLine>
             <S.TableLine>
-                <div className="table_title">
-                    <span>맛집이름*</span>
-                </div>
-                <div className="table_content">
+                <S.Name>맛집이름*</S.Name>
+                <S.Content>
                     <input
                         id="buildingName"
                         className="input"
                         type="text"
                         placeholder="등록된 업체인지 확인하세요."
                         value={address.name}
+                        style={{
+                            width: '500px',
+                            height: '30px',
+                            fontSize: '16px',
+                            borderRadius: '10px',
+                            border: '1px solid gray',
+                            padding: '10px 15px',
+                            color: 'gray',
+                        }}
                         readOnly
                         required
                     />
-                </div>
+                </S.Content>
             </S.TableLine>
             <S.Map id="mapDiv">
                 <S.MapContainer>
@@ -190,9 +218,9 @@ export default function DaumPost({
                     <S.AddressInput id="addressInput" type="text" />
                 </S.MapContainer>
             </S.Map>
-            <button type="button" onClick={handleSaveStoreInfo}>
+            <S.SaveBtn type="button" onClick={handleSaveStoreInfo}>
                 저장하기
-            </button>
+            </S.SaveBtn>
         </MyContext.Provider>
     );
 }

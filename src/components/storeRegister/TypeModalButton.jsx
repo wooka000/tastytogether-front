@@ -15,12 +15,10 @@ function TypeModalButton({ setType }) {
         setType(category);
     };
     return (
-        <S.TableLine>
-            <div className="table_title">
-                <span>업종*</span>
-            </div>
-            <div className="table_content">
-                <input
+        <S.Container>
+            <S.Title>업종*</S.Title>
+            <S.Content>
+                <S.Input
                     id="type_input"
                     className="input"
                     type="text"
@@ -30,12 +28,14 @@ function TypeModalButton({ setType }) {
                     readOnly
                     required
                 />
-                <S.TypeButton onClick={showModal}>업종선택</S.TypeButton>
+                <S.TypeButton type="button" onClick={showModal}>
+                    업종선택
+                </S.TypeButton>
                 {modalOpen && (
                     <TypeModalPage setModalOpen={setModalOpen} setCategory={handleCategoryChange} />
                 )}
-            </div>
-        </S.TableLine>
+            </S.Content>
+        </S.Container>
     );
 }
 
