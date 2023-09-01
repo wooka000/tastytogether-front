@@ -8,6 +8,6 @@ export const ResultNotice = styled.div`
 `
 
 export const Keyword = styled.h3`
-    font-size: 25px;
-    color: red;
+    font-size: 14px;
+    color: #FF9C5F;
 `

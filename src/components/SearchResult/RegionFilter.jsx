@@ -1,13 +1,14 @@
 import React from 'react';
 import * as S from './style/RegionFilter.style';
 
-const RegionFilter = ({ setSelectedCity, setSelectedArea, selectedCity, selectedArea }) => {
+const RegionFilter = ({ setSelectedCity, setSelectedArea, selectedCity, selectedArea, dataSave }) => {
 
     const handleSelectCityOption = (e) => {
         setSelectedCity(e.target.value);
     }
     const handleAreaChange = (e) => {
         setSelectedArea(e.target.value);
+        dataSave();
     }
 
     const handleCityChange = (event) => {
