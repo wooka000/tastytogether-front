@@ -422,7 +422,12 @@ export default function StoreDetailEdit() {
                     <S.EditFormBtn type="button" isOrange={true} onClick={handleSubmit}>
                         수정하기
                     </S.EditFormBtn>
-                    <S.EditFormBtn onClick={navigate(`/stores/detail/${storeId}`)}>
+                    <S.EditFormBtn
+                        type="button"
+                        onClick={() => {
+                            navigate(`/stores/detail/${storeId}`);
+                        }}
+                    >
                         취소하기
                     </S.EditFormBtn>
                 </S.EditFormBtns>
