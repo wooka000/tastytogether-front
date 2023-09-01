@@ -34,6 +34,7 @@ export default function StoreDetailEdit() {
         { name: '', price: '' },
     ]);
     const [banners, setBanners] = useState([]);
+    const [isAddressRegistered, setIsAddressRegistered] = useState(false);
 
     const dayCheckList = ['월', '화', '수', '목', '금', '토', '일', '연중무휴'];
 
@@ -116,6 +117,10 @@ export default function StoreDetailEdit() {
     const handleSubmit = async (e) => {
         const isFullMenuItems = newMenuItems.filter((el) => el.name !== '' && el.price !== '');
         e.preventDefault();
+        if (isAddressRegistered) {
+            alert('중복된 가게입니다.');
+            return;
+        }
         if (
             !name ||
             !address ||
@@ -177,7 +182,7 @@ export default function StoreDetailEdit() {
         formData.append('address[zipCode]', address.zipCode);
         formData.append('address[latitude]', address.latitude);
         formData.append('address[longitude]', address.longitude);
-        
+
         try {
             const response = await authRequiredAxios({
                 method: 'post',
@@ -187,7 +192,8 @@ export default function StoreDetailEdit() {
 
             if (response.status === 201) {
                 alert('가게 생성이 완료되었습니다.');
-                navigate(`/stores/detail/${response.data}`);
+                console.log(response.data);
+                navigate(`/stores/detail/${response.data}`, { state: { stoerId: response.data } });
             }
         } catch (err) {
             console.error(err);
@@ -198,7 +204,13 @@ export default function StoreDetailEdit() {
         <S.Container>
             <S.DetailEditForm>
                 <S.EditContentBox>
-                    <DaumPost setName={setName} address={address} setAddress={setAddress} />
+                    <DaumPost
+                        setName={setName}
+                        address={address}
+                        setAddress={setAddress}
+                        isAddressRegistered={isAddressRegistered}
+                        setIsAddressRegistered={setIsAddressRegistered}
+                    />
                 </S.EditContentBox>
                 <S.EditContentBox>
                     <TypeModalButton setType={setType} />
@@ -382,79 +394,87 @@ export default function StoreDetailEdit() {
                     <S.EditTitle>대표 메뉴</S.EditTitle>
                     <div>
                         <S.MenuNameChart>
-                            <tr>
-                                <S.ChartHead scope="col" isLeft={true}>
-                                    대표 메뉴
-                                </S.ChartHead>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="text"
-                                        placeholder="-"
-                                        name="name1"
-                                        onChange={handleChange}
-                                    />
-                                </S.ChartContent>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="text"
-                                        placeholder="-"
-                                        name="name2"
-                                        onChange={handleChange}
-                                    />
-                                </S.ChartContent>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="text"
-                                        placeholder="-"
-                                        name="name3"
-                                        onChange={handleChange}
-                                    />
-                                </S.ChartContent>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <S.ChartHead scope="col" isLeft={true}>
+                                        대표 메뉴
+                                    </S.ChartHead>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="text"
+                                            placeholder="-"
+                                            name="name1"
+                                            onChange={handleChange}
+                                        />
+                                    </S.ChartContent>
+                                </tr>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="text"
+                                            placeholder="-"
+                                            name="name2"
+                                            onChange={handleChange}
+                                        />
+                                    </S.ChartContent>
+                                </tr>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="text"
+                                            placeholder="-"
+                                            name="name3"
+                                            onChange={handleChange}
+                                        />
+                                    </S.ChartContent>
+                                </tr>
+                            </tbody>
                         </S.MenuNameChart>
                         <S.MenuNameChart>
-                            <tr>
-                                <S.ChartHead scope="col">가격</S.ChartHead>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="number"
-                                        placeholder="-"
-                                        name="price1"
-                                        onChange={handleChange}
-                                    />
-                                    원
-                                </S.ChartContent>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="number"
-                                        placeholder="-"
-                                        name="price2"
-                                        onChange={handleChange}
-                                    />
-                                    원
-                                </S.ChartContent>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="number"
-                                        placeholder="-"
-                                        name="price3"
-                                        onChange={handleChange}
-                                    />
-                                    원
-                                </S.ChartContent>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <S.ChartHead scope="col">가격</S.ChartHead>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="number"
+                                            placeholder="-"
+                                            name="price1"
+                                            onChange={handleChange}
+                                        />
+                                        원
+                                    </S.ChartContent>
+                                </tr>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="number"
+                                            placeholder="-"
+                                            name="price2"
+                                            onChange={handleChange}
+                                        />
+                                        원
+                                    </S.ChartContent>
+                                </tr>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="number"
+                                            placeholder="-"
+                                            name="price3"
+                                            onChange={handleChange}
+                                        />
+                                        원
+                                    </S.ChartContent>
+                                </tr>
+                            </tbody>
                         </S.MenuNameChart>
                     </div>
                     <StoreImage setBanners={setBanners} />
