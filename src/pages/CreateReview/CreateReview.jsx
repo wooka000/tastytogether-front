@@ -12,6 +12,7 @@ export default function CreateReview() {
     const { authRequiredAxios } = useAxios('multipart/form-data');
     const location = useLocation();
     const storeId = location.state ? location.state.storeId : null;
+    const storeName = location.state ? location.state.name : null;
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -73,7 +74,7 @@ export default function CreateReview() {
         <S.Container>
             <S.ReviewCard>
                 <S.Title>
-                    <S.Name>맘스터치 건대로데오점</S.Name>에 대한 솔직한 리뷰를 써주세요.
+                    <S.Name>{storeName}</S.Name>에 대한 솔직한 리뷰를 써주세요.
                 </S.Title>
                 <S.Form onSubmit={handleSubmit}>
                     <S.GradeList>
