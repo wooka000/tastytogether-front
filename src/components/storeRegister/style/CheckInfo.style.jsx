@@ -4,7 +4,7 @@ export const CheckDiv = styled.div`
     background-color: yellow;
     margin-bottom: 0px;
     width: 100%;
-    height: 50px;
+    height: 100px;
 
     .title_line {
         display: flex;

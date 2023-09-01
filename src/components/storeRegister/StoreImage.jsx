@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import * as S from './style/StoreImage.style';
 
-export default function StoreImage({ setBanners }) {
+const StoreImage = ({ setStoreInfo }) => {
     const [imageSrcs, setImageSrcs] = useState([]);
     const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -33,7 +34,12 @@ export default function StoreImage({ setBanners }) {
                     setImageSrcs(newImageSrcs);
                     setUploadedImages(newUploadedImages);
 
-                    setBanners([...newUploadedImages]);
+                    // 업로드 후 storeInfo 업데이트
+                    setStoreInfo((prevInfo) => ({
+                        ...prevInfo,
+                        street: prevInfo.street || '',
+                        images: uploadedImages,
+                    }));
                 };
             } else {
                 alert(`${file.name} 파일은 이미 업로드되었습니다.`);
@@ -52,9 +58,10 @@ export default function StoreImage({ setBanners }) {
 
         const newUploadedImages = [...uploadedImages];
         newUploadedImages.splice(index, 1);
-
-        setUploadedImages(newUploadedImages);
-        setBanners(newUploadedImages);
+        setStoreInfo((prevInfo) => ({
+            ...prevInfo,
+            images: uploadedImages,
+        }));
     };
     return (
         <>
@@ -87,13 +94,15 @@ export default function StoreImage({ setBanners }) {
                     {imageSrcs.map((imageSrc, index) => (
                         <S.Image key={index}>
                             <S.Img src={imageSrc} alt={`uploaded-image-${index}`} />
-                            <S.CancelButton type="button" onClick={() => removeImage(index)}>
-                                취소
-                            </S.CancelButton>
+                            <S.CancelButton onClick={() => removeImage(index)}>취소</S.CancelButton>
                         </S.Image>
                     ))}
                 </S.ImagesPreview>
             </div>
         </>
     );
-}
+};
+StoreImage.propTypes = {
+    setStoreInfo: PropTypes.func.isRequired,
+};
+export default StoreImage;

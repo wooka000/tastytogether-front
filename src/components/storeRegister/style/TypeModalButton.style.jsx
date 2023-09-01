@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 export const TableLine = styled.div`
     display: flex;
-    background-color: white;
-    width: 90%;
+    background-color: gold;
+    width: 100%;
+
     .table_content {
         display: flex;
     }

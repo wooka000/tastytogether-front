@@ -11,24 +11,42 @@ export const Container = styled.div`
 
 export const DetailEditForm = styled.form`
     width: calc(100% - 20px);
-    max-width: 804px;
+    max-width: 800px;
     margin: 0 auto;
-    height: 50%;
+    /* height:  */
     border-radius: 10px;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 30px 14px 14px 14px;
+    background: #fff;
+    padding: 30px 20px 20px 20px;
     display: flex;
     flex-direction: column;
 `;
 
 export const EditDaumBox = styled.div`
     background-color: purple;
+    height: 500px;
+`;
+
+export const GridBox = styled.div`
+    display: grid;
+    width: 100%;
+    height: 30%;
+    margin: 10px 0px;
+    background-color: skyblue;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 1fr 1.5fr;
+    grid-template-columns: 100px auto;
+    row-gap: 5px;
+    column-gap: 5px;
+    /* justify-items: center; */
+    align-items: center;
 `;
 
 export const EditContentBox = styled.div`
-    background-color: red;
     display: flex;
-    margin-top: 10px;
+    width: 95%;
+    background-color: red;
+    span {
+        background-color: yellow;
+    }
 `;
 
 export const EditTitle = styled.div`
@@ -37,19 +55,21 @@ export const EditTitle = styled.div`
 
 export const InputBox = styled.input`
     background-color: blue;
+    width: 95%;
 `;
 
-export const SelectBox = styled.div`
+export const InputLabel = styled.label`
+    width: 50%;
     display: flex;
 `;
-
-export const InputLabel = styled.label``;
 
 export const RadioDesign = styled.div``;
 
 export const RadioInput = styled.input``;
 
-export const TimeInput = styled.input``;
+export const TimeInput = styled.input`
+    width: 80px;
+`;
 
 export const ClosedDayDesign = styled.div``;
 
@@ -65,6 +85,9 @@ export const ChartInput = styled.input``;
 
 export const DividerLine = styled.div``;
 
-export const EditFormBtn = styled.button``;
+export const EditFormBtns = styled.div`
+    background-color: brown;
+    height: 50px;
+`;
 
-export const EditFormBtns = styled.div``;
+export const EditFormBtn = styled.button``;
