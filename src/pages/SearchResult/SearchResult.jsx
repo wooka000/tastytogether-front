@@ -13,8 +13,8 @@ import FilteredMap from '../../components/SearchResult/FilteredMap';
 export default function SearchResult() {
     
     const navigate = useNavigate();
-    const location = useLocation();
-    const keyword = location.state?.keyword || '';
+    const keyword = window.location.search.split('=')[1];
+    // const keyword = location.state?.keyword || '';
 
     console.log(keyword)
 
@@ -68,11 +68,11 @@ export default function SearchResult() {
         // console.log(typeParam)
         // console.log(cityParam)
         // console.log(areaParam)
-        const res = await axios.get('/stores/filter?type=한식&city=서울&state=종로구');
-        const data = res.data;
-        setFilterData(data);
+        // const res = await axios.get('/stores/filter?type=${selectedType}&city=${selectedCity}&state=${selectedArea}');
+        // const data = res.data;
+        // setFilterData(data);
       };
-      
+
     filterData && console.log(filterData);
 
 const applySearchAndSort = useMemo(() => {
@@ -148,11 +148,7 @@ const applySearchAndSort = useMemo(() => {
     // 가게 클릭 시 가게 상세페이지로 이동
     const [clickedStore, setClickedStore] = useState(null)
 
-    useEffect(()=>{
-        if(clickedStore){
-            navigate(`/stores/detail/${clickedStore._id}`, {state : {storeId: clickedStore._id}})
-        }
-    }, [clickedStore]);
+
 
     console.log(currentPageItems)
     return(
@@ -190,22 +186,24 @@ const applySearchAndSort = useMemo(() => {
                                     // 검색 결과인 경우
                                     return (
                                         <SearchResultItem
-                                        key={item._id}
-                                        index={(currentPage - 1) * itemsPerPage + index} // 정확한 인덱스 계산 필요
-                                        item={item}
-                                        linkTo={getLinkToPath(item, keyword, false)}
-                                        setClickedStore={setClickedStore}
+                                            key={item._id}
+                                            index={(currentPage - 1) * itemsPerPage + index} // 정확한 인덱스 계산 필요
+                                            item={item}
+                                            // linkTo={getLinkToPath(item, keyword, false)}
+                                            setClickedStore={setClickedStore}
+                                            id={item._id}
                                         />
                                     );
                                     } else if (filterData) {
                                     // 필터 결과인 경우
                                     return (
                                         <FilterResultItem
-                                        key={item._id}
-                                        index={(currentPage - 1) * itemsPerPage + index} // 정확한 인덱스 계산 필요
-                                        item={item}
-                                        linkTo={getLinkToPath(item, true)}
-                                        setClickedStore={setClickedStore}
+                                            key={item._id}
+                                            index={(currentPage - 1) * itemsPerPage + index} // 정확한 인덱스 계산 필요
+                                            item={item}
+                                            // linkTo={getLinkToPath(item, true)}
+                                            setClickedStore={setClickedStore}
+                                            id={item._id}
                                         />
                                     );
                                     } else {

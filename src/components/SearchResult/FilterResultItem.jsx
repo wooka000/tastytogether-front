@@ -1,12 +1,13 @@
-import * as S from './style/FilterResultItem.style'
 import { React } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import * as S from './style/FilterResultItem.style'
 
-const FilterResultItem = ({ item, index,  linkTo, setClickedStore}) => {
-
+const FilterResultItem = ({ item, index, id}) => {
+    const navigate = useNavigate();
     const handleItemClick = (e) => {
         const clickedElement = e.currentTarget;
-        setClickedStore(clickedElement);
+        navigate(`/stores/detail/${id}`);
+        // setClickedStore(clickedElement);
     };
     const breakDay = () => {
         if (item.closedDays.includes('연중무휴')) {
@@ -22,8 +23,7 @@ const FilterResultItem = ({ item, index,  linkTo, setClickedStore}) => {
       };
     
     return (
-        <Link 
-            to={linkTo}
+        <div
             style={{ textDecoration: 'none', color: 'inherit' }}
             onClick={handleItemClick}
         >
@@ -54,7 +54,7 @@ const FilterResultItem = ({ item, index,  linkTo, setClickedStore}) => {
                     </S.InfoRight>
                 </S.StoreInfo>
             </S.ResultStore>
-        </Link>
+        </div>
     )
 }
 
