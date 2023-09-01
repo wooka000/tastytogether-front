@@ -9,7 +9,8 @@ export default function MyProfileEdit({ setModalOpen, user }) {
         setModalOpen: PropTypes.func.isRequired,
         user: PropTypes.object.isRequired,
     };
-    const { authRequiredAxios } = useAxios('multipart/form-data');
+    const { authRequiredAxios } = useAxios('application/json');
+    const { authRequiredAxios: authRequiredAxiosForImage } = useAxios('multipart/form-data');
     const { auth, setAuth } = useAuth();
     const [name, setName] = useState(user.name);
     const [nickname, setNickname] = useState(user.nickname);
@@ -19,10 +20,10 @@ export default function MyProfileEdit({ setModalOpen, user }) {
     const [file, setFile] = useState();
     const [fileBg, setFileBg] = useState();
     const [check, setCheck] = useState();
+    const [duplicate, setDuplicate] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const formData = new FormData();
         formData.append('name', name);
         formData.append('nickname', nickname);
@@ -30,25 +31,40 @@ export default function MyProfileEdit({ setModalOpen, user }) {
         formData.append('profileImage', profileImage);
         formData.append('coverImage', coverImage);
         try {
-            const res = await authRequiredAxios({
+            const res = await authRequiredAxiosForImage({
                 method: 'patch',
                 url: `/user/${auth.userId}`,
                 data: formData,
             });
             const data = await res.data;
             const status = res.status;
-            console.log(res);
             if (status == 200) {
-                setAuth((prev) => ({
-                    ...prev,
-                    nickname: data.nickname,
-                    profileImage: data.profileImage,
-                }));
+                const token = data.accessToken;
+                localStorage.setItem('accessToken', token);
             }
         } catch (err) {
             console.error(err);
         } finally {
             setModalOpen(false);
+        }
+    };
+
+    const handleCheck = async () => {
+        try {
+            const res = await authRequiredAxios({
+                method: 'get',
+                url: `/user/checknickname/${nickname}`,
+            });
+            const message = res.data.message;
+            if (message == '이미 닉네임이 사용 중입니다.') {
+                setCheck('실패');
+                setDuplicate(true);
+            } else if (message == '중복 확인 완료') {
+                setCheck('통과');
+                setDuplicate(false);
+            }
+        } catch (err) {
+            console.error(err);
         }
     };
 
@@ -65,6 +81,7 @@ export default function MyProfileEdit({ setModalOpen, user }) {
         }
         if (name === 'nickname') {
             setNickname(value);
+            setDuplicate(true);
             return;
         }
         if (name === 'profileText') {
@@ -80,10 +97,6 @@ export default function MyProfileEdit({ setModalOpen, user }) {
 
     const handleCancel = () => {
         setModalOpen(false);
-    };
-
-    const handleCheck = () => {
-        setCheck('통과');
     };
     return (
         <S.Container onClick={handleCancel}>
@@ -155,7 +168,9 @@ export default function MyProfileEdit({ setModalOpen, user }) {
                             onChange={handleChange}
                         />
                     </S.Field>
-                    <S.SubmitBtn>완료</S.SubmitBtn>
+                    <S.SubmitBtn disabled={duplicate}>
+                        {duplicate ? '닉네임 중복 확인을 해주세요!' : '완료'}
+                    </S.SubmitBtn>
                 </S.Form>
             </S.Modal>
         </S.Container>
