@@ -48,7 +48,7 @@ export default function DaumPost({
     useEffect(() => {
         const script = document.createElement('script');
         script.type = 'text/javascript';
-        /* eslint-disable */
+
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_API_KEY}&autoload=false&libraries=services`;
         script.async = true;
 
