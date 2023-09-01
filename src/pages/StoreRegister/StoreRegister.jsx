@@ -285,7 +285,7 @@ export default function StoreRegister() {
 
                     <S.EditTitle>주차</S.EditTitle>
                     <S.EditContentBox>
-                        <S.InputLabel htmlFor="freepark">
+                        <S.InputLabel htmlFor="freePark">
                             무료 주차 가능
                             <S.RadioInput
                                 id="freePark"
@@ -296,7 +296,7 @@ export default function StoreRegister() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                        <S.InputLabel htmlFor="paidpark">
+                        <S.InputLabel htmlFor="paidPark">
                             유료 주차 가능
                             <S.RadioInput
                                 id="paidPark"
@@ -307,7 +307,7 @@ export default function StoreRegister() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                        <S.InputLabel htmlFor="nonepark">
+                        <S.InputLabel htmlFor="nonePark">
                             주차 불가
                             <S.RadioInput
                                 id="nonePark"
