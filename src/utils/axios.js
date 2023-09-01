@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://34.22.80.41/api';
+const BASE_URL = 'http://kdt-sw-5-2-team08.elicecoding.com/api';
 
 export default axios.create({
     baseURL: BASE_URL,
