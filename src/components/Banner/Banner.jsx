@@ -14,7 +14,7 @@ export default function Banner() {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate('/stores/search', { state: { keyword: text } });
+        navigate(`/stores/search?keyword=${text}`);
     };
     useEffect(() => {
         try {

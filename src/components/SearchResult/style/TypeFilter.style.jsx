@@ -4,11 +4,11 @@ export const TypeFilter = styled.div`
     margin-bottom: 20px;
 `
 export const TypeFilterTitle = styled.div`
-    font-size: 1.3rem;
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-bottom: 20px;
+    font-size: 1.3rem;
 `
 export const TypeFilterContent = styled.div`
     display: flex;
@@ -22,18 +22,18 @@ export const TypeLabel = styled.label`
     }
 `
 export const TypeFilterRadio = styled.input`
+    margin-right: 10px;
     width: 20px;
     height: 20px;
-    margin-right: 10px;
 `
 export const TypeFilterSpan = styled.span`
     font-size: 1.1rem;
     font-weight: 600;
     &:hover{
-        background-color: var(--color-accent);
         opacity: 70%;
-        color: white;
         border-radius: 3px;
+        background-color: var(--color-accent);
+        color: white;
     }
 `
 export const Square = styled.div`

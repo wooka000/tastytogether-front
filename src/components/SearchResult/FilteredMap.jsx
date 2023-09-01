@@ -2,7 +2,6 @@ import * as S from './style/FilteredMap.style';
 import React, { useEffect } from 'react';
 
 const FilteredMap = ({ currentPageItems }) => {
-    console.log(currentPageItems)
   useEffect(() => {
     if (currentPageItems.length === 0) return;
 
@@ -44,13 +43,10 @@ const FilteredMap = ({ currentPageItems }) => {
               });
               infowindow.open(map, marker);
               setBounds();
-              var isOnMap = !!marker.getMap();
-              console.log(isOnMap)
             }
           });
         });
 
-        // Set the bounds to fit all markers
         function setBounds() { 
             map.setBounds(bounds);
           }
