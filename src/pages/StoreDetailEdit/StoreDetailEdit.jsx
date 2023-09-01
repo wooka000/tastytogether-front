@@ -332,79 +332,88 @@ export default function StoreDetailEdit() {
                     <S.EditTitle>대표 메뉴</S.EditTitle>
                     <div>
                         <S.MenuNameChart>
-                            <tr>
-                                <S.ChartHead scope="col" isLeft={true}>
-                                    대표 메뉴
-                                </S.ChartHead>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="text"
-                                        placeholder="-"
-                                        name="name1"
-                                        onChange={handleChange}
-                                    />
-                                </S.ChartContent>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="text"
-                                        placeholder="-"
-                                        name="name2"
-                                        onChange={handleChange}
-                                    />
-                                </S.ChartContent>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="text"
-                                        placeholder="-"
-                                        name="name3"
-                                        onChange={handleChange}
-                                    />
-                                </S.ChartContent>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <S.ChartHead scope="col" isLeft={true}>
+                                        대표 메뉴
+                                    </S.ChartHead>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="text"
+                                            placeholder="-"
+                                            name="name1"
+                                            onChange={handleChange}
+                                        />
+                                    </S.ChartContent>
+                                </tr>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="text"
+                                            placeholder="-"
+                                            name="name2"
+                                            onChange={handleChange}
+                                        />
+                                    </S.ChartContent>
+                                </tr>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="text"
+                                            placeholder="-"
+                                            name="name3"
+                                            onChange={handleChange}
+                                        />
+                                    </S.ChartContent>
+                                </tr>
+                            </tbody>
                         </S.MenuNameChart>
                         <S.MenuNameChart>
-                            <tr>
-                                <S.ChartHead scope="col">가격</S.ChartHead>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="number"
-                                        placeholder="-"
-                                        name="price1"
-                                        onChange={handleChange}
-                                    />
-                                    원
-                                </S.ChartContent>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="number"
-                                        placeholder="-"
-                                        name="price2"
-                                        onChange={handleChange}
-                                    />
-                                    원
-                                </S.ChartContent>
-                            </tr>
-                            <tr>
-                                <S.ChartContent>
-                                    <S.ChartInput
-                                        type="number"
-                                        placeholder="-"
-                                        name="price3"
-                                        onChange={handleChange}
-                                    />
-                                    원
-                                </S.ChartContent>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <S.ChartHead scope="col">가격</S.ChartHead>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="number"
+                                            placeholder="-"
+                                            name="price1"
+                                            onChange={handleChange}
+                                        />
+                                        원
+                                    </S.ChartContent>
+                                </tr>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="number"
+                                            placeholder="-"
+                                            name="price2"
+                                            onChange={handleChange}
+                                        />
+                                        원
+                                    </S.ChartContent>
+                                </tr>
+                                <tr>
+                                    <S.ChartContent>
+                                        <S.ChartInput
+                                            type="number"
+                                            placeholder="-"
+                                            name="price3"
+                                            onChange={handleChange}
+                                        />
+                                        원
+                                    </S.ChartContent>
+                                </tr>
+                            </tbody>
                         </S.MenuNameChart>
                     </div>
                 </S.EditContentBox>
@@ -413,12 +422,11 @@ export default function StoreDetailEdit() {
                     <S.EditFormBtn type="button" isOrange={true} onClick={handleSubmit}>
                         수정하기
                     </S.EditFormBtn>
-                    <S.EditFormBtn>취소하기</S.EditFormBtn>
+                    <S.EditFormBtn onClick={navigate(`/stores/detail/${storeId}`)}>
+                        취소하기
+                    </S.EditFormBtn>
                 </S.EditFormBtns>
             </S.DetailEditForm>
         </S.Container>
     );
 }
-
-// 가격대에서 기타 가격대 칸을 눌렀을 때 다른 라디오 버튼 선택이 풀려야 함
-// 입력 값을 잘못 입력하면 오류를 뱉어야 함
