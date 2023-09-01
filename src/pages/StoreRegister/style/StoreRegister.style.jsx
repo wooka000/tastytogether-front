@@ -11,9 +11,8 @@ export const Container = styled.div`
 
 export const DetailEditForm = styled.form`
     width: calc(100% - 20px);
-    max-width: 800px;
+    max-width: 804px;
     margin: 0 auto;
-    /* height:  */
     border-radius: 10px;
     background: #fff;
     padding: 30px 20px 20px 20px;
@@ -21,73 +20,223 @@ export const DetailEditForm = styled.form`
     flex-direction: column;
 `;
 
+//
+
 export const EditDaumBox = styled.div`
     background-color: purple;
-    height: 500px;
+    height: 650px;
 `;
+//
 
 export const GridBox = styled.div`
     display: grid;
     width: 100%;
     height: 30%;
     margin: 10px 0px;
-    background-color: skyblue;
+    gap: 5px;
     grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 1fr 1.5fr;
     grid-template-columns: 100px auto;
-    row-gap: 5px;
-    column-gap: 5px;
-    /* justify-items: center; */
     align-items: center;
+`;
+
+export const EditTitle = styled.div`
+    color: #989797;
+    font-size: 15px;
+    font-weight: 700;
+    height: 100%;
+    display: Flex;
+    align-items: center;
+    width: 100px;
+
+    border-bottom: 1px solid #989797;
+    border-right: 1px solid #989797;
+    &::after {
+        content: '';
+        margin-left: 20px;
+        width: 1px;
+        height: 100%;
+        background-color: #989797;
+    }
+`;
+export const InputBox = styled.input`
+    width: 90%;
+    height: 32px;
+    margin-left: 20px;
+    border: 1px solid #989797;
+    border-radius: 5px;
+    text-indent: 12px;
+    border-bottom: 1px solid #989797;
+    &:focus {
+        outline: 2px solid rgba(255, 145, 77, 0.6);
+    }
+    &::placeholder {
+        color: #989797;
+        font-size: 13px;
+        text-indent: 12px;
+    }
 `;
 
 export const EditContentBox = styled.div`
     display: flex;
-    width: 95%;
-    background-color: red;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+
+    position: relative;
     span {
-        background-color: yellow;
+        font-size: 20px;
+        color: #989797;
     }
 `;
 
-export const EditTitle = styled.div`
-    background-color: green;
-`;
-
-export const InputBox = styled.input`
-    background-color: blue;
-    width: 95%;
-`;
-
 export const InputLabel = styled.label`
-    width: 50%;
     display: flex;
+    align-items: center;
+    gap: 11px;
+    color: #989797;
+    font-weight: 400;
 `;
 
-export const RadioDesign = styled.div``;
+export const RadioDesign = styled.div`
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: #d9d9d9;
+`;
 
-export const RadioInput = styled.input``;
+export const RadioInput = styled.input`
+    display: none;
+    &:checked + div {
+        &::after {
+            content: '';
+            display: block;
+            margin: 3px;
+            border-radius: 50%;
+            width: 13px;
+            height: 13px;
+            background-color: #ff914d;
+        }
+    }
+`;
 
 export const TimeInput = styled.input`
-    width: 80px;
+    width: 42px;
+    height: 29px;
+    border: none;
+    border-bottom: 1px solid #989797;
+    margin-top: -6px;
+    text-align: center;
+    font-size: 15px;
+    color: #ff9c5f;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    &:focus {
+        outline: none;
+    }
+    &::placeholder {
+        color: #989797;
+        font-size: 15px;
+    }
+    width: 50px;
+    margin: 0px 5px;
 `;
 
-export const ClosedDayDesign = styled.div``;
+export const ClosedDayDesign = styled.div`
+    width: 21px;
+    height: 21px;
+    border-radius: 5px;
+    border: 1px solid #989797;
+`;
 
-export const ClosedDayInput = styled.input``;
+export const ClosedDayInput = styled.input`
+    display: none;
+    margin-top: -6px;
+    &:checked + div {
+        &::after {
+            content: '✔';
+            display: block;
+            text-align: center;
+            color: #ff914d;
+        }
+    }
+`;
 
-export const MenuNameChart = styled.table``;
+export const MenuNameChart = styled.table`
+    width: 200px;
+    height: 144px;
+    border-collapse: collapse;
+`;
 
-export const ChartHead = styled.th``;
+export const ChartHead = styled.th`
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    background-color: #ff914d;
 
-export const ChartContent = styled.td``;
+    /* border-top-left-radius: ${(props) => (props.isLeft ? '5px' : '0px')};
+    border-top-right-radius: ${(props) => (props.isLeft ? '0px' : '5px')}; */
+    height: 36px;
+`;
 
-export const ChartInput = styled.input``;
+export const ChartContent = styled.td`
+    border: 1px solid #989797;
+    text-align: center;
+    color: #989797;
+    font-size: 13px;
+    font-weight: 700;
 
-export const DividerLine = styled.div``;
+    &:first-child {
+        border-top: none;
+    }
+`;
+
+export const ChartInput = styled.input`
+    height: 18px;
+    border: none;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    &::placeholder {
+        color: #989797;
+        font-size: 14px;
+        text-align: center;
+    }
+    &:focus {
+        outline: none;
+    }
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+`;
+
+export const DividerLine = styled.div`
+    width: 776px;
+    height: 1px;
+    margin-top: 140px;
+    background: #d9d9d9;
+`;
 
 export const EditFormBtns = styled.div`
-    background-color: brown;
-    height: 50px;
+    width: 166px;
+    height: 40px;
+    border-radius: 5px;
+    /* border: 1px solid ${(props) => (props.isOrange ? '#ff914d' : ' #989797')};
+    background: ${(props) => (props.isOrange ? '#ff914d' : '#FFF')}; */
+    text-align: center;
+    /* color: ${(props) => (props.isOrange ? '#fff' : '#989797')}; */
+    font-size: 17px;
+    font-weight: 400;
 `;
 
-export const EditFormBtn = styled.button``;
+export const EditFormBtn = styled.button`
+    display: flex;
+    padding-left: 200px;
+    padding-right: 200px;
+    justify-content: space-between;
+    margin-top: 40px;
+`;
