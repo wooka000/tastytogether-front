@@ -92,7 +92,7 @@ export const TitleLine = styled.div`
     width: 214px;
     height: 1px;
     background: #ff914d;
-    margin-top: 10px;
+    margin-top: ${(props) => (props.isNone ? '40px' : '10px')};
 `;
 
 export const MatePostCotent = styled.p`
@@ -107,4 +107,14 @@ export const MatePostCotent = styled.p`
     -webkit-line-clamp: 6;
     text-align: left;
     margin-top: 12px;
+`;
+
+export const NonePostContent = styled.p`
+    color: #989797;
+    width: 176px;
+    height: 36px;
+    font-size: 15px;
+    font-weight: 400;
+    align-self: center;
+    margin-top: 35px;
 `;
