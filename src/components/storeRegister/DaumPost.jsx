@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style/DaumPost.style';
-import PropTypes from 'prop-types';
 import useDaumPostcodePopup from './useDaumPostcodePopup'; // useDaumPostcodePopup 함수 임포트
 import CheckInfo from './CheckInfo';
 import MyContext from './MyContext';
-import axios from 'axios';
+import axios from '../../utils/axios';
 
-export default function DaumPost({ setStoreInfo }) {
-    const [addressObj, setAddressObj] = useState({
-        street: '',
-        fullAddress: '',
-        city: '',
-        state: '',
-        zipcode: '',
-        name: '',
-        latitude: '',
-        longitude: '',
-    });
+export default function DaumPost({ setAddress, address, setName }) {
     const [isAddressRegistered, setIsAddressRegistered] = useState(false);
 
     //클릭 시 수행될 팝업 생성 함수
@@ -29,20 +18,19 @@ export default function DaumPost({ setStoreInfo }) {
             jibunAddress: fullAddress,
             sido: city,
             sigungu: state,
-            zipcode,
+            zonecode: zipCode,
             buildingName: name,
             latitude,
             longitude,
         } = data;
-        console.log(data);
 
         //조건 판단 완료 후 지역 주소 및 상세주소 state 수정
-        setAddressObj({
+        setAddress({
             street,
             fullAddress,
             city,
             state,
-            zipcode,
+            zipCode,
             name,
             latitude, // 위도 기본값 설정
             longitude, // 경도 기본값 설정
@@ -54,25 +42,14 @@ export default function DaumPost({ setStoreInfo }) {
         open({ onComplete: handleComplete });
     };
     // DB에서 가져온 데이터와 비교(400error)
-    const handleInfoChange = () => {
-        const apiUrl = '/stores';
-        axios
-            .get(apiUrl)
-            .then((response) => {
-                const isRegistered = response.data.some((store) => {
-                    return (
-                        (store.street === addressObj.street ||
-                            store.street === addressObj.fullAddress) &&
-                        store.name === addressObj.name
-                    );
-                });
-                setIsAddressRegistered(isRegistered);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
+    // const handleInfoChange = async () => {
+    //     const res = await axios.get(`/stores?name=${address.name}&street=${address.street}`);
+    //     console.log(res)
+    // };
 
+    const handleInfoChange = () => {
+        console.log('야');
+    };
     // Map
 
     useEffect(() => {
@@ -103,12 +80,12 @@ export default function DaumPost({ setStoreInfo }) {
                                 position: coords,
                             });
                             const infowindow = new window.kakao.maps.InfoWindow({
-                                content: `<div style="width:250px;text-align:center;padding:20px 0;">${addressObj.name}</div>`,
+                                content: `<div style="width:250px;text-align:center;padding:20px 0;">${address.name}</div>`,
                             });
                             infowindow.open(map, marker);
                             //주소를 좌표로 변환한 위도와 경도를 state에 저장
-                            setAddressObj((prevAddressObj) => ({
-                                ...prevAddressObj,
+                            setAddress((prev) => ({
+                                ...prev,
                                 latitude: coords.getLat(),
                                 longitude: coords.getLng(),
                             }));
@@ -116,7 +93,7 @@ export default function DaumPost({ setStoreInfo }) {
                         }
                     });
                 };
-                updateMapAndMarker(addressObj.street);
+                updateMapAndMarker(address.street);
 
                 // 주소 변경 시마다 업데이트
                 const addressChangeHandler = (event) => {
@@ -136,26 +113,27 @@ export default function DaumPost({ setStoreInfo }) {
         return () => {
             document.head.removeChild(script);
         };
-    }, [addressObj.street]);
+    }, [address.street]);
 
     const handleSaveStoreInfo = () => {
-        setStoreInfo((prevInfo) => ({
+        setAddress((prevInfo) => ({
             ...prevInfo,
             address: {
-                street: addressObj.street,
-                city: addressObj.city,
-                state: addressObj.state,
-                fullAddress: addressObj.fullAddress,
-                zipcode: addressObj.zipcode,
-                latitude: addressObj.latitude,
-                longitude: addressObj.longitude,
+                ...prevInfo.address,
+                street: address.street,
+                city: address.city,
+                state: address.state,
+                fullAddress: address.fullAddress,
+                zipCode: address.zipCode,
+                latitude: address.latitude,
+                longitude: address.longitude,
             },
-            name: addressObj.name,
         }));
+        setName(address.name);
     };
 
     return (
-        <MyContext.Provider value={addressObj}>
+        <MyContext.Provider value={address}>
             <CheckInfo isAddressRegistered={isAddressRegistered} />
             <S.TableLine>
                 <div className="table_title">
@@ -167,7 +145,7 @@ export default function DaumPost({ setStoreInfo }) {
                         className="input"
                         type="text"
                         placeholder="등록하려는 맛집이 중복되는지 맛집이름을 확인하세요."
-                        value={addressObj.name ? addressObj.street : addressObj.fullAddress}
+                        value={address.name ? address.street : address.fullAddress}
                         onChange={handleSaveStoreInfo}
                         readOnly
                         required
@@ -187,7 +165,7 @@ export default function DaumPost({ setStoreInfo }) {
                         className="input"
                         type="text"
                         placeholder="등록된 업체인지 확인하세요."
-                        value={addressObj.name}
+                        value={address.name}
                         onChange={handleInfoChange}
                         readOnly
                         required
@@ -206,11 +184,9 @@ export default function DaumPost({ setStoreInfo }) {
                     <S.AddressInput id="addressInput" type="text" />
                 </S.MapContainer>
             </S.Map>
+            <button type="button" onClick={handleSaveStoreInfo}>
+                저장하기
+            </button>
         </MyContext.Provider>
     );
 }
-
-DaumPost.propTypes = {
-    setStoreInfo: PropTypes.func.isRequired,
-};
-
