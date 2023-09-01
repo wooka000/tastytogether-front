@@ -12,13 +12,12 @@ export const MainWrapper = styled.div`
 `;
 
 export const FindText = styled.div`
-    margin-top: 40px;
+    margin: 40px auto;
     display: flex;
     justify-content: center;
     width: 600px;
     height: 44px;
     color: #000;
-    font-family: Inter;
     font-size: 50px;
     font-style: normal;
     font-weight: 800;

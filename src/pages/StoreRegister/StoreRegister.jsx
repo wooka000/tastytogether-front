@@ -201,8 +201,8 @@ export default function StoreRegister() {
 
     return (
         <S.Container>
-            <S.DetailEditForm>
-                <S.EditContentBox>
+            <S.Form>
+                {
                     <DaumPost
                         setName={setName}
                         address={address}
@@ -210,22 +210,21 @@ export default function StoreRegister() {
                         isAddressRegistered={isAddressRegistered}
                         setIsAddressRegistered={setIsAddressRegistered}
                     />
-                </S.EditContentBox>
-                <S.EditContentBox>
-                    <TypeModalButton setType={setType} />
-                </S.EditContentBox>
+                }
+                <TypeModalButton setType={setType} />
                 <S.GridBox>
-                    <S.EditTitle>전화번호</S.EditTitle>
+                    <S.Title>전화번호</S.Title>
                     <S.InputBox
-                        placeholder="가게의 전화번호를 입력하세요.(0000-0000-0000)"
+                        placeholder="전화번호를 입력해주세요 (0000-1234-1234)"
                         isPhone={true}
                         name="newPhone"
                         value={newPhone ?? ''}
                         onChange={handleChange}
+                        type="number"
                     />
 
-                    <S.EditTitle>가격대</S.EditTitle>
-                    <S.EditContentBox>
+                    <S.Title>가격대</S.Title>
+                    <S.ContentBox>
                         <S.InputLabel htmlFor="radio1">
                             1만원대
                             <S.RadioInput
@@ -281,14 +280,14 @@ export default function StoreRegister() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                    </S.EditContentBox>
+                    </S.ContentBox>
 
-                    <S.EditTitle>주차</S.EditTitle>
-                    <S.EditContentBox>
+                    <S.Title>주차</S.Title>
+                    <S.ContentBox>
                         <S.InputLabel htmlFor="freePark">
                             무료 주차 가능
                             <S.RadioInput
-                                id="freepark"
+                                id="freePark"
                                 name="newParkingInfo"
                                 type="radio"
                                 value="무료주차 가능"
@@ -299,7 +298,7 @@ export default function StoreRegister() {
                         <S.InputLabel htmlFor="paidPark">
                             유료 주차 가능
                             <S.RadioInput
-                                id="paidpark"
+                                id="paidPark"
                                 name="newParkingInfo"
                                 type="radio"
                                 value="유료주차 가능"
@@ -310,7 +309,7 @@ export default function StoreRegister() {
                         <S.InputLabel htmlFor="nonePark">
                             주차 불가
                             <S.RadioInput
-                                id="nonepark"
+                                id="nonePark"
                                 name="newParkingInfo"
                                 type="radio"
                                 value="주차 불가"
@@ -318,10 +317,10 @@ export default function StoreRegister() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                    </S.EditContentBox>
+                    </S.ContentBox>
 
-                    <S.EditTitle>영업시간</S.EditTitle>
-                    <S.EditContentBox isSmallGap={true}>
+                    <S.Title>영업시간</S.Title>
+                    <S.ContentBox isSmallGap={true}>
                         <S.InputLabel htmlFor="openHour">
                             오전
                             <S.TimeInput
@@ -365,10 +364,10 @@ export default function StoreRegister() {
                             />
                             분
                         </S.InputLabel>
-                    </S.EditContentBox>
+                    </S.ContentBox>
 
-                    <S.EditTitle>휴무일</S.EditTitle>
-                    <S.EditContentBox>
+                    <S.Title>휴무일</S.Title>
+                    <S.ContentBox>
                         {dayCheckList.map((el, idx) => {
                             return (
                                 <S.InputLabel htmlFor={el} key={idx}>
@@ -384,16 +383,14 @@ export default function StoreRegister() {
                                 </S.InputLabel>
                             );
                         })}
-                    </S.EditContentBox>
+                    </S.ContentBox>
 
-                    <S.EditTitle className="menu">대표 메뉴</S.EditTitle>
-                    <S.EditContentBox isSmallGap={true}>
+                    <S.Title className="menu">대표 메뉴</S.Title>
+                    <S.ContentBox isSmallGap={true}>
                         <S.MenuNameChart>
                             <thead>
                                 <tr>
-                                    <S.ChartHead scope="col" isLeft={true}>
-                                        대표 메뉴
-                                    </S.ChartHead>
+                                    <S.ChartHead scope="col">대표 메뉴</S.ChartHead>
                                 </tr>
                             </thead>
                             <tbody>
@@ -471,21 +468,20 @@ export default function StoreRegister() {
                                 </tr>
                             </tbody>
                         </S.MenuNameChart>
-                    </S.EditContentBox>
+                    </S.ContentBox>
                 </S.GridBox>
+
                 <StoreImage setBanners={setBanners} />
 
-                <S.DividerLine></S.DividerLine>
-
                 <S.EditFormBtns>
-                    <S.EditFormBtn type="button" onClick={handleSubmit}>
-                        등록하기
-                    </S.EditFormBtn>
                     <S.EditFormBtn type="button" onClick={() => navigate('/')}>
                         취소하기
                     </S.EditFormBtn>
+                    <S.EditFormBtn type="button" onClick={handleSubmit}>
+                        등록하기
+                    </S.EditFormBtn>
                 </S.EditFormBtns>
-            </S.DetailEditForm>
+            </S.Form>
         </S.Container>
     );
 }

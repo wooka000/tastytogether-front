@@ -1,22 +1,22 @@
 import styled from 'styled-components';
 
 export const CheckDiv = styled.div`
-    background-color: yellow;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
     width: 100%;
     height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+`;
+export const Title = styled.h3`
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: var(--color-accent);
+`;
 
-    .title_line {
-        display: flex;
-        height: 100%;
-
-        .register_title {
-            margin-right: 20px;
-
-            p {
-                text-align: 20px;
-                font-size: 20px;
-            }
-        }
-    }
+export const Description = styled.p`
+    font-size: 16px;
+    color: gray;
+    margin-bottom: 10px;
 `;
