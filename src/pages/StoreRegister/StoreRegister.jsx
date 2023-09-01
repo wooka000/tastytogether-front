@@ -7,7 +7,7 @@ import DaumPost from '../../components/storeRegister/DaumPost';
 import TypeModalButton from '../../components/storeRegister/TypeModalButton';
 import StoreImage from '../../components/storeRegister/StoreImage';
 
-export default function StoreDetailEdit() {
+export default function StoreRegister() {
     const { authRequiredAxios } = useAxios('multipart/form-data');
     const navigate = useNavigate();
     const [name, setName] = useState('');
