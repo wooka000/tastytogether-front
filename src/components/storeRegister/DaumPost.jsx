@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './style/DaumPost.style';
-import useDaumPostcodePopup from './useDaumPostcodePopup'; // useDaumPostcodePopup 함수 임포트
+import useDaumPostcodePopup from './useDaumPostcodePopup';
 import CheckInfo from './CheckInfo';
 import MyContext from './MyContext';
 import axios from '../../utils/axios';
 
 export default function DaumPost({ setAddress, address, setName }) {
     const [isAddressRegistered, setIsAddressRegistered] = useState(false);
-
     //클릭 시 수행될 팝업 생성 함수
     const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     const open = useDaumPostcodePopup(postcodeScriptUrl);
@@ -24,7 +23,6 @@ export default function DaumPost({ setAddress, address, setName }) {
             longitude,
         } = data;
 
-        //조건 판단 완료 후 지역 주소 및 상세주소 state 수정
         setAddress({
             street,
             fullAddress,
@@ -32,25 +30,15 @@ export default function DaumPost({ setAddress, address, setName }) {
             state,
             zipCode,
             name,
-            latitude, // 위도 기본값 설정
-            longitude, // 경도 기본값 설정
+            latitude,
+            longitude,
         });
-        //주소 검색이 완료된 후 결과를 매개변수로 전달
     };
 
     const handleClick = () => {
         open({ onComplete: handleComplete });
+        setIsAddressRegistered(false);
     };
-    // DB에서 가져온 데이터와 비교(400error)
-    // const handleInfoChange = async () => {
-    //     const res = await axios.get(`/stores?name=${address.name}&street=${address.street}`);
-    //     console.log(res)
-    // };
-
-    const handleInfoChange = () => {
-        console.log('야');
-    };
-    // Map
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -72,26 +60,32 @@ export default function DaumPost({ setAddress, address, setName }) {
 
                 // 주소를 변경할 때마다 지도와 마커를 업데이트
                 const updateMapAndMarker = (newAddress) => {
-                    geocoder.addressSearch(newAddress, function (result, status) {
-                        if (status === window.kakao.maps.services.Status.OK) {
-                            const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-                            const marker = new window.kakao.maps.Marker({
-                                map: map,
-                                position: coords,
-                            });
-                            const infowindow = new window.kakao.maps.InfoWindow({
-                                content: `<div style="width:250px;text-align:center;padding:20px 0;">${address.name}</div>`,
-                            });
-                            infowindow.open(map, marker);
-                            //주소를 좌표로 변환한 위도와 경도를 state에 저장
-                            setAddress((prev) => ({
-                                ...prev,
-                                latitude: coords.getLat(),
-                                longitude: coords.getLng(),
-                            }));
-                            map.setCenter(coords);
-                        }
-                    });
+                    geocoder.addressSearch(
+                        newAddress ?? '서울 성동구 아차산로17길 48',
+                        function (result, status) {
+                            if (status === window.kakao.maps.services.Status.OK) {
+                                const coords = new window.kakao.maps.LatLng(
+                                    result[0].y,
+                                    result[0].x,
+                                );
+                                const marker = new window.kakao.maps.Marker({
+                                    map: map,
+                                    position: coords,
+                                });
+                                const infowindow = new window.kakao.maps.InfoWindow({
+                                    content: `<div style="width:250px;text-align:center;padding:20px 0;">${address.name}</div>`,
+                                });
+                                infowindow.open(map, marker);
+
+                                setAddress((prev) => ({
+                                    ...prev,
+                                    latitude: coords.getLat(),
+                                    longitude: coords.getLng(),
+                                }));
+                                map.setCenter(coords);
+                            }
+                        },
+                    );
                 };
                 updateMapAndMarker(address.street);
 
@@ -115,7 +109,15 @@ export default function DaumPost({ setAddress, address, setName }) {
         };
     }, [address.street]);
 
-    const handleSaveStoreInfo = () => {
+    const handleSaveStoreInfo = async () => {
+        const res = await axios.get(`/stores?name=${address.name}&street=${address.street}`);
+        if (res.data === '중복된 가게가 존재합니다.') {
+            setIsAddressRegistered(true);
+            return;
+        }
+        if (res.data === '"가게 확인 완료"') {
+            setIsAddressRegistered(false);
+        }
         setAddress((prevInfo) => ({
             ...prevInfo,
             address: {
@@ -166,7 +168,6 @@ export default function DaumPost({ setAddress, address, setName }) {
                         type="text"
                         placeholder="등록된 업체인지 확인하세요."
                         value={address.name}
-                        onChange={handleInfoChange}
                         readOnly
                         required
                     />
