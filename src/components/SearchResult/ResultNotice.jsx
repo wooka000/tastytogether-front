@@ -6,7 +6,8 @@ const ResultNotice = ({ selectedType, selectedCity, selectedArea, keyword, store
   // 필터 결과 안내창
   function getFilterDescription() {
     if (keyword) {
-      return `${keyword}에 대한 결과입니다.`;
+      const decodedName = decodeURIComponent(keyword);
+      return `${decodedName}에 대한 결과입니다.`;
     } else if (selectedType !== '기본' && selectedType !== '' && selectedCity !== '' && selectedArea !== '') {
       return `${selectedCity} ${selectedArea} ${selectedType}에 대한 결과입니다.`;
     } else if (selectedType !== '기본' && selectedType !== '' && selectedCity === '') {
