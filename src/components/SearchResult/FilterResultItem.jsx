@@ -8,6 +8,14 @@ const FilterResultItem = ({ item, index,  linkTo, setClickedStore, filterData })
         const clickedElement = e.currentTarget;
         setClickedStore(clickedElement);
     };
+    const breakDay = () => {
+        if (item.closedDays.length === 1) {
+            return `${item.closedDays[0]} 휴무`;
+        } else if (item.closedDays.length > 1) {
+            const formattedDays = item.closedDays.join(', ');
+            return `${formattedDays} 휴무`;
+        }
+    };
     
     return (
         <Link 
@@ -30,7 +38,7 @@ const FilterResultItem = ({ item, index,  linkTo, setClickedStore, filterData })
                         </div>
                         <S.StoreHash>
                             <p>#{item.parkingInfo}</p>
-                            <p>#{item.closedDays}</p>
+                            <p style={{color: '#FF9C5F'}}>#{breakDay()}</p>
                             <p>#{item.priceRange}</p>
                         </S.StoreHash>
                         <S.StoreEval>

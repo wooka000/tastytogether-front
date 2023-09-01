@@ -38,7 +38,7 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
                         </div>
                         <S.StoreHash>
                             <p>#{item.parkingInfo}</p>
-                            <p>{breakDay}</p>
+                            <p style={{color: '#FF9C5F'}}>#{breakDay()}</p>
                             <p>#{item.priceRange}</p>
                         </S.StoreHash>
                         <S.StoreEval>

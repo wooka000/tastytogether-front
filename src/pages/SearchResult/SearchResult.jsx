@@ -69,7 +69,7 @@ export default function SearchResult() {
         }
     };
       
-    const applySearchAndSort = useMemo(() => {
+const applySearchAndSort = useMemo(() => {
         let searchData = [...stores]
         // 정렬버튼 클릭 시 정렬됨.
         if (selectedSort === '평점순') {
@@ -103,6 +103,8 @@ export default function SearchResult() {
         }
     }, [filterData, selectedType, selectedArea, selectedSort]);
     
+
+    //페이지 별로 결과 출력
     const pageItems = useMemo(() => {
         if (keyword.trim() !== '') {
             return applySearchAndSort;
@@ -112,15 +114,15 @@ export default function SearchResult() {
             return stores;
         }
     }, [applySearchAndSort, applyFiltersAndSort, keyword.trim(), selectedType, selectedCity, selectedArea, stores]);
-// 나중에 수정하기
-    const itemsPerPage = 4;
+
+    const itemsPerPage = 5;
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentPageItems = pageItems.slice(startIndex, endIndex);
     const pageCount = Math.ceil(pageItems.length / itemsPerPage);
       
 
-    const getLinkToPath = (selectedCity, selectedArea, keyword, isFilter) => {
+    const getLinkToPath = (selectedType,selectedCity, selectedArea, keyword, isFilter) => {
         if (isFilter) {
             return {
                 pathname: '/stores/filter',
@@ -146,7 +148,7 @@ export default function SearchResult() {
         }
     }, [clickedStore]);
 
-
+    console.log(currentPageItems)
     return(
         <S.Container>
             <S.Search>

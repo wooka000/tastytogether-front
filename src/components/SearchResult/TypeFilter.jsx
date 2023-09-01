@@ -15,7 +15,7 @@ const TypeFilter = ({ setSelectedType,  dataSave }) => {
         </S.TypeFilterTitle>
         <S.TypeFilterContent>
             <S.TypeLabel value="기본" onClick={handleTypeChange}>
-                    <S.TypeFilterRadio className="filter_radio" type="radio" id="basic" name="store_type" value="기본" />
+                    <S.TypeFilterRadio className="filter_radio" type="radio" id="basic" name="store_type" value="기본" defaultChecked />
                     <S.TypeFilterSpan htmlFor="basic" value="기본">기본</S.TypeFilterSpan>
             </S.TypeLabel>
             <S.TypeLabel value="양식" onClick={handleTypeChange}>
@@ -35,7 +35,7 @@ const TypeFilter = ({ setSelectedType,  dataSave }) => {
                     <S.TypeFilterSpan htmlFor="korea" value="한식">한식</S.TypeFilterSpan>
             </S.TypeLabel>
             <S.TypeLabel value="아시안" onClick={handleTypeChange}>
-                    <S.TypeFilterRadio className="filter_radio" type="radio" id="japan" name="store_type" value="아시안" />
+                    <S.TypeFilterRadio className="filter_radio" type="radio" id="asia" name="store_type" value="아시안" />
                     <S.TypeFilterSpan htmlFor="asia" value="아시안">아시안</S.TypeFilterSpan>
             </S.TypeLabel>
             <S.TypeLabel value="카페" onClick={handleTypeChange}>
