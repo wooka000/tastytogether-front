@@ -6,6 +6,6 @@ export const FilteredMap = styled.div`
     border: 1px solid #f0f0f0;
 `
 export const Map = styled.div`
-    width: 700px;
-    height: 350px;
+    width: 984px;
+    height: 400px;
 `;

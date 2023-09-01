@@ -1,13 +1,14 @@
 import React from 'react';
 import * as S from './style/RegionFilter.style';
 
-const RegionFilter = ({ setSelectedCity, setSelectedArea, selectedCity, selectedArea }) => {
+const RegionFilter = ({ setSelectedCity, setSelectedArea, selectedCity, selectedArea, dataSave }) => {
 
     const handleSelectCityOption = (e) => {
         setSelectedCity(e.target.value);
     }
     const handleAreaChange = (e) => {
         setSelectedArea(e.target.value);
+        dataSave();
     }
 
     const handleCityChange = (event) => {
@@ -33,8 +34,7 @@ const RegionFilter = ({ setSelectedCity, setSelectedArea, selectedCity, selected
         경상남도 : ['창원시', '진주시', '통영시', '사천시', '김해시', '밀양시', '거제시', '양산시', '의령군', '함안군', '창녕군', '고성군', '남해군', '하동군', '산청군', '함양군', '거창군', '합천군'],
         제주도 : ['제주시', '서귀포시']
       }
-
-
+      
 
     return (
     <S.RegionFilter>
