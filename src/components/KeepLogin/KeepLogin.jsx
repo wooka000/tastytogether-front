@@ -28,9 +28,7 @@ const KeepLogin = ({ children }) => {
             }
         }
 
-        return () => {
-            setIsLoading(false);
-        };
+        setIsLoading(false);
     }, []);
 
     return <>{isLoading ? <p>...Loading</p> : children}</>;
