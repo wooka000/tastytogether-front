@@ -46,6 +46,7 @@ export default function MyProfileEdit({ setModalOpen, user }) {
             console.error(err);
         } finally {
             setModalOpen(false);
+            window.location.reload();
         }
     };
 

@@ -8,7 +8,7 @@ export default function Review({ review }) {
     Review.propTypes = {
         review: PropTypes.object.isRequired,
     };
-    const { createdAt, content, grade, photos, userId, _id, usernickname } = review;
+    const { createdAt, content, grade, photos, userId, _id, usernickname, profileImage } = review;
     const { auth } = useAuth();
     const user = auth.userId;
     const { authRequiredAxios } = useAxios('application/json');
@@ -34,7 +34,10 @@ export default function Review({ review }) {
             {userId == user && <S.DeleteBtn onClick={handleDelete}>Delete</S.DeleteBtn>}
             <S.Info>
                 <S.InfoLeft>
-                    <S.ProfileImg src="/imgs/review-profile-image.png" alt="profile-image" />
+                    <S.ProfileImg
+                        src={profileImage ? profileImage : '/imgs/review-profile-image.png'}
+                        alt="프로필이미지"
+                    />
                     <S.Nickname>{usernickname}</S.Nickname>
                 </S.InfoLeft>
                 <S.InfoRight>
