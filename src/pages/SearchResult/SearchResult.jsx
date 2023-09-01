@@ -18,7 +18,7 @@ export default function SearchResult() {
 
     console.log(keyword)
 
-    const [selectedType, setSelectedType] = useState('기본');
+    const [selectedType, setSelectedType] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
     const [selectedSort, setSelectedSort] = useState('');
@@ -48,25 +48,27 @@ export default function SearchResult() {
     // }, [selectedType, selectedCity, selectedArea]);
 
     const dataSave = async () => {
-        let typeParam = '';
-        let cityParam = '';
-        let areaParam = '';
+        // let typeParam = '';
+        // let cityParam = '';
+        // let areaParam = '';
+
+        // if (selectedType === '기본') {
+        //   typeParam = 'type=';
+        // } else if (selectedType !== '') {
+        //   typeParam = `type=${selectedType}`;
+        // }
       
-        if (selectedType === '기본') {
-          typeParam = 'type=';
-        } else if (selectedType !== '') {
-          typeParam = `type=${selectedType}`;
-        }
-      
-        if (selectedCity && selectedArea) {
-          cityParam = `city=${selectedCity}`;
-          areaParam = `state=${selectedArea}`;
-        } else {
-          cityParam = 'city=';
-          areaParam = 'state=';
-        }
-      
-        const res = await axios.get(`/stores/filter?${typeParam}&${cityParam}&${areaParam}`);
+        // if (selectedCity && selectedArea) {
+        //   cityParam = `city=${selectedCity}`;
+        //   areaParam = `state=${selectedArea}`;
+        // } else {
+        //   cityParam = 'city=';
+        //   areaParam = 'state=';
+        // }
+        // console.log(typeParam)
+        // console.log(cityParam)
+        // console.log(areaParam)
+        const res = await axios.get('/stores/filter?$type=한식&city=서울&state=종로구');
         const data = res.data;
         setFilterData(data);
       };
