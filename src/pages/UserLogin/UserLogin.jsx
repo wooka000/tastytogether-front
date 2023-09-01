@@ -43,7 +43,7 @@ export default function UserLogin() {
             setErrMsg(err.response.data.message);
         }
     };
-    console.log(location?.state);
+
     return (
         <S.Container>
             <S.LoginBox>
