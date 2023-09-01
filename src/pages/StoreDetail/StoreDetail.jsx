@@ -1,5 +1,5 @@
-// import React, { useEffect, useState, useLocation } from 'react';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import * as S from './style/StoreDetail.style';
 import TopDetail from './TopDetail';
 import BottomDetail from './BottomDetail';
@@ -12,10 +12,8 @@ export default function StoreDetail() {
     const [storeReviewCount, setStoreReviewCount] = useState(0);
     const [storeLikeCount, setStoreLikeCount] = useState(0);
     const [storeReview, setStoreReview] = useState([]);
-    // const location = useLocation();
-    // const storeId = location.state.storeId;
-    const storeId = '64ed7f5be345728ff438f3da';
-    const [storeReviews, setStoreReviews] = useState(); // 가게 리뷰 관련 데이터
+    const location = useLocation();
+    const storeId = location.state.storeId;
 
     useEffect(() => {
         const getData = async () => {
