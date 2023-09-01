@@ -65,26 +65,32 @@ export default function DaumPost({
 
                 // 주소를 변경할 때마다 지도와 마커를 업데이트
                 const updateMapAndMarker = (newAddress) => {
-                    geocoder.addressSearch(newAddress, function (result, status) {
-                        if (status === window.kakao.maps.services.Status.OK) {
-                            const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-                            const marker = new window.kakao.maps.Marker({
-                                map: map,
-                                position: coords,
-                            });
-                            const infowindow = new window.kakao.maps.InfoWindow({
-                                content: `<div style="width:250px;text-align:center;padding:20px 0;">${address.name}</div>`,
-                            });
-                            infowindow.open(map, marker);
+                    geocoder.addressSearch(
+                        newAddress === '' ? '서울 성동구 아차산로17길 48' : newAddress,
+                        function (result, status) {
+                            if (status === window.kakao.maps.services.Status.OK) {
+                                const coords = new window.kakao.maps.LatLng(
+                                    result[0].y,
+                                    result[0].x,
+                                );
+                                const marker = new window.kakao.maps.Marker({
+                                    map: map,
+                                    position: coords,
+                                });
+                                const infowindow = new window.kakao.maps.InfoWindow({
+                                    content: `<div style="width:250px;text-align:center;padding:20px 0;">${address.name}</div>`,
+                                });
+                                infowindow.open(map, marker);
 
-                            setAddress((prev) => ({
-                                ...prev,
-                                latitude: coords.getLat(),
-                                longitude: coords.getLng(),
-                            }));
-                            map.setCenter(coords);
-                        }
-                    });
+                                setAddress((prev) => ({
+                                    ...prev,
+                                    latitude: coords.getLat(),
+                                    longitude: coords.getLng(),
+                                }));
+                                map.setCenter(coords);
+                            }
+                        },
+                    );
                 };
                 updateMapAndMarker(address.street);
 
