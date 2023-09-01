@@ -386,7 +386,7 @@ export default function StoreDetailEdit() {
                         })}
                     </S.EditContentBox>
 
-                    <S.EditTitle>대표 메뉴</S.EditTitle>
+                    <S.EditTitle className="menu">대표 메뉴</S.EditTitle>
                     <S.EditContentBox isSmallGap={true}>
                         <S.MenuNameChart>
                             <thead>

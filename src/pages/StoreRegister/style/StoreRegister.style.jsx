@@ -6,7 +6,6 @@ export const Container = styled.div`
     padding: 40px 0px;
     display: flex;
     justify-content: center;
-    background-color: orange;
 `;
 
 export const DetailEditForm = styled.form`
@@ -33,8 +32,7 @@ export const GridBox = styled.div`
     width: 100%;
     height: 30%;
     margin: 10px 0px;
-    gap: 5px;
-    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 1fr 1.5fr;
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 1fr 1fr;
     grid-template-columns: 100px auto;
     align-items: center;
 `;
@@ -44,22 +42,30 @@ export const EditTitle = styled.div`
     font-size: 15px;
     font-weight: 700;
     height: 100%;
-    display: Flex;
+    display: flex;
     align-items: center;
     width: 100px;
+    position: relative;
 
-    border-bottom: 1px solid #989797;
-    border-right: 1px solid #989797;
-    &::after {
+    /* &:not(.menu)::before {
         content: '';
-        margin-left: 20px;
-        width: 1px;
-        height: 100%;
+        width: 90%;
+        height: 1px;
+        position: absolute;
+        bottom: 0px;
         background-color: #989797;
     }
+    &::after {
+        content: '';
+        width: 1px;
+        height: 110%;
+        position: absolute;
+        right: -5px;
+        background-color: #989797;
+    } */
 `;
 export const InputBox = styled.input`
-    width: 90%;
+    width: 95%;
     height: 32px;
     margin-left: 20px;
     border: 1px solid #989797;
@@ -81,8 +87,6 @@ export const EditContentBox = styled.div`
     align-items: center;
     justify-content: space-evenly;
     height: 100%;
-
-    position: relative;
     span {
         font-size: 20px;
         color: #989797;
@@ -165,7 +169,7 @@ export const ClosedDayInput = styled.input`
 `;
 
 export const MenuNameChart = styled.table`
-    width: 200px;
+    width: 300px;
     height: 144px;
     border-collapse: collapse;
 `;
@@ -176,8 +180,8 @@ export const ChartHead = styled.th`
     font-weight: 400;
     background-color: #ff914d;
 
-    /* border-top-left-radius: ${(props) => (props.isLeft ? '5px' : '0px')};
-    border-top-right-radius: ${(props) => (props.isLeft ? '0px' : '5px')}; */
+    border-top-left-radius: ${(props) => (props.isLeft ? '5px' : '0px')};
+    border-top-right-radius: ${(props) => (props.isLeft ? '0px' : '5px')};
     height: 36px;
 `;
 
