@@ -1,11 +1,11 @@
 import React from 'react';
 import * as S from './style/TypeFilter.style';
 
-const TypeFilter = ({ setSelectedType,  dataSave }) => {
+const TypeFilter = ({ setSelectedType, dataSave }) => {
 
     const handleTypeChange = (e) => {
         setSelectedType(e.target.value);
-        dataSave()
+        dataSave();
     }
     return (
     <S.TypeFilter>

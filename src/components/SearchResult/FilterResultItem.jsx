@@ -2,7 +2,7 @@ import * as S from './style/FilterResultItem.style'
 import { React } from 'react';
 import { Link } from 'react-router-dom';
 
-const FilterResultItem = ({ item, index,  linkTo, setClickedStore, filterData }) => {
+const FilterResultItem = ({ item, index,  linkTo, setClickedStore}) => {
 
     const handleItemClick = (e) => {
         const clickedElement = e.currentTarget;

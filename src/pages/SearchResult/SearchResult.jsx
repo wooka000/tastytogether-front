@@ -38,37 +38,41 @@ export default function SearchResult() {
 
     //filter 데이터 받아오기(서버에서 필터링 된 데이터)
     const [filterData, setFilterData] = useState([])
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         const res = await axios.get(`http://localhost:8080/stores/filter?type=${selectedType}&city={selectedCity}&state=${selectedArea}`);
+    //         const data = await res.data;
+    //         setFilterData(data);
+    //     };
+    //     getData();
+    // }, [selectedType, selectedCity, selectedArea]);
 
     const dataSave = async () => {
-        if (selectedType || (selectedCity && selectedArea)) {
-          let typeParam = '';
-          let cityParam = '';
-          let areaParam = '';
+        let typeParam = '';
+        let cityParam = '';
+        let areaParam = '';
       
-          if (selectedType) {
-            typeParam = `type=${selectedType}`;
-          }else{
-            typeParam = `type=`
-          }
-      
-          if (selectedCity && selectedArea) {
-            cityParam = `city=${selectedCity}`;
-            areaParam = `state=${selectedArea}`;
-          }
-          else{
-            typeParam = `city=`
-            areaParam = `state=`
-          }
-      
-          const res = await axios.get(`/stores/filter?${typeParam}&${cityParam}&${areaParam}`);
-          const data = res.data;
-          setFilterData(data);
-        } else {
-          // Handle the case when none of the conditions are met
-          return;
+        if (selectedType === '기본') {
+          typeParam = 'type=';
+        } else if (selectedType !== '') {
+          typeParam = `type=${selectedType}`;
         }
-    };
       
+        if (selectedCity && selectedArea) {
+          cityParam = `city=${selectedCity}`;
+          areaParam = `state=${selectedArea}`;
+        } else {
+          cityParam = 'city=';
+          areaParam = 'state=';
+        }
+      
+        const res = await axios.get(`/stores/filter?${typeParam}&${cityParam}&${areaParam}`);
+        const data = res.data;
+        setFilterData(data);
+      };
+      
+    filterData && console.log(filterData);
+
 const applySearchAndSort = useMemo(() => {
         let searchData = [...stores]
         // 정렬버튼 클릭 시 정렬됨.
@@ -108,7 +112,7 @@ const applySearchAndSort = useMemo(() => {
     const pageItems = useMemo(() => {
         if (keyword.trim() !== '') {
             return applySearchAndSort;
-        } else if (selectedType || selectedCity || selectedArea) {
+        } else if (filterData) {
             return applyFiltersAndSort;
         } else {
             return stores;
@@ -163,7 +167,6 @@ const applySearchAndSort = useMemo(() => {
                         setSelectedCity={setSelectedCity} 
                         setSelectedArea={setSelectedArea} 
                         dataSave={dataSave}
-
                     />
                 </S.Nav>
                 <S.ResultDiv>
@@ -188,12 +191,11 @@ const applySearchAndSort = useMemo(() => {
                                         key={item._id}
                                         index={(currentPage - 1) * itemsPerPage + index} // 정확한 인덱스 계산 필요
                                         item={item}
-                                        keyword={keyword}
                                         linkTo={getLinkToPath(item, keyword, false)}
                                         setClickedStore={setClickedStore}
                                         />
                                     );
-                                    } else if (selectedType || (selectedCity && selectedArea) || selectedSort) {
+                                    } else if (filterData) {
                                     // 필터 결과인 경우
                                     return (
                                         <FilterResultItem
@@ -202,7 +204,6 @@ const applySearchAndSort = useMemo(() => {
                                         item={item}
                                         linkTo={getLinkToPath(item, true)}
                                         setClickedStore={setClickedStore}
-                                        filterData={filterData}
                                         />
                                     );
                                     } else {
