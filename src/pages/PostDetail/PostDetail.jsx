@@ -45,8 +45,8 @@ export default function PostDetail() {
                 content: commentContent,
             });
             const newComment = {
-                id: response.data._id, 
-                ...response.data
+                id: response.data._id,
+                ...response.data,
             };
             setPost((prevPost) => ({
                 ...prevPost,

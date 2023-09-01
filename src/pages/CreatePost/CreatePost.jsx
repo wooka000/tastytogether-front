@@ -25,7 +25,6 @@ export default function CreatePost() {
             const imageURL = URL.createObjectURL(selectedFile);
             setSelectedImage(imageURL);
         }
-        console.log(selectedFile);
     };
 
     const handleSubmit = async () => {
