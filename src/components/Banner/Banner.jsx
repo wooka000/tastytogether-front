@@ -36,7 +36,12 @@ export default function Banner() {
                 </S.Title>
             </S.TextContainer>
             <S.Form onSubmit={handleSubmit}>
-                <S.Search type="search" value={text} onChange={handleChange} />
+                <S.Search
+                    type="search"
+                    value={text}
+                    onChange={handleChange}
+                    placeholder="지역, 식당 또는 음식을 입력해주세요"
+                />
                 <S.SubmitBtn>
                     <FiSearch />
                 </S.SubmitBtn>
