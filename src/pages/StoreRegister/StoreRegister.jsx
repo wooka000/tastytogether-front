@@ -192,7 +192,6 @@ export default function StoreDetailEdit() {
 
             if (response.status === 201) {
                 alert('가게 생성이 완료되었습니다.');
-                console.log(response.data);
                 navigate(`/stores/detail/${response.data}`, { state: { stoerId: response.data } });
             }
         } catch (err) {
@@ -484,7 +483,9 @@ export default function StoreDetailEdit() {
                     <S.EditFormBtn type="button" onClick={handleSubmit}>
                         등록하기
                     </S.EditFormBtn>
-                    <S.EditFormBtn>취소하기</S.EditFormBtn>
+                    <S.EditFormBtn type="button" onClick={() => navigate('/')}>
+                        취소하기
+                    </S.EditFormBtn>
                 </S.EditFormBtns>
             </S.DetailEditForm>
         </S.Container>
