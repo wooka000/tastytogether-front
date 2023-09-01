@@ -105,6 +105,10 @@ export const TimeInput = styled.input`
     &:focus {
         outline: none;
     }
+    &::placeholder {
+        color: #989797;
+        font-size: 15px;
+    }
 `;
 
 export const ClosedDayDesign = styled.div`
@@ -168,6 +172,11 @@ export const ChartInput = styled.input`
     }
     &:focus {
         outline: none;
+    }
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 `;
 

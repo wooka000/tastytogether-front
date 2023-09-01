@@ -9,12 +9,13 @@ const useLogout = () => {
         try {
             setAuth({});
             setIsLogin(false);
+            localStorage.removeItem('accessToken');
             await axios({
                 method: 'delete',
                 url: 'auth/logout',
                 withCredentials: true,
             });
-            navigate('/', { replace: true });
+            navigate('/');
         } catch (err) {
             alert('로그아웃을 다시 시도하세요.');
         }

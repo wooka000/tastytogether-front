@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Review from './Review';
 import * as S from './style/Reviews.style';
-import axios from 'axios';
 
-export default function Reviews() {
-    const [reviews, setReviews] = useState();
-
-    useEffect(() => {
-        const getReview = async () => {
-            const res = await axios.get('/data/myreview.json');
-            const data = await res.data;
-            setReviews(data);
-        };
-        getReview();
-    }, []);
-
+export default function Reviews({ reviews }) {
     return (
         <S.ReviewItems>
             {reviews &&
-                reviews.map((review) => {
-                    return <Review key={review.id} review={review} />;
-                })}
+                reviews
+                    .map((review) => {
+                        return <Review key={review._id} review={review} />;
+                    })
+                    .reverse()}
         </S.ReviewItems>
     );
 }

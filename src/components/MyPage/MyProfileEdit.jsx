@@ -9,19 +9,21 @@ export default function MyProfileEdit({ setModalOpen, user }) {
         setModalOpen: PropTypes.func.isRequired,
         user: PropTypes.object.isRequired,
     };
-    const { authRequiredAxios } = useAxios('multipart/form-data');
+    const { authRequiredAxios } = useAxios('application/json');
+    const { authRequiredAxios: authRequiredAxiosForImage } = useAxios('multipart/form-data');
     const { auth, setAuth } = useAuth();
     const [name, setName] = useState(user.name);
     const [nickname, setNickname] = useState(user.nickname);
-    const [profileText, setProfileText] = useState(user.profileText);
+    const [profileText, setProfileText] = useState('');
     const [profileImage, setProfileImage] = useState(user.profileImage);
     const [coverImage, setCoverImage] = useState(user.coverImage);
     const [file, setFile] = useState();
     const [fileBg, setFileBg] = useState();
+    const [check, setCheck] = useState();
+    const [duplicate, setDuplicate] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const formData = new FormData();
         formData.append('name', name);
         formData.append('nickname', nickname);
@@ -29,25 +31,41 @@ export default function MyProfileEdit({ setModalOpen, user }) {
         formData.append('profileImage', profileImage);
         formData.append('coverImage', coverImage);
         try {
-            const res = await authRequiredAxios({
+            const res = await authRequiredAxiosForImage({
                 method: 'patch',
                 url: `/user/${auth.userId}`,
                 data: formData,
             });
             const data = await res.data;
             const status = res.status;
-            console.log(res);
             if (status == 200) {
-                setAuth((prev) => ({
-                    ...prev,
-                    nickname: data.nickname,
-                    profileImage: data.profileImage,
-                }));
+                const token = data.accessToken;
+                localStorage.setItem('accessToken', token);
             }
         } catch (err) {
             console.error(err);
         } finally {
             setModalOpen(false);
+            window.location.reload();
+        }
+    };
+
+    const handleCheck = async () => {
+        try {
+            const res = await authRequiredAxios({
+                method: 'get',
+                url: `/user/checknickname/${nickname}`,
+            });
+            const message = res.data.message;
+            if (message == '이미 닉네임이 사용 중입니다.') {
+                setCheck('실패');
+                setDuplicate(true);
+            } else if (message == '중복 확인 완료') {
+                setCheck('통과');
+                setDuplicate(false);
+            }
+        } catch (err) {
+            console.error(err);
         }
     };
 
@@ -64,6 +82,7 @@ export default function MyProfileEdit({ setModalOpen, user }) {
         }
         if (name === 'nickname') {
             setNickname(value);
+            setDuplicate(true);
             return;
         }
         if (name === 'profileText') {
@@ -87,17 +106,10 @@ export default function MyProfileEdit({ setModalOpen, user }) {
                     <S.CancellBtn onClick={handleCancel}>X</S.CancellBtn>
                 </S.ModalHeader>
                 <S.PreviewImgs>
-                    {file && (
-                        <S.PreviewImg src={URL.createObjectURL(file)} alt="preview-profile-image" />
-                    )}
-                    {!file && <S.PreviewImg src={profileImage} alt="preview-profile-image" />}
-                    {fileBg && (
-                        <S.PreviewImg
-                            src={URL.createObjectURL(fileBg)}
-                            alt="preview-profile-image"
-                        />
-                    )}
-                    {!fileBg && <S.PreviewImg src={coverImage} alt="preview-profile-image" />}
+                    {file && <S.PreviewImg src={URL.createObjectURL(file)} alt="프로필사진" />}
+                    {!file && <S.PreviewImg src={profileImage} alt="프로필사진" />}
+                    {fileBg && <S.PreviewImg src={URL.createObjectURL(fileBg)} alt="배경사진" />}
+                    {!fileBg && <S.PreviewImg src={coverImage} alt="배경사진" />}
                 </S.PreviewImgs>
                 <S.Form onSubmit={handleSubmit}>
                     <S.FieldFile>
@@ -137,8 +149,15 @@ export default function MyProfileEdit({ setModalOpen, user }) {
                             name="nickname"
                             value={nickname}
                         />
-                        <S.CheckText>이미 존재하는 닉네임입니다</S.CheckText>
-                        <S.CheckBtn type="button">중복 확인</S.CheckBtn>
+                        <S.CheckBtn type="button" onClick={handleCheck}>
+                            중복 확인
+                        </S.CheckBtn>
+                        {check == '실패' && (
+                            <S.CheckText check={check}>이미 사용중인 닉네임입니다.</S.CheckText>
+                        )}
+                        {check == '통과' && (
+                            <S.CheckText check={check}>사용 가능한 닉네임입니다.</S.CheckText>
+                        )}
                     </S.Field>
                     <S.Field>
                         <S.Label htmlFor="description">한줄소개</S.Label>
@@ -150,7 +169,9 @@ export default function MyProfileEdit({ setModalOpen, user }) {
                             onChange={handleChange}
                         />
                     </S.Field>
-                    <S.SubmitBtn>완료</S.SubmitBtn>
+                    <S.SubmitBtn disabled={duplicate}>
+                        {duplicate ? '닉네임 중복 확인을 해주세요!' : '완료'}
+                    </S.SubmitBtn>
                 </S.Form>
             </S.Modal>
         </S.Container>

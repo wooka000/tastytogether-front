@@ -3,13 +3,18 @@ import { Link } from 'react-router-dom';
 import * as S from './style/SearchResultItem.style'; // import your styles
 
 const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
-    
-    // if (!checkKeywordMatch) {
-    //     return null;
-    // }
+
     const handleItemClick = (e) => {
         const clickedElement = e.currentTarget;
         setClickedStore(clickedElement);
+    };
+    const breakDay = () => {
+        if (item.closedDays.length === 1) {
+            return `${item.closedDays[0]} 휴무`;
+        } else if (item.closedDays.length > 1) {
+            const formattedDays = item.closedDays.join(', ');
+            return `${formattedDays} 휴무`;
+        }
     };
 
     return(
@@ -33,7 +38,7 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
                         </div>
                         <S.StoreHash>
                             <p>#{item.parkingInfo}</p>
-                            <p>#휴무일{item.closedDays}</p>
+                            <p style={{color: '#FF9C5F'}}>#{breakDay()}</p>
                             <p>#{item.priceRange}</p>
                         </S.StoreHash>
                         <S.StoreEval>
@@ -44,15 +49,6 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
                         </S.StoreEval>
                     </S.InfoRight>
                 </S.StoreInfo>
-                {item.reviews.length !== 0 ? (
-                    <S.StoreReview>
-                        <S.ReviewContent>{item.reviews[0]}</S.ReviewContent>
-                    </S.StoreReview>
-                ) : (
-                    <S.StoreReview>
-                        <S.ReviewContent>아직 첫 리뷰가 없습니다.</S.ReviewContent>
-                    </S.StoreReview>
-                )}
             </S.ResultStore>
             
         </Link>

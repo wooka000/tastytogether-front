@@ -28,5 +28,20 @@ export const ResultDiv = styled.div`
 `;
 
 export const ResultStores = styled.div``;
-export const Pagination = styled.div``;
+export const Pagination = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    button{
+        width: 100px;
+        height: 40px;
+        background-color: #FF9C5F;
+        color: #FFF;
+        border:none;
+        border-radius: 10px;
+        font-size: 15px;
+        margin: 20px;
+    }
+`;
 export const Result = styled.div``;
+export const Search = styled.div``;
