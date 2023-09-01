@@ -68,7 +68,7 @@ export default function SearchResult() {
         // console.log(typeParam)
         // console.log(cityParam)
         // console.log(areaParam)
-        const res = await axios.get('/stores/filter?$type=한식&city=서울&state=종로구');
+        const res = await axios.get('/stores/filter?type=한식&city=서울&state=종로구');
         const data = res.data;
         setFilterData(data);
       };

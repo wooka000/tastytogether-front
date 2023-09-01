@@ -9,13 +9,17 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
         setClickedStore(clickedElement);
     };
     const breakDay = () => {
-        if (item.closedDays.length === 1) {
-            return `${item.closedDays[0]} 휴무`;
+        if (item.closedDays.includes('연중무휴')) {
+          return '연중무휴';
+        } else if (item.closedDays.length === 1) {
+          const day = item.closedDays[0];
+          return `${day} 휴무`;
         } else if (item.closedDays.length > 1) {
-            const formattedDays = item.closedDays.join(', ');
-            return `${formattedDays} 휴무`;
+          const days = item.closedDays.slice(0, -1).join(', ');
+          const lastDay = item.closedDays[item.closedDays.length - 1];
+          return `${days}, ${lastDay} 휴무`;
         }
-    };
+      };
 
     return(
         <Link 
