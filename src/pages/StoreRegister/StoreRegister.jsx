@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as S from './style/StoreRegister.style';
 import useAxios from '../../hooks/useAxios';
 import { isValidPhoneNumber, isValidHour, isvalidMinute } from '../../utils/regList';
@@ -8,17 +8,27 @@ import TypeModalButton from '../../components/storeRegister/TypeModalButton';
 import StoreImage from '../../components/storeRegister/StoreImage';
 
 export default function StoreDetailEdit() {
-    const { authRequiredAxios } = useAxios('application/json');
+    const { authRequiredAxios } = useAxios('multipart/form-data');
     const navigate = useNavigate();
-    const [storeInfo, setStoreInfo] = useState({});
-    const [type, setType] = useState("");
-    const [phone, setphone] = useState('');
-    const [priceRange, setpriceRange] = useState('');
-    const [ClosedDays, setClosedDays] = useState('');
-    const [parkingInfo, setparkingInfo] = useState('');
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState({
+        street: '',
+        fullAddress: '',
+        city: '',
+        state: '',
+        zipcode: '',
+        name: '',
+        latitude: '',
+        longitude: '',
+    });
+    const [type, setType] = useState('');
+    const [newPhone, setNewPhone] = useState('');
+    const [newPriceRange, setNewPriceRange] = useState('');
+    const [newClosedDays, setNewClosedDays] = useState('');
+    const [newParkingInfo, setNewParkingInfo] = useState('');
     const [isChecked, setIsChecked] = useState(false);
-    const [BusinessHours, setBusinessHours] = useState(['', '', '', '']);
-    const [MenuItems, setMenuItems] = useState([
+    const [newBusinessHours, setNewBusinessHours] = useState(['', '', '', '']);
+    const [newMenuItems, setNewMenuItems] = useState([
         { name: '', price: '' },
         { name: '', price: '' },
         { name: '', price: '' },
@@ -29,44 +39,64 @@ export default function StoreDetailEdit() {
 
     const handleChange = (e) => {
         const { name, value, id } = e.target;
-        if (name === 'phone') {
-            setphone(value);
+        if (name === 'newPhone') {
+            setNewPhone(value);
         }
-        if (name === 'priceRange') {
-            setpriceRange(value);
+        if (name === 'newPriceRange') {
+            setNewPriceRange(value);
         }
-        if (name === 'parkingInfo') {
-            setparkingInfo(value);
+        if (name === 'newParkingInfo') {
+            setNewParkingInfo(value);
         }
-        if (name === 'BusinessHours') {
+        if (name === 'newBusinessHours') {
             if (id === 'openHour') {
-                setBusinessHours((prevHours) => [value, prevHours[1], prevHours[2], prevHours[3]]);
+                setNewBusinessHours((prevHours) => [
+                    value,
+                    prevHours[1],
+                    prevHours[2],
+                    prevHours[3],
+                ]);
             } else if (id === 'openMinutes') {
-                setBusinessHours((prevHours) => [prevHours[0], value, prevHours[2], prevHours[3]]);
+                setNewBusinessHours((prevHours) => [
+                    prevHours[0],
+                    value,
+                    prevHours[2],
+                    prevHours[3],
+                ]);
             } else if (id === 'closeHour') {
-                setBusinessHours((prevHours) => [prevHours[0], prevHours[1], value, prevHours[3]]);
+                setNewBusinessHours((prevHours) => [
+                    prevHours[0],
+                    prevHours[1],
+                    value,
+                    prevHours[3],
+                ]);
             } else if (id === 'closeMinutes') {
-                setBusinessHours((prevHours) => [prevHours[0], prevHours[1], prevHours[2], value]);
+                setNewBusinessHours((prevHours) => [
+                    prevHours[0],
+                    prevHours[1],
+                    prevHours[2],
+                    value,
+                ]);
             }
         }
         if (/^(name|price)/i.test(name)) {
             const index = /\d/.exec(name)[0] - 1;
             const property = /[a-z]+/i.exec(name)[0];
-            setMenuItems((prev) => {
-                const MenuItems = [...prev];
-                MenuItems[index][property] = value;
-                return MenuItems;
+            setNewMenuItems((prev) => {
+                const newMenuItems = [...prev];
+                newMenuItems[index][property] = value;
+                return newMenuItems;
             });
         }
     };
 
     const checkedDayHandler = (value, isChecked) => {
         if (isChecked) {
-            setClosedDays((prev) => [...prev, value]);
+            setNewClosedDays((prev) => [...prev, value]);
             return;
         }
-        if (!isChecked && ClosedDays.includes(value)) {
-            setClosedDays(ClosedDays.filter((day) => day !== value));
+        if (!isChecked && newClosedDays.includes(value)) {
+            setNewClosedDays(newClosedDays.filter((day) => day !== value));
             return;
         }
         return;
@@ -76,71 +106,104 @@ export default function StoreDetailEdit() {
         setIsChecked(!isChecked);
         if (value === '연중무휴') {
             if (e.target.checked) {
-                setClosedDays([]);
+                setNewClosedDays([]);
             }
-        } else if (ClosedDays[0] === '연중무휴') {
-            setClosedDays([]);
+        } else if (newClosedDays[0] === '연중무휴') {
+            setNewClosedDays([]);
         }
         checkedDayHandler(value, e.target.checked);
     };
-
+    console.log(banners);
     const handleSubmit = async (e) => {
-        // const isFullMenuItems = MenuItems.filter((el) => el.name !== '' && el.price !== '');
-        // e.preventDefault();
-        // if (
-        //     !ClosedDays ||
-        //     !phone ||
-        //     !priceRange ||
-        //     !parkingInfo ||
-        //     BusinessHours.includes('') ||
-        //     isFullMenuItems.length !== 3
-        // ) {
-        //     alert('입력하지 않은 값이 존재합니다.');
-        //     return;
-        // }
-        // if (!isValidPhoneNumber(phone)) {
-        //     alert('전화번호 형식이 일치하지 않습니다.');
-        //     return;
-        // }
-        // if (!isValidHour(BusinessHours[0], BusinessHours[2])) {
-        //     alert('시간 형식에 맞게 작성해주세요.');
-        //     return;
-        // }
-        // if (!isvalidMinute(BusinessHours[1], BusinessHours[3])) {
-        //     alert('분 형식에 맞게 작성해주세요.');
-        //     return;
-        // }
-
-        // const sortedDayList = ClosedDays.sort(
-        //     (a, b) => dayCheckList.indexOf(a) - dayCheckList.indexOf(b),
-        // );
-        // setClosedDays(sortedDayList);
-        console.log(type);
+        const isFullMenuItems = newMenuItems.filter((el) => el.name !== '' && el.price !== '');
+        e.preventDefault();
+        if (
+            !name ||
+            !address ||
+            !type ||
+            banners.length === 0 ||
+            !newClosedDays ||
+            !newPhone ||
+            !newPriceRange ||
+            !newParkingInfo ||
+            newBusinessHours.includes('') ||
+            isFullMenuItems.length !== 3
+        ) {
+            alert('입력하지 않은 값이 존재합니다.');
+            return;
+        }
+        if (!isValidPhoneNumber(newPhone)) {
+            alert('전화번호 형식이 일치하지 않습니다.');
+            return;
+        }
+        if (!isValidHour(newBusinessHours[0], newBusinessHours[2])) {
+            alert('시간 형식에 맞게 작성해주세요.');
+            return;
+        }
+        if (!isvalidMinute(newBusinessHours[1], newBusinessHours[3])) {
+            alert('분 형식에 맞게 작성해주세요.');
+            return;
+        }
         console.log(banners);
+        const sortedDayList = newClosedDays.sort(
+            (a, b) => dayCheckList.indexOf(a) - dayCheckList.indexOf(b),
+        );
+        setNewClosedDays(sortedDayList);
 
-        //     const response = await authRequiredAxios({
-        //         method: 'patch',
-        //         url: `/stores/${storeId}`,
-        //         data: {
-        //             phone,
-        //             MenuItems,
-        //             priceRange,
-        //             parkingInfo,
-        //             BusinessHours,
-        //             ClosedDays,
-        //         },
-        //     });
-        //     if (response.status === 200) {
-        //         alert('가게 정보 수정이 완료되었습니다.');
-        //         navigate(`/stores/detail/${storeId}`);
-        //     }
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('type', type);
+        formData.append('phone', newPhone);
+        formData.append('priceRange', newPriceRange);
+        formData.append('parkingInfo', newParkingInfo);
+
+        banners && banners.forEach((banner) => formData.append('banners', banner));
+        newMenuItems &&
+            newMenuItems.forEach((menuItem, index) => {
+                formData.append(`menuItems[${index}][name]`, menuItem.name);
+                formData.append(`menuItems[${index}][price]`, menuItem.price);
+            });
+        newBusinessHours &&
+            newBusinessHours.forEach((hour, index) => {
+                formData.append(`businessHours[${index}]`, hour);
+            });
+        newClosedDays &&
+            newClosedDays.forEach((day, index) => {
+                formData.append(`closedDays[${index}]`, day);
+            });
+
+        formData.append('address[street]', address.street);
+        formData.append('address[city]', address.city);
+        formData.append('address[state]', address.state);
+        formData.append('address[fullAddress]', address.fullAddress);
+        formData.append('address[zipCode]', address.zipCode);
+        formData.append('address[latitude]', address.latitude);
+        formData.append('address[longitude]', address.longitude);
+        formData.forEach(function (value, key) {
+            console.log(key + ': ' + value);
+        });
+        try {
+            const response = await authRequiredAxios({
+                method: 'post',
+                url: '/stores',
+                data: formData,
+            });
+
+            if (response.status === 201) {
+                alert('가게 생성이 완료되었습니다.');
+                console.log(response);
+                navigate(`/stores/detail/${response.data}`);
+            }
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
         <S.Container>
             <S.DetailEditForm>
                 <S.EditContentBox>
-                    <DaumPost setStoreInfo={setStoreInfo} />
+                    <DaumPost setName={setName} address={address} setAddress={setAddress} />
                 </S.EditContentBox>
                 <S.EditContentBox>
                     <TypeModalButton setType={setType} />
@@ -149,9 +212,9 @@ export default function StoreDetailEdit() {
                     <S.EditTitle>전화번호</S.EditTitle>
                     <S.InputBox
                         placeholder="가게의 전화번호를 입력하세요.(0000-0000-0000)"
-                        isphone={true}
-                        name="phone"
-                        value={phone ?? ''}
+                        isPhone={true}
+                        name="newPhone"
+                        value={newPhone ?? ''}
                         onChange={handleChange}
                     />
                 </S.EditContentBox>
@@ -162,7 +225,7 @@ export default function StoreDetailEdit() {
                             1만원대
                             <S.RadioInput
                                 id="radio1"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="1만원대"
                                 onChange={handleChange}
@@ -173,7 +236,7 @@ export default function StoreDetailEdit() {
                             2만원대
                             <S.RadioInput
                                 id="radio2"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="2만원대"
                                 onChange={handleChange}
@@ -184,7 +247,7 @@ export default function StoreDetailEdit() {
                             3만원대
                             <S.RadioInput
                                 id="radio3"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="3만원대"
                                 onChange={handleChange}
@@ -195,7 +258,7 @@ export default function StoreDetailEdit() {
                             4만원대
                             <S.RadioInput
                                 id="radio4"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="4만원대"
                                 onChange={handleChange}
@@ -206,7 +269,7 @@ export default function StoreDetailEdit() {
                             기타
                             <S.RadioInput
                                 id="radio5"
-                                name="priceRange"
+                                name="newPriceRange"
                                 type="radio"
                                 value="기타"
                                 onChange={handleChange}
@@ -221,8 +284,8 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="freepark">
                             무료주차 가능
                             <S.RadioInput
-                                id="freepark"
-                                name="parkingInfo"
+                                id="freePark"
+                                name="newParkingInfo"
                                 type="radio"
                                 value="무료주차 가능"
                                 onChange={handleChange}
@@ -232,8 +295,8 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="paidpark">
                             유료주차 가능
                             <S.RadioInput
-                                id="paidpark"
-                                name="parkingInfo"
+                                id="paidPark"
+                                name="newParkingInfo"
                                 type="radio"
                                 value="유료주차 가능"
                                 onChange={handleChange}
@@ -243,8 +306,8 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="nonepark">
                             주차 불가
                             <S.RadioInput
-                                id="nonepark"
-                                name="parkingInfo"
+                                id="nonePark"
+                                name="newParkingInfo"
                                 type="radio"
                                 value="주차 불가"
                                 onChange={handleChange}
@@ -260,7 +323,7 @@ export default function StoreDetailEdit() {
                             오전
                             <S.TimeInput
                                 id="openHour"
-                                name="BusinessHours"
+                                name="newBusinessHours"
                                 placeholder="00"
                                 type="number"
                                 onChange={handleChange}
@@ -270,7 +333,7 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="openMinutes">
                             <S.TimeInput
                                 id="openMinutes"
-                                name="BusinessHours"
+                                name="newBusinessHours"
                                 placeholder="00"
                                 type="number"
                                 onChange={handleChange}
@@ -281,7 +344,7 @@ export default function StoreDetailEdit() {
                             오후
                             <S.TimeInput
                                 id="closeHour"
-                                name="BusinessHours"
+                                name="newBusinessHours"
                                 placeholder="00"
                                 type="number"
                                 onChange={handleChange}
@@ -291,7 +354,7 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="closeMinutes">
                             <S.TimeInput
                                 id="closeMinutes"
-                                name="BusinessHours"
+                                name="newBusinessHours"
                                 placeholder="00"
                                 type="number"
                                 onChange={handleChange}
@@ -309,7 +372,7 @@ export default function StoreDetailEdit() {
                                     <S.ClosedDayInput
                                         id={el}
                                         name="closedDays"
-                                        checked={ClosedDays.includes(el)}
+                                        checked={newClosedDays.includes(el)}
                                         onChange={(e) => checkHandler(e, el)}
                                         type="checkbox"
                                     />
@@ -399,9 +462,7 @@ export default function StoreDetailEdit() {
                             </tr>
                         </S.MenuNameChart>
                     </div>
-                    <S.EditFormBtn>
-                        <StoreImage setBanners={setBanners} />
-                    </S.EditFormBtn>
+                    <StoreImage setBanners={setBanners} />
                 </S.EditContentBox>
                 <S.DividerLine></S.DividerLine>
                 <S.EditFormBtns>
