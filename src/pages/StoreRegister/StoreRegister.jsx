@@ -113,7 +113,6 @@ export default function StoreDetailEdit() {
         }
         checkedDayHandler(value, e.target.checked);
     };
-    console.log(banners);
     const handleSubmit = async (e) => {
         const isFullMenuItems = newMenuItems.filter((el) => el.name !== '' && el.price !== '');
         e.preventDefault();
@@ -144,7 +143,6 @@ export default function StoreDetailEdit() {
             alert('분 형식에 맞게 작성해주세요.');
             return;
         }
-        console.log(banners);
         const sortedDayList = newClosedDays.sort(
             (a, b) => dayCheckList.indexOf(a) - dayCheckList.indexOf(b),
         );
@@ -179,9 +177,7 @@ export default function StoreDetailEdit() {
         formData.append('address[zipCode]', address.zipCode);
         formData.append('address[latitude]', address.latitude);
         formData.append('address[longitude]', address.longitude);
-        formData.forEach(function (value, key) {
-            console.log(key + ': ' + value);
-        });
+        
         try {
             const response = await authRequiredAxios({
                 method: 'post',
@@ -191,7 +187,6 @@ export default function StoreDetailEdit() {
 
             if (response.status === 201) {
                 alert('가게 생성이 완료되었습니다.');
-                console.log(response);
                 navigate(`/stores/detail/${response.data}`);
             }
         } catch (err) {
@@ -467,7 +462,7 @@ export default function StoreDetailEdit() {
                 <S.DividerLine></S.DividerLine>
                 <S.EditFormBtns>
                     <S.EditFormBtn type="button" onClick={handleSubmit}>
-                        수정하기
+                        등록하기
                     </S.EditFormBtn>
                     <S.EditFormBtn>취소하기</S.EditFormBtn>
                 </S.EditFormBtns>
