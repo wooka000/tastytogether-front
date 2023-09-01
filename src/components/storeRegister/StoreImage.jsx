@@ -62,7 +62,6 @@ const StoreImage = ({ setStoreInfo }) => {
       ...prevInfo,
       images: uploadedImages,
     }))
-    
  };
   return (
     <>

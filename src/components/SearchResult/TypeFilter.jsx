@@ -1,10 +1,11 @@
 import React from 'react';
 import * as S from './style/TypeFilter.style';
 
-const TypeFilter = ({ setSelectedType }) => {
+const TypeFilter = ({ setSelectedType,  dataSave }) => {
 
     const handleTypeChange = (e) => {
         setSelectedType(e.target.value);
+        dataSave()
     }
     return (
     <S.TypeFilter>
@@ -14,7 +15,7 @@ const TypeFilter = ({ setSelectedType }) => {
         </S.TypeFilterTitle>
         <S.TypeFilterContent>
             <S.TypeLabel value="기본" onClick={handleTypeChange}>
-                    <S.TypeFilterRadio className="filter_radio" type="radio" id="basic" name="store_type" value="기본" />
+                    <S.TypeFilterRadio className="filter_radio" type="radio" id="basic" name="store_type" value="기본" defaultChecked />
                     <S.TypeFilterSpan htmlFor="basic" value="기본">기본</S.TypeFilterSpan>
             </S.TypeLabel>
             <S.TypeLabel value="양식" onClick={handleTypeChange}>
@@ -34,7 +35,7 @@ const TypeFilter = ({ setSelectedType }) => {
                     <S.TypeFilterSpan htmlFor="korea" value="한식">한식</S.TypeFilterSpan>
             </S.TypeLabel>
             <S.TypeLabel value="아시안" onClick={handleTypeChange}>
-                    <S.TypeFilterRadio className="filter_radio" type="radio" id="japan" name="store_type" value="아시안" />
+                    <S.TypeFilterRadio className="filter_radio" type="radio" id="asia" name="store_type" value="아시안" />
                     <S.TypeFilterSpan htmlFor="asia" value="아시안">아시안</S.TypeFilterSpan>
             </S.TypeLabel>
             <S.TypeLabel value="카페" onClick={handleTypeChange}>
