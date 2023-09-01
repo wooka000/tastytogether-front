@@ -15,6 +15,7 @@ export default function StoreDetail() {
     // const location = useLocation();
     // const storeId = location.state.storeId;
     const storeId = '64ed7f5be345728ff438f3da';
+    const [storeReviews, setStoreReviews] = useState(); // 가게 리뷰 관련 데이터
 
     useEffect(() => {
         const getData = async () => {
@@ -24,6 +25,7 @@ export default function StoreDetail() {
             setStoreLikeCount(data.storeLikeCount);
             setStoreReviewCount(data.storeReviewCount);
             setStoreReview(data.storeInfo.reviews);
+            setStoreReviews(data.newStoreReviews);
         };
         getData();
     }, []);
@@ -41,7 +43,7 @@ export default function StoreDetail() {
                         setStoreLikeCount={setStoreLikeCount}
                     ></TopDetail>
                     <BottomDetail storeInfo={storeInfo}></BottomDetail>
-                    <Reviews reviews={storeReview}></Reviews>
+                    <Reviews reviews={storeReviews}></Reviews>
                 </S.Main>
                 {storeInfo.address && (
                     <LeftBanner

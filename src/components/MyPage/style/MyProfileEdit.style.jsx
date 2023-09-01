@@ -150,8 +150,8 @@ export const Input = styled.input`
 `;
 
 export const CheckText = styled.span`
-    visibility: hidden;
-    color: red;
+    visibility: ${(props) => (props.check == '' ? 'hidden' : 'visible')};
+    color: ${(props) => (props.check == '통과' ? 'green' : 'red')};
     font-size: 12px;
     padding-top: 5px;
 `;
