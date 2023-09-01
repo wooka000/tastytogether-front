@@ -6,6 +6,7 @@ export const Container = styled.div`
     padding: 40px 0px;
     display: flex;
     justify-content: center;
+    align-items: center;
 `;
 
 export const DetailEditForm = styled.form`
@@ -14,7 +15,7 @@ export const DetailEditForm = styled.form`
     margin: 0 auto;
     border-radius: 10px;
     background: #fff;
-    padding: 30px 20px 20px 20px;
+    padding: 30px 20px 0px 20px;
     display: flex;
     flex-direction: column;
 `;
@@ -221,26 +222,41 @@ export const ChartInput = styled.input`
 export const DividerLine = styled.div`
     width: 776px;
     height: 1px;
-    margin-top: 140px;
+    margin-top: 20px;
     background: #d9d9d9;
 `;
 
 export const EditFormBtns = styled.div`
-    width: 166px;
-    height: 40px;
+    width: 100%;
+    height: 100px;
     border-radius: 5px;
-    /* border: 1px solid ${(props) => (props.isOrange ? '#ff914d' : ' #989797')};
-    background: ${(props) => (props.isOrange ? '#ff914d' : '#FFF')}; */
-    text-align: center;
-    /* color: ${(props) => (props.isOrange ? '#fff' : '#989797')}; */
-    font-size: 17px;
-    font-weight: 400;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    button:first-child {
+        background-color: #ff914d;
+        color: #fff;
+        &:hover {
+            outline: 1px solid #ff914d;
+        }
+    }
+    button:last-child {
+        border: #989797 1px solid;
+        background-color: #fff;
+        color: #989797;
+        &:hover {
+            outline: 1px solid #989797;
+        }
+    }
 `;
 
 export const EditFormBtn = styled.button`
-    display: flex;
-    padding-left: 200px;
-    padding-right: 200px;
-    justify-content: space-between;
-    margin-top: 40px;
+    text-align: center;
+    border: none;
+    width: 30%;
+    height: 50%;
+    font-size: 17px;
+    font-weight: 400;
+    border-radius: 5px;
 `;
