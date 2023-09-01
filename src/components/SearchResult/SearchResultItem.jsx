@@ -1,25 +1,27 @@
 import { React } from 'react';
-import { Link } from 'react-router-dom';
-import * as S from './style/SearchResultItem.style'; // import your styles
+import { useNavigate } from 'react-router-dom';
+import * as S from './style/SearchResultItem.style'; 
 
-const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
-
-    const handleItemClick = (e) => {
-        const clickedElement = e.currentTarget;
-        setClickedStore(clickedElement);
+const SearchResultItem = ({ item, index, id }) => {
+    const navigate = useNavigate();
+    const handleItemClick = () => {
+        navigate(`/stores/detail/${id}`);
     };
     const breakDay = () => {
-        if (item.closedDays.length === 1) {
-            return `${item.closedDays[0]} 휴무`;
+        if (item.closedDays.includes('연중무휴')) {
+          return '연중무휴';
+        } else if (item.closedDays.length === 1) {
+          const day = item.closedDays[0];
+          return `${day} 휴무`;
         } else if (item.closedDays.length > 1) {
-            const formattedDays = item.closedDays.join(', ');
-            return `${formattedDays} 휴무`;
+          const days = item.closedDays.slice(0, -1).join(', ');
+          const lastDay = item.closedDays[item.closedDays.length - 1];
+          return `${days}, ${lastDay} 휴무`;
         }
-    };
+      };
 
     return(
-        <Link 
-            to={linkTo} 
+        <div
             style={{ textDecoration: 'none', color: 'inherit' }} 
             onClick={handleItemClick}
         >
@@ -51,7 +53,7 @@ const SearchResultItem = ({ item, index, linkTo, setClickedStore }) => {
                 </S.StoreInfo>
             </S.ResultStore>
             
-        </Link>
+        </div>
     )
 }
 export default SearchResultItem; 
