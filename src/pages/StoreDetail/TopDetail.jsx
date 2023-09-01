@@ -68,19 +68,20 @@ export default function TopDetail({
                     </S.StoreLeftBottomImgs>
                 </S.StoreLeftImgs>
                 <S.StoreRightImgs>
-                    {storeReview &&
-                        new Array(4).fill(null).map((_, idx) => {
-                            const photoIndex = idx % reviewPhotoList.length;
-                            const reviewPhoto = reviewPhotoList[photoIndex];
-                            return (
-                                <S.GridImg
-                                    isRight={true}
-                                    key={idx}
-                                    src={reviewPhoto}
-                                    alt="storeImg"
-                                />
-                            );
-                        })}
+                    {storeReview.length > 0
+                        ? new Array(4).fill(null).map((_, idx) => {
+                              const photoIndex = idx % reviewPhotoList.length;
+                              const reviewPhoto = reviewPhotoList[photoIndex];
+                              return (
+                                  <S.GridImg
+                                      isRight={true}
+                                      key={idx}
+                                      src={reviewPhoto}
+                                      alt="storeImg"
+                                  />
+                              );
+                          })
+                        : null}
                 </S.StoreRightImgs>
             </S.StoreBanners>
             <S.StoreName>{name}</S.StoreName>
