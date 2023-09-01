@@ -8,7 +8,6 @@ export default function KakaoMap({ latitude, longitude }) {
                 center: new window.kakao.maps.LatLng(latitude, longitude),
                 level: 3,
             };
-            /* eslint-disable */
             const map = new window.kakao.maps.Map(container, options);
             const markerPosition = new kakao.maps.LatLng(latitude, longitude);
             const marker = new kakao.maps.Marker({
