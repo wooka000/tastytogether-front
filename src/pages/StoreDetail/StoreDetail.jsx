@@ -12,9 +12,11 @@ export default function StoreDetail() {
     const [storeReviewCount, setStoreReviewCount] = useState(0);
     const [storeLikeCount, setStoreLikeCount] = useState(0);
     const [storeReview, setStoreReview] = useState([]);
+    const [storeReviews, setStoreReviews] = useState([]);
     const location = useLocation();
-    const storeId = location.state.storeId;
-
+    const currentPath = location.pathname;
+    const storeId = currentPath.split('/')[3];
+    
     useEffect(() => {
         const getData = async () => {
             const res = await axios.get(`/stores/${storeId}`);
