@@ -1,30 +1,27 @@
 import styled from 'styled-components';
 
 export const Sort = styled.div`
-    width: 985px;
-    height: 70px;
     display: flex;
     flex-direction: row;
-    padding: 10px 20px;
     justify-content: flex-start;
     align-items: center;
+    padding: 10px 20px;
+    width: 985px;
+    height: 70px;
 `
 export const SortTitle = styled.div`
     display: flex;
     img{
+        margin-right: 15px;
         width: 30px;
         height: 30px;
-        margin-right: 15px;
     }
     h4{
-        font-size: 25px;
         margin-right: 50px;
+        font-size: 25px;
     }
 `
 export const SortButton =styled.button`
-    width: 120px;
-    height: 50px;
-    font-size: 15px;
     margin-right: 15px;
     box-sizing: border-box;
     border: 1px solid #f0f0f0;
@@ -32,8 +29,10 @@ export const SortButton =styled.button`
     background: white;
     font-size: 20px;
     font-weight: 600;
-    border: none;
     background-color: #f0f0f0;
+    width: 120px;
+    height: 50px;
+    font-size: 15px;
     transition: all 250ms ease-out;
     &:hover{
         background-color: var(--color-accent);

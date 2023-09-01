@@ -4,10 +4,8 @@ import * as S from './style/SearchResultItem.style';
 
 const SearchResultItem = ({ item, index, id }) => {
     const navigate = useNavigate();
-    const handleItemClick = (e) => {
-        // const clickedElement = e.currentTarget;
+    const handleItemClick = () => {
         navigate(`/stores/detail/${id}`);
-        // setClickedStore(clickedElement);
     };
     const breakDay = () => {
         if (item.closedDays.includes('연중무휴')) {

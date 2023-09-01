@@ -34,21 +34,21 @@ export const InfoLeft = styled.div`
     }
 `
 export const InfoRight = styled.div`
-    flex:1;
-    height: 169px;
-    box-sizing: border-box;
-    line-height: 50px;
     display: flex;
+    flex:1;
     flex-direction: column;
+    box-sizing: border-box;
+    height: 169px;
+    line-height: 50px;
 `
 export const StoreName = styled.div`
     display: flex;
     justify-content: space-between;
+    flex: 1;
     align-items: center;
     width: 742px;
     height: 35px;
     font-size: 28px;
-    flex: 1;
     &:hover{
         cursor: pointer;
     }
