@@ -57,43 +57,37 @@ export default function StoreImage({ setBanners }) {
         setBanners(newUploadedImages);
     };
     return (
-        <>
-            <S.TableLine>
-                <div className="table_title">
-                    <span>대표이미지*</span>
-                </div>
-                <div className="table_content">
-                    <S.ImgDiv>
-                        <S.ImageUpload>
-                            <div>
-                                <label htmlFor="image_input">이미지 업로드</label>
-                            </div>
-                            <S.ImageInput
-                                id="image_input"
-                                type="file"
-                                accept="image/*"
-                                multiple
-                                onChange={onUpload}
-                            />
-                            {imageSrcs.length === 0 && (
-                                <p style={{ color: 'red' }}>이미지를 최소 1장 업로드해주세요.</p>
-                            )}
-                        </S.ImageUpload>
-                    </S.ImgDiv>
-                </div>
-            </S.TableLine>
-            <div id="img_line">
-                <S.ImagesPreview>
-                    {imageSrcs.map((imageSrc, index) => (
-                        <S.Image key={index}>
-                            <S.Img src={imageSrc} alt={`uploaded-image-${index}`} />
-                            <S.CancelButton type="button" onClick={() => removeImage(index)}>
-                                취소
-                            </S.CancelButton>
-                        </S.Image>
-                    ))}
-                </S.ImagesPreview>
-            </div>
-        </>
+        <S.Container>
+            <S.Title>대표이미지*</S.Title>
+            <S.ImgContainer>
+                <S.ImgDiv>
+                    <S.ImageUpload>
+                        <S.ImgInput
+                            id="image_input"
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            onChange={onUpload}
+                        />
+                        <S.Label htmlFor="image_input">이미지 업로드</S.Label>
+                        {imageSrcs.length === 0 && (
+                            <S.Text style={{ color: 'red' }}>
+                                이미지를 최소 1장 업로드해주세요.
+                            </S.Text>
+                        )}
+                    </S.ImageUpload>
+                </S.ImgDiv>
+            </S.ImgContainer>
+            <S.ImagesPreview>
+                {imageSrcs.map((imageSrc, index) => (
+                    <S.Image key={index}>
+                        <S.Img src={imageSrc} alt={`uploaded-image-${index}`} />
+                        <S.CancelButton type="button" onClick={() => removeImage(index)}>
+                            x
+                        </S.CancelButton>
+                    </S.Image>
+                ))}
+            </S.ImagesPreview>
+        </S.Container>
     );
 }
