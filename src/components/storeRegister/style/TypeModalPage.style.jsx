@@ -6,7 +6,7 @@ export const Container = styled.div`
     top: 0;
     left: 0;
     width: 100%;
-    height: 146vh;
+    height: 220vh;
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
@@ -18,7 +18,7 @@ export const Modal = styled.div`
     background-color: white;
     border-radius: 10px;
     position: relative;
-    transform: translateY(70%);
+    transform: translateY(200%);
     padding: 10px;
 `;
 

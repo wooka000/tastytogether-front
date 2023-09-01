@@ -220,7 +220,6 @@ export default function StoreRegister() {
                         name="newPhone"
                         value={newPhone ?? ''}
                         onChange={handleChange}
-                        type="number"
                     />
 
                     <S.Title>가격대</S.Title>
@@ -436,7 +435,6 @@ export default function StoreRegister() {
                                 <tr>
                                     <S.ChartContent>
                                         <S.ChartInput
-                                            type="number"
                                             placeholder="-"
                                             name="price1"
                                             onChange={handleChange}
@@ -447,7 +445,6 @@ export default function StoreRegister() {
                                 <tr>
                                     <S.ChartContent>
                                         <S.ChartInput
-                                            type="number"
                                             placeholder="-"
                                             name="price2"
                                             onChange={handleChange}
@@ -458,7 +455,6 @@ export default function StoreRegister() {
                                 <tr>
                                     <S.ChartContent>
                                         <S.ChartInput
-                                            type="number"
                                             placeholder="-"
                                             name="price3"
                                             onChange={handleChange}
