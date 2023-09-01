@@ -7,7 +7,7 @@ import DaumPost from '../../components/storeRegister/DaumPost';
 import TypeModalButton from '../../components/storeRegister/TypeModalButton';
 import StoreImage from '../../components/storeRegister/StoreImage';
 
-export default function StoreDetailEdit() {
+export default function StoreRegister() {
     const { authRequiredAxios } = useAxios('multipart/form-data');
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -214,7 +214,7 @@ export default function StoreDetailEdit() {
                 <S.EditContentBox>
                     <TypeModalButton setType={setType} />
                 </S.EditContentBox>
-                <S.EditContentBox>
+                <S.GridBox>
                     <S.EditTitle>전화번호</S.EditTitle>
                     <S.InputBox
                         placeholder="가게의 전화번호를 입력하세요.(0000-0000-0000)"
@@ -223,10 +223,9 @@ export default function StoreDetailEdit() {
                         value={newPhone ?? ''}
                         onChange={handleChange}
                     />
-                </S.EditContentBox>
-                <S.EditContentBox>
+
                     <S.EditTitle>가격대</S.EditTitle>
-                    <div>
+                    <S.EditContentBox>
                         <S.InputLabel htmlFor="radio1">
                             1만원대
                             <S.RadioInput
@@ -282,13 +281,12 @@ export default function StoreDetailEdit() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                    </div>
-                </S.EditContentBox>
-                <S.EditContentBox>
+                    </S.EditContentBox>
+
                     <S.EditTitle>주차</S.EditTitle>
-                    <div>
-                        <S.InputLabel htmlFor="freepark">
-                            무료주차 가능
+                    <S.EditContentBox>
+                        <S.InputLabel htmlFor="freePark">
+                            무료 주차 가능
                             <S.RadioInput
                                 id="freePark"
                                 name="newParkingInfo"
@@ -298,8 +296,8 @@ export default function StoreDetailEdit() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                        <S.InputLabel htmlFor="paidpark">
-                            유료주차 가능
+                        <S.InputLabel htmlFor="paidPark">
+                            유료 주차 가능
                             <S.RadioInput
                                 id="paidPark"
                                 name="newParkingInfo"
@@ -309,7 +307,7 @@ export default function StoreDetailEdit() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                        <S.InputLabel htmlFor="nonepark">
+                        <S.InputLabel htmlFor="nonePark">
                             주차 불가
                             <S.RadioInput
                                 id="nonePark"
@@ -320,11 +318,10 @@ export default function StoreDetailEdit() {
                             />
                             <S.RadioDesign></S.RadioDesign>
                         </S.InputLabel>
-                    </div>
-                </S.EditContentBox>
-                <S.EditContentBox isSmallGap={true}>
+                    </S.EditContentBox>
+
                     <S.EditTitle>영업시간</S.EditTitle>
-                    <div>
+                    <S.EditContentBox isSmallGap={true}>
                         <S.InputLabel htmlFor="openHour">
                             오전
                             <S.TimeInput
@@ -344,8 +341,9 @@ export default function StoreDetailEdit() {
                                 type="number"
                                 onChange={handleChange}
                             />
-                            분 ~
+                            분
                         </S.InputLabel>
+                        <span>~</span>
                         <S.InputLabel htmlFor="closeHour">
                             오후
                             <S.TimeInput
@@ -367,11 +365,10 @@ export default function StoreDetailEdit() {
                             />
                             분
                         </S.InputLabel>
-                    </div>
-                </S.EditContentBox>
-                <S.EditContentBox>
+                    </S.EditContentBox>
+
                     <S.EditTitle>휴무일</S.EditTitle>
-                    <div>
+                    <S.EditContentBox>
                         {dayCheckList.map((el, idx) => {
                             return (
                                 <S.InputLabel htmlFor={el} key={idx}>
@@ -387,11 +384,10 @@ export default function StoreDetailEdit() {
                                 </S.InputLabel>
                             );
                         })}
-                    </div>
-                </S.EditContentBox>
-                <S.EditContentBox isSmallGap={true}>
-                    <S.EditTitle>대표 메뉴</S.EditTitle>
-                    <div>
+                    </S.EditContentBox>
+
+                    <S.EditTitle className="menu">대표 메뉴</S.EditTitle>
+                    <S.EditContentBox isSmallGap={true}>
                         <S.MenuNameChart>
                             <thead>
                                 <tr>
@@ -475,10 +471,12 @@ export default function StoreDetailEdit() {
                                 </tr>
                             </tbody>
                         </S.MenuNameChart>
-                    </div>
-                    <StoreImage setBanners={setBanners} />
-                </S.EditContentBox>
+                    </S.EditContentBox>
+                </S.GridBox>
+                <StoreImage setBanners={setBanners} />
+
                 <S.DividerLine></S.DividerLine>
+
                 <S.EditFormBtns>
                     <S.EditFormBtn type="button" onClick={handleSubmit}>
                         등록하기
