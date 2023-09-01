@@ -1,5 +1,5 @@
-// import React, { useEffect, useState, useLocation } from 'react';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import * as S from './style/StoreDetail.style';
 import TopDetail from './TopDetail';
 import BottomDetail from './BottomDetail';
@@ -12,10 +12,11 @@ export default function StoreDetail() {
     const [storeReviewCount, setStoreReviewCount] = useState(0);
     const [storeLikeCount, setStoreLikeCount] = useState(0);
     const [storeReview, setStoreReview] = useState([]);
-    // const location = useLocation();
-    // const storeId = location.state.storeId;
-    const storeId = '64ed7f5be345728ff438f3da';
-
+    const [storeReviews, setStoreReviews] = useState([]);
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const storeId = currentPath.split('/')[3];
+    
     useEffect(() => {
         const getData = async () => {
             const res = await axios.get(`/stores/${storeId}`);
@@ -24,6 +25,7 @@ export default function StoreDetail() {
             setStoreLikeCount(data.storeLikeCount);
             setStoreReviewCount(data.storeReviewCount);
             setStoreReview(data.storeInfo.reviews);
+            setStoreReviews(data.newStoreReviews);
         };
         getData();
     }, []);
@@ -41,7 +43,7 @@ export default function StoreDetail() {
                         setStoreLikeCount={setStoreLikeCount}
                     ></TopDetail>
                     <BottomDetail storeInfo={storeInfo}></BottomDetail>
-                    <Reviews reviews={storeReview}></Reviews>
+                    <Reviews reviews={storeReviews}></Reviews>
                 </S.Main>
                 {storeInfo.address && (
                     <LeftBanner

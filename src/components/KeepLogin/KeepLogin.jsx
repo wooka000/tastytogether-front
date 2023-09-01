@@ -7,7 +7,7 @@ const KeepLogin = ({ children }) => {
     const { auth, isLogin, setAuth, setIsLogin, exp } = useAuth();
     const { refreshAccessToken } = useRefreshToken();
     const [isLoading, setIsLoading] = useState(true);
-    console.log(auth);
+
     useEffect(() => {
         //새로고침으로 isLogin false된 경우
         if (!isLogin) {

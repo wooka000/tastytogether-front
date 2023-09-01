@@ -5,8 +5,10 @@ export const Container = styled.section`
     top: 0;
     width: 100%;
     height: 500px;
-    background-image: ${(props) =>
-        props.photos == null ? 'url("/imgs/banner.jpg")' : `url(${props.photos})`};
+    /* background-image: ${(props) =>
+        props.photos == null ? 'url("/imgs/banner.jpg")' : `url(${props.photos})`}; */
+    // 서버에서 가져온 이미지의 해상도가 좋지 않아 클라이언트 public 안에 있는 고정 이미지 사용
+    background-image: url('/imgs/banner.jpg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
