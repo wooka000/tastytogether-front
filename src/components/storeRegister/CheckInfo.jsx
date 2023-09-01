@@ -20,14 +20,8 @@ export default function CheckInfo({ isAddressRegistered }) {
 
     return (
         <S.CheckDiv>
-            <div className="title_line">
-                <div className="register_title">
-                    <p>맛집 등록 페이지</p>
-                </div>
-                <div className="title_text">
-                    <p>{textContent}</p>
-                </div>
-            </div>
+            <S.Title>맛집 등록 페이지</S.Title>
+            <S.Description>{textContent}</S.Description>
         </S.CheckDiv>
     );
 }

@@ -1,58 +1,50 @@
-import * as S from './style/TypeModalPage.style'
+import * as S from './style/TypeModalPage.style';
 import PropTypes from 'prop-types';
 
-
-function TypeModalPage({ setModalOpen, setCategory }) { 
-    
+function TypeModalPage({ setModalOpen, setCategory }) {
     const handleCategorySelect = (category) => {
-        setCategory(category); 
+        setCategory(category);
         setModalOpen(false);
     };
 
     const handleModalClose = () => {
         setModalOpen(false);
     };
-    
-    return(
-        <S.TypeModal>
-            <div className="type_title">
-                <p>업종을 선택하세요</p>
-            </div>
-            <S.TypeButtons>
-                <div className="button_line">
-                    <div className="type_button" onClick={() => handleCategorySelect('한식')} value="korea">
-                        <img src="/imgs/korea.png" alt="한식" />
-                        <p>한식</p>
-                    </div>
-                    <div className="type_button" onClick={() => handleCategorySelect('양식')} value="western">
-                        <img src="/imgs/western.png" alt="양식" />
-                        <p>양식</p>
-                    </div>
-                    <div className="type_button" onClick={() => handleCategorySelect('중식')} value="china">
-                        <img src="/imgs/china.png" alt="중식" />
-                        <p>중식</p>
-                    </div>
-                </div>
-                <div className="button_line">
-                    <div className="type_button" onClick={() => handleCategorySelect('일식')} value="japan">
-                        <img src="/imgs/japan.png" alt="일식" />
-                        <p>일식</p>
-                    </div>
-                    <div className="type_button" onClick={() => handleCategorySelect('아시안')} value="asia">
-                        <img src="/imgs/asia.png" alt="아시안" />
-                        <p>아시안</p>
-                    </div>
-                    <div className="type_button" onClick={() => handleCategorySelect('카페.디저트')} value="cafe">
-                        <img src="/imgs/cafe.png" alt="카페&디저트" />
-                        <p>카페&디저트</p>
-                    </div>
-                </div>
-            </S.TypeButtons>
-            <div className="close_button_div">
-                <button type="button" className="close_button" onClick={handleModalClose}>x</button>
-            </div>
-        </S.TypeModal>
-    )
+
+    return (
+        <S.Container onClick={() => setModalOpen(false)}>
+            <S.Modal onClick={(e) => e.stopPropagation()}>
+                <S.ModalTitle>업종을 선택하세요</S.ModalTitle>
+                <S.CancellBtn onClick={() => setModalOpen(false)}>X</S.CancellBtn>
+                <S.TypeButtons>
+                    <S.Item onClick={() => handleCategorySelect('한식')} value="korea">
+                        <S.Img src="/imgs/korea.png" alt="한식" />
+                        <S.Name>한식</S.Name>
+                    </S.Item>
+                    <S.Item onClick={() => handleCategorySelect('양식')} value="western">
+                        <S.Img src="/imgs/western.png" alt="양식" />
+                        <S.Name>양식</S.Name>
+                    </S.Item>
+                    <S.Item onClick={() => handleCategorySelect('중식')} value="china">
+                        <S.Img src="/imgs/china.png" alt="중식" />
+                        <S.Name>중식</S.Name>
+                    </S.Item>
+                    <S.Item onClick={() => handleCategorySelect('일식')} value="japan">
+                        <S.Img src="/imgs/japan.png" alt="일식" />
+                        <S.Name>일식</S.Name>
+                    </S.Item>
+                    <S.Item onClick={() => handleCategorySelect('아시안')} value="asia">
+                        <S.Img src="/imgs/asia.png" alt="아시안" />
+                        <S.Name>아시안</S.Name>
+                    </S.Item>
+                    <S.Item onClick={() => handleCategorySelect('카페.디저트')} value="cafe">
+                        <S.Img src="/imgs/cafe.png" alt="카페&디저트" />
+                        <S.Name>카페&디저트</S.Name>
+                    </S.Item>
+                </S.TypeButtons>
+            </S.Modal>
+        </S.Container>
+    );
 }
 
 TypeModalPage.propTypes = {
