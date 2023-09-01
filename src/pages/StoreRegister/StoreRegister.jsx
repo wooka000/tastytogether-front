@@ -290,7 +290,7 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="freepark">
                             무료주차 가능
                             <S.RadioInput
-                                id="freePark"
+                                id="freepark"
                                 name="newParkingInfo"
                                 type="radio"
                                 value="무료주차 가능"
@@ -301,7 +301,7 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="paidpark">
                             유료주차 가능
                             <S.RadioInput
-                                id="paidPark"
+                                id="paidpark"
                                 name="newParkingInfo"
                                 type="radio"
                                 value="유료주차 가능"
@@ -312,7 +312,7 @@ export default function StoreDetailEdit() {
                         <S.InputLabel htmlFor="nonepark">
                             주차 불가
                             <S.RadioInput
-                                id="nonePark"
+                                id="nonepark"
                                 name="newParkingInfo"
                                 type="radio"
                                 value="주차 불가"
