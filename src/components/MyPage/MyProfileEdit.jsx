@@ -18,6 +18,7 @@ export default function MyProfileEdit({ setModalOpen, user }) {
     const [coverImage, setCoverImage] = useState(user.coverImage);
     const [file, setFile] = useState();
     const [fileBg, setFileBg] = useState();
+    const [check, setCheck] = useState();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -80,6 +81,10 @@ export default function MyProfileEdit({ setModalOpen, user }) {
     const handleCancel = () => {
         setModalOpen(false);
     };
+
+    const handleCheck = () => {
+        setCheck('통과');
+    };
     return (
         <S.Container onClick={handleCancel}>
             <S.Modal onClick={(e) => e.stopPropagation()}>
@@ -130,6 +135,15 @@ export default function MyProfileEdit({ setModalOpen, user }) {
                             name="nickname"
                             value={nickname}
                         />
+                        <S.CheckBtn type="button" onClick={handleCheck}>
+                            중복 확인
+                        </S.CheckBtn>
+                        {check == '실패' && (
+                            <S.CheckText check={check}>이미 사용중인 닉네임입니다.</S.CheckText>
+                        )}
+                        {check == '통과' && (
+                            <S.CheckText check={check}>사용 가능한 닉네임입니다.</S.CheckText>
+                        )}
                     </S.Field>
                     <S.Field>
                         <S.Label htmlFor="description">한줄소개</S.Label>
