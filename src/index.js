@@ -58,7 +58,14 @@ const router = createBrowserRouter([
                     </RequireLogin>
                 ),
             }, // 화경
-            { path: '/stores/register', element: <StoreRegister /> }, // 혜지
+            {
+                path: '/stores/register',
+                element: (
+                    <RequireLogin>
+                        <StoreRegister />
+                    </RequireLogin>
+                ),
+            }, // 혜지 수연
             { path: '/stores/search', element: <SearchResult /> }, // 혜지
         ],
     },
